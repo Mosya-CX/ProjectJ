@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class BasePanel : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    // 打开界面
+    public virtual void Open()
     {
-        
+        gameObject.SetActive(true);
     }
 
-    // Update is called once per frame
-    void Update()
+    // 关闭界面
+    public virtual void Close()
     {
-        
+        gameObject.SetActive(false);
     }
+
+
 }
