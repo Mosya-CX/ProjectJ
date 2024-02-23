@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    // 存储场景内敌人单位
+    List<Enemy> enemyList;
+
+    // 生成敌人
+    public void CreateEnemy()
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
