@@ -18,7 +18,10 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        UI = GameObject.Find("UI").transform;
+        if (UI == null)
+        {
+            UI = GameObject.Find("UI").transform;
+        }
         UIList = new List<BasePanel>();
     }
 

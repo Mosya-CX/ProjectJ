@@ -20,7 +20,10 @@ public class GameManager : MonoBehaviour
         curProgress = 0;
 
         // 初始界面和场景
-               
+
+        // 测试
+        char test = (char)65;
+        print(test);
     }
 
 

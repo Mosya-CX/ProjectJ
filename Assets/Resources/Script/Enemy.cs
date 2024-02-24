@@ -4,15 +4,28 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    // 敌人变量
+    public List<char> key;// 存储当前敌人身上的字母
+    public int enemyType;// 判断敌人种类
+
+    private void Awake()
     {
-        
+        key = new List<char>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        // 初始化
+
+        // 根据敌人种类生成敌人身上字母
+
     }
+
+    // 随机生成敌人身上字母
+    public void CreateKey()
+    {
+        key.Add((char)Random.Range(65, 91));
+    }
+
+
 }
