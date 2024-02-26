@@ -27,5 +27,10 @@ public class Enemy : MonoBehaviour
         key.Add((char)Random.Range(65, 91));
     }
 
+    // ÊÜ»÷ÅÐ¶¨
+    public void OnHit()
+    {
+        
+    }
 
 }

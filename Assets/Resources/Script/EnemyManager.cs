@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
+    public static EnemyManager Instance;
+
     // 存储场景内敌人单位
-    List<Enemy> enemyList;
+    public List<Enemy> enemyList;
     private void Awake()
     {
+        Instance = this;
         enemyList = new List<Enemy>();
     }
 
