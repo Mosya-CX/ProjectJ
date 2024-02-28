@@ -14,9 +14,13 @@ public class Enemy1 : MonoBehaviour
     public string originalHealthLetters;
     //游戏过程中的字母
     public string currentHealthLetters;
+    //用于回收去对象池
     public Pool owner;
+    //字母数量
     public int letterAmount;
     public bool dead=false;
+    //伤害
+    public int damage;
     public void Start()
     {
         InitializeHealthLetters(); // 获取初始生命字母序列
@@ -58,7 +62,8 @@ public class Enemy1 : MonoBehaviour
     {
         currentHealthLetters = currentHealthLetters.Replace(letter.ToString(), "");
         enemyLabel.text = currentHealthLetters;
-
+        //AudioManager
+        //VFXManager
         if (string.IsNullOrEmpty(currentHealthLetters))
         {
             dead = true;
@@ -68,6 +73,7 @@ public class Enemy1 : MonoBehaviour
     {
         Attack(collision);
     }
+    //子类攻击函数
     virtual public void Attack(Collider2D collision)
     {
 
