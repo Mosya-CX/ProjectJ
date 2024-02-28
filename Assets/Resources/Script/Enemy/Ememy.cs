@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     public Pool owner;
     //×ÖÄ¸ÊıÁ¿
     public int letterAmount;
+    public int enemyType;
     public bool dead=false;
     //ÉËº¦
     public int damage;
@@ -69,6 +70,11 @@ public class Enemy : MonoBehaviour
         {
             dead = true;
         }
+    }
+    //¸ßÁÁ×ÖÄ¸£¬´ı°ì
+    public void HighLightLetter(char letter)
+    {
+
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
