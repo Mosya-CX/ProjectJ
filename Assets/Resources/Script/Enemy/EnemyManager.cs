@@ -2,18 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyManager : MonoBehaviour
+public class EnemyManager : PersistentSingleton<EnemyManager>
 {
-    public static EnemyManager Instance;
-
+    public Pool enemy01Pool;
+    public Pool enemy02Pool;
+    public Pool enemy03Pool;
+    public Pool[] enemyPools;
     // 存储场景内敌人单位
     public List<Enemy> enemyList;
-    private void Awake()
+    public override void Awake()
     {
-        Instance = this;
+        base.Awake();
         enemyList = new List<Enemy>();
     }
-
+    public void Init(ComponentPoolSO[] pools)
+    {
+        foreach (var pool in pools)
+        {
+            pool.SetParent(this.transform);
+            pool.Prewarm();
+            
+        }
+    }
 
     // 生成敌人
     public void CreateEnemy()

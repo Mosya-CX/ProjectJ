@@ -1,13 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Enemy1 : MonoBehaviour
 {
+    //敌人头顶的ui
     public TextMeshProUGUI enemyLabel;
+    //原始的字母
     public string originalHealthLetters;
+    //游戏过程中的字母
     public string currentHealthLetters;
     public bool dead=false;
     void Start()
@@ -16,7 +20,7 @@ public class Enemy1 : MonoBehaviour
         currentHealthLetters = originalHealthLetters;
         enemyLabel.text = currentHealthLetters;
     }
-
+    //用于外部初始化字母
     public void SetInitialHealthLetters(string healthLetters)
     {
         originalHealthLetters = healthLetters;
@@ -24,18 +28,18 @@ public class Enemy1 : MonoBehaviour
         enemyLabel.text = currentHealthLetters;
     }
 
-    private string GetInitialHealthLetters()
+    virtual public string GetInitialHealthLetters()
     {
-        // 示例返回ABC，实际项目中请替换为合适的获取方式
+        // 用于内部初始化字母
         return "BCX";
     }
-
+    //用于外部判断敌人是否含有当前玩家输入的字母
     public bool HasLetter(char letter)
     {
         return currentHealthLetters.IndexOf(letter) >= 0;
     }
-
-    public void AttackWithLetter(char letter)
+    //外部将要消除的字母导入，清除敌人字母
+    public void OnHit(char letter)
     {
         currentHealthLetters = currentHealthLetters.Replace(letter.ToString(), "");
         enemyLabel.text = currentHealthLetters;
@@ -45,7 +49,14 @@ public class Enemy1 : MonoBehaviour
             dead = true;
         }
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Attack(collision);
+    }
+    virtual public void Attack(Collider2D collision)
+    {
 
+    }
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.tag=="AttackArea")
@@ -53,7 +64,7 @@ public class Enemy1 : MonoBehaviour
             ResetHealthLetters();
         }
     }
-
+    //出攻击范围后恢复字母
     void ResetHealthLetters()
     {
         currentHealthLetters = originalHealthLetters;
