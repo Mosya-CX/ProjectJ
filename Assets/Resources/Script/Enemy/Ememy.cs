@@ -33,7 +33,7 @@ public class Enemy1 : MonoBehaviour
         currentHealthLetters = healthLetters;
         enemyLabel.text = currentHealthLetters;
     }
-
+    //内部初始化字母
     virtual public void InitializeHealthLetters()
     {
         StringBuilder randomLettersBuilder = new StringBuilder();
@@ -48,6 +48,7 @@ public class Enemy1 : MonoBehaviour
         originalHealthLetters = randomLettersBuilder.ToString();
         currentHealthLetters = originalHealthLetters;
     }
+    //留给外部检测敌人内部是否含有这个字母
     public bool HasLetter(char letter)
     {
         return currentHealthLetters.IndexOf(letter) >= 0;
