@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Enemy1 : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     //敌人头顶的ui
     public TextMeshProUGUI enemyLabel;
@@ -62,8 +62,9 @@ public class Enemy1 : MonoBehaviour
     {
         currentHealthLetters = currentHealthLetters.Replace(letter.ToString(), "");
         enemyLabel.text = currentHealthLetters;
-        //AudioManager
-        //VFXManager
+        //AudioManager 受击音效
+        //VFXManager 受击特效
+        // 播放受击动画
         if (string.IsNullOrEmpty(currentHealthLetters))
         {
             dead = true;
@@ -78,15 +79,15 @@ public class Enemy1 : MonoBehaviour
     {
 
     }
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.tag=="AttackArea")
-        {
-            ResetHealthLetters();
-        }
-    }
+    //void OnTriggerExit2D(Collider2D other)
+    //{
+    //    if (other.tag=="AttackArea")
+    //    {
+    //        ResetHealthLetters();
+    //    }
+    //}
     //出攻击范围后恢复字母
-    void ResetHealthLetters()
+    public void ResetHealthLetters()
     {
         currentHealthLetters = originalHealthLetters;
         enemyLabel.text = currentHealthLetters;

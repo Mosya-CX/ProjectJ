@@ -22,7 +22,23 @@ public class AttackArea : MonoBehaviour
     {
         if (collision.tag == "Enemy")
         {
+            // ÷ÿ÷√µ–»À◊÷ƒ∏
+            Enemy enemy = collision.GetComponent<Enemy1>();
+            if (enemy == null)
+            {
+                enemy = collision.GetComponent<Enemy2>();
+            }
+            if (enemy == null)
+            {
+                enemy = collision.GetComponent<Enemy3>();
+            }
+            if (enemy != null)
+            {
+                enemy.ResetHealthLetters();
+            }
+
             attackableEnemyList.Remove(collision.GetComponent<Enemy>());
+            
         }
     }
 
