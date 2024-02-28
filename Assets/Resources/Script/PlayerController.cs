@@ -133,7 +133,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                if (Vector2.Distance(gameObject.transform.position, enemy.gameObject.transform.position) < Vector2.Distance(gameObject.transform.position, Temp.transform.position))
+                if (Vector2.Distance(gameObject.transform.position, enemy.gameObject.transform.position) < Vector2.Distance(gameObject.transform.position, tmp.transform.position))
                 {
                     tmp = enemy;
                 }
