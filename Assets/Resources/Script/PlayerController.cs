@@ -140,8 +140,6 @@ public class PlayerController : MonoBehaviour
         // 延迟
         yield return new WaitForSeconds(DelayTime);
 
-        // 攻击特效动画
-
         // 顿帧效果
 
         // 屏幕抖动效果
@@ -154,6 +152,8 @@ public class PlayerController : MonoBehaviour
     IEnumerator Rush(Vector2 tarPos, Vector2 startPos)
     {
         curTime = 0;// 重置当前计时
+
+        // 切换玩家动画状态
 
         while (curTime < totalTime)
         {

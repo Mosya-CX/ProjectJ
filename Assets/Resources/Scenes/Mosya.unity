@@ -246,13 +246,33 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6926803765096527514, guid: b554766222272d143a9467193ae33c62, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 358113143}
   m_SourcePrefab: {fileID: 100100000, guid: b554766222272d143a9467193ae33c62, type: 3}
 --- !u!224 &358113141 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5620800889581000429, guid: b554766222272d143a9467193ae33c62, type: 3}
   m_PrefabInstance: {fileID: 358113140}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &358113142 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6926803765096527514, guid: b554766222272d143a9467193ae33c62, type: 3}
+  m_PrefabInstance: {fileID: 358113140}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &358113143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358113142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae4d4af01f2f7d84a878f134edeb8822, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &411433903
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,11 +544,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 0
   curHp: 0
-  maxEndurance: 0
-  curEndurance: 0
+  skipSpeed: 0
+  attackSpeed: 0
+  slowRate: 0.5
+  curTime: 0
+  totalTime: 0.3
   isReadyToSkip: 0
   isPushMistake: 0
+  isMove: 0
   attackableEnemies: []
+  HpBar: {fileID: 0}
+  rb: {fileID: 0}
 --- !u!212 &2122283648
 SpriteRenderer:
   m_ObjectHideFlags: 0
