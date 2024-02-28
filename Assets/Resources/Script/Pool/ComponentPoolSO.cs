@@ -26,6 +26,7 @@ public abstract class ComponentPoolSO : PoolSO
     //给使用者留的函数
     public void SetParent(Transform t)
     {
+        Debug.Log(poolName);
         parent = t;
         PoolRoot.SetParent(parent);    
     }

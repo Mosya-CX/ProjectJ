@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyManager : PersistentSingleton<EnemyManager>
+public class EnemyManager : Singleton<EnemyManager>
 {
     public Pool enemy01Pool;
     public Pool enemy02Pool;
@@ -13,9 +13,17 @@ public class EnemyManager : PersistentSingleton<EnemyManager>
     public override void Awake()
     {
         base.Awake();
+        Init(enemyPools);
         enemyList = new List<Enemy>();
     }
-    public void Init(ComponentPoolSO[] pools)
+    public void OnDisable()
+    {
+        foreach (var pool in enemyPools)
+        {
+            pool.OnDisable();
+        }
+    }
+    public void Init(Pool[] pools)
     {
         foreach (var pool in pools)
         {

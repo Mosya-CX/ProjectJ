@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,12 +14,17 @@ public class Enemy1 : MonoBehaviour
     public string originalHealthLetters;
     //游戏过程中的字母
     public string currentHealthLetters;
+    public Pool owner;
+    public int letterAmount;
     public bool dead=false;
-    void Start()
+    public void Start()
     {
-        originalHealthLetters = GetInitialHealthLetters(); // 获取初始生命字母序列
-        currentHealthLetters = originalHealthLetters;
+        InitializeHealthLetters(); // 获取初始生命字母序列
         enemyLabel.text = currentHealthLetters;
+    }
+    public void OnDisable()
+    {
+        
     }
     //用于外部初始化字母
     public void SetInitialHealthLetters(string healthLetters)
@@ -28,12 +34,20 @@ public class Enemy1 : MonoBehaviour
         enemyLabel.text = currentHealthLetters;
     }
 
-    virtual public string GetInitialHealthLetters()
+    virtual public void InitializeHealthLetters()
     {
-        // 用于内部初始化字母
-        return "BCX";
+        StringBuilder randomLettersBuilder = new StringBuilder();
+        char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+
+        for (int i = 0; i < letterAmount; i++)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, alphabet.Length);
+            randomLettersBuilder.Append(alphabet[randomIndex]);
+        }
+        Debug.Log(randomLettersBuilder.ToString());
+        originalHealthLetters = randomLettersBuilder.ToString();
+        currentHealthLetters = originalHealthLetters;
     }
-    //用于外部判断敌人是否含有当前玩家输入的字母
     public bool HasLetter(char letter)
     {
         return currentHealthLetters.IndexOf(letter) >= 0;
@@ -74,6 +88,6 @@ public class Enemy1 : MonoBehaviour
     public void OnDeath()
     {
         // 处理敌人死亡逻辑，例如：
-        Destroy(gameObject);
+        owner.Return(this.gameObject);
     }
 }
