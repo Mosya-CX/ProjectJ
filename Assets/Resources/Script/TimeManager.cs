@@ -4,7 +4,7 @@ using UnityEngine;
 
 //！！！！无需进行任何改变，只需要调用TImeOut函数，并传入是否是iscombostop这个bool值就好了！！！！
 
-public class TimeManager : MonoBehaviour
+public class TimeManager: MonoBehaviour
 {
     public static TimeManager Instance;
     public float StopLength;//暂停多久时间
@@ -44,7 +44,7 @@ public class TimeManager : MonoBehaviour
             Time.timeScale = 1;//时间继续
         }
         //text
-        print(TimeStopCD);
+        
         
     }
     static public void TimeOut(bool isComboStopTIme)//时间暂停函数，只需传入是否是combo导致的暂停
