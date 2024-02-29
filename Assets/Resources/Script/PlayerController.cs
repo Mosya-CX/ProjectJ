@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.U2D.IK;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
@@ -20,7 +23,6 @@ public class PlayerController : MonoBehaviour
     public float totalTime = 0.3f;
 
     public bool isReadyToSkip;// 是否允许闪避
-    public bool isPushMistake;// 是否按错键
     public bool isSkip;// 判断是否在闪避状态
     public bool isAttack;// 判断是否在攻击状态
     
@@ -43,7 +45,6 @@ public class PlayerController : MonoBehaviour
         attackableEnemies = new List<Enemy>();
         tar = new List<Enemy>();
         isReadyToSkip = false;
-        isPushMistake = false;
         isSkip = false;
         isAttack = false;
         curTime = 0;
@@ -95,23 +96,37 @@ public class PlayerController : MonoBehaviour
                 // 其次判断字母输入
                 else if (Key.ToString().Length == 1)
                 {
-                    isPushMistake = true;
+                    // 先给可攻击对象名单排序(有高亮字体的在前，然后常态字体少的在前，接着是字母少的在前，最后在根据Acill码排升序)
+                    Sort();
+
+                    bool isPushMistake = true;// 检测是否按错键
                     char key = Key.ToString()[0];
                     
                     foreach (Enemy enemy in attackableEnemies)
                     {
-                        if (enemy.currentHealthLetters.Contains(key))
+                        // 差别处理不同类型的敌人
+                        if (enemy.currentHealthLetters[0] == key)
                         {
                             if (enemy.enemyType == 1)
                             {
-                                tar.Add(enemy);// 加入斩杀名单
+                                // 先判断斩杀名单中是否有高亮字母的敌人
+                                // 若无则加入斩杀名单
+                                bool hasLightTone = false;
+                                foreach (Enemy killTar in tar)
+                                {
+                                    
+                                }
+                                if (!hasLightTone)
+                                {
+                                    tar.Add(enemy);
+                                }
                             }
                             else if (enemy.enemyType == 2)
                             {
                                 // 先判断是否有高亮字母
                                 // 如果有则加入斩杀名单
 
-                                // 如果没有则调用敌人的高亮函数
+                                // 如果没有且斩杀名单内没有有高亮字母的敌人，则调用敌人的高亮函数
 
                             }
                             else if (enemy.enemyType == 3)
@@ -122,18 +137,20 @@ public class PlayerController : MonoBehaviour
                                 // 如果否则调用敌人的高亮函数
                                 
                             }
-                            // 处理玩家攻击逻辑
-                            if (tar.Count > 0)
-                            {
-                                isAttack = true;
-
-                                Attack();// 调用攻击函数
-                            }
- 
                             isPushMistake = false;
-                            break;
                         }
                     }
+                    // 处理玩家攻击逻辑
+                    if (tar.Count > 0)
+                    {
+                        // 排序
+
+
+                        isAttack = true;
+
+                        Attack();// 调用攻击函数
+                    }
+
                     if (isPushMistake)
                     {
                         // 按错就扣血
@@ -210,7 +227,8 @@ public class PlayerController : MonoBehaviour
 
             yield return null;
         }
-        // 检测是否已斩杀完所有目标
+
+        // 位移完成检测是否已斩杀完所有目标
         if (tar.Count == 0)
         {
             isAttack = false;
@@ -263,4 +281,41 @@ public class PlayerController : MonoBehaviour
 
         return tmp;
     }
+
+    // 给可攻击名单排序(有高亮字体的在前，然后常态字体少的在前，接着是字母少的在前，最后在根据Acill码排升序)
+    public void Sort()
+    {
+        List<Enemy> lightToneEnemies = new List<Enemy>();// 存储高亮字母敌人
+        List<Enemy> normalToneEnemies = new List<Enemy>();// 存储常态字母敌人
+        // 先分组
+        for (int i = 0;i < attackableEnemies.Count;i++)
+        {
+            // 判断是否是高亮字母敌人
+            // 是
+            lightToneEnemies.Add(attackableEnemies[i]);
+            // 否
+            normalToneEnemies.Add(attackableEnemies[i]);
+        }
+        // 排序高亮字母
+        for (int i = 0; i < lightToneEnemies.Count; i++)
+        {
+            // 先分组
+            // 分为可被斩杀组和不可被斩杀组
+
+
+            // 然后将两组继续常规排序后拼接起来
+
+        }
+        
+        // 排序常态字母
+        var sortedList = normalToneEnemies.OrderBy(b => b.currentHealthLetters.Length) // 按string长度升序排序  
+                              .ThenBy(b => b.currentHealthLetters) // 长度相同时，按字母顺序升序排序（从A到Z）  
+                              .ToList();
+
+        // 最后将排序好的数据拼接起来
+        attackableEnemies = new List<Enemy>(lightToneEnemies);
+        attackableEnemies.AddRange(normalToneEnemies);
+
+    }
+    
 }
