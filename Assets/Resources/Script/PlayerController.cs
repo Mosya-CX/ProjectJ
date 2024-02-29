@@ -21,16 +21,19 @@ public class PlayerController : MonoBehaviour
 
     public bool isReadyToSkip;// 是否允许闪避
     public bool isPushMistake;// 是否按错键
-    public bool isMove;// 判断是否在进行位移
+    public bool isSkip;// 判断是否在闪避状态
+    public bool isAttack;// 判断是否在攻击状态
     
     // 存储可攻击敌人的数据
     public List<Enemy> attackableEnemies;
-    // 储存玩家按下的按键的信息
+    // 储存玩家最后按下的按键的信息
     KeyCode lastKeyCode;
     // 绑定玩家血条ui
     public Slider HpBar;
     // 获得玩家刚体组件
     public Rigidbody2D rb;
+
+    public List<Enemy> tar;// 存储要斩杀的敌人
 
     private void Start()
     {
@@ -38,8 +41,11 @@ public class PlayerController : MonoBehaviour
         curHp = maxHp;
         //curEndurance = maxEndurance;
         attackableEnemies = new List<Enemy>();
+        tar = new List<Enemy>();
         isReadyToSkip = false;
         isPushMistake = false;
+        isSkip = false;
+        isAttack = false;
         curTime = 0;
 
         rb = GetComponent<Rigidbody2D>();
@@ -57,10 +63,14 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         
-        // 玩家行动检测
+        // 玩家输入检测
         foreach (KeyCode Key in System.Enum.GetValues(typeof(KeyCode)))
         {
-            if (Input.GetKeyDown(Key) && isMove)
+            if (isAttack || isSkip)
+            {
+                break;// 检测是否在攻击或闪避状态若是则不进行检测
+            }
+            if (Input.GetKeyDown(Key))
             {
                 lastKeyCode = Key;// 储存最后按下的键位
                 // 优先判断闪避
@@ -74,7 +84,7 @@ public class PlayerController : MonoBehaviour
                         Vector2 skipDir = (gameObject.transform.position - TheClosest.transform.position).normalized;
                         // 远离最近的敌人
                         rb.velocity = skipDir * skipSpeed;
-                        isMove = true;
+                        isSkip = true;
                     }
                     else
                     {
@@ -87,18 +97,39 @@ public class PlayerController : MonoBehaviour
                 {
                     isPushMistake = true;
                     char key = Key.ToString()[0];
+                    
                     foreach (Enemy enemy in attackableEnemies)
                     {
                         if (enemy.currentHealthLetters.Contains(key))
                         {
+                            if (enemy.enemyType == 1)
+                            {
+                                tar.Add(enemy);// 加入斩杀名单
+                            }
+                            else if (enemy.enemyType == 2)
+                            {
+                                // 先判断是否有高亮字母
+                                // 如果有则加入斩杀名单
+
+                                // 如果没有则调用敌人的高亮函数
+
+                            }
+                            else if (enemy.enemyType == 3)
+                            {
+                                // 先判断是否只剩一个常态字母
+                                // 如果是则加入斩杀名单
+                                
+                                // 如果否则调用敌人的高亮函数
+                                
+                            }
                             // 处理玩家攻击逻辑
-                            // 进行位移
-                            StartCoroutine(Rush(enemy.transform.position, gameObject.transform.position));
-                            // 延迟调用攻击效果
-                            StartCoroutine(Attack(totalTime, enemy, key));
-                            // 调用Combo系统并增加连击次数
-                 
-     
+                            if (tar.Count > 0)
+                            {
+                                isAttack = true;
+
+                                Attack();// 调用攻击函数
+                            }
+ 
                             isPushMistake = false;
                             break;
                         }
@@ -118,8 +149,8 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // 检测是否在位移并减速
-        if (isMove)
+        // 检测是否在闪避状态并减速
+        if (isSkip)
         {
             if (rb.velocity.magnitude >= slowRate)
             {
@@ -128,14 +159,27 @@ public class PlayerController : MonoBehaviour
             else
             {
                 rb.velocity = Vector2.zero;
-                isMove = false;
+                isSkip = false;
             }
         }
 
     }
+    // 攻击函数
+    public void Attack()
+    {
+        Enemy tarEnemy = tar[0];
+        // 进行位移
+        StartCoroutine(Rush(tarEnemy.transform.position, gameObject.transform.position));
+        // 延迟调用攻击效果
+        StartCoroutine(AttackEffect(totalTime, tarEnemy, lastKeyCode.ToString()[0]));
+        // 调用Combo系统并增加连击次数
+
+        tar.RemoveAt(0);// 头删
+
+    }
 
     // 玩家攻击效果
-    IEnumerator Attack(float DelayTime, Enemy enemy, char key)
+    IEnumerator AttackEffect(float DelayTime, Enemy enemy, char key)
     {
         // 延迟
         yield return new WaitForSeconds(DelayTime);
@@ -166,8 +210,16 @@ public class PlayerController : MonoBehaviour
 
             yield return null;
         }
-
-        
+        // 检测是否已斩杀完所有目标
+        if (tar.Count == 0)
+        {
+            isAttack = false;
+        }
+        else
+        {
+            // 没斩杀完就继续调用
+            Attack();
+        }
     }
 
     // 缓入缓出曲线函数(达到先快后慢效果)  
