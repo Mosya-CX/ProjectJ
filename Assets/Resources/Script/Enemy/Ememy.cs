@@ -66,6 +66,7 @@ public class Enemy : MonoBehaviour
         //AudioManager 受击音效
         //VFXManager 受击特效
         // 播放受击动画
+
         if (string.IsNullOrEmpty(currentHealthLetters))
         {
             dead = true;
