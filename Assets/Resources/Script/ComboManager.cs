@@ -38,6 +38,7 @@ public class ComboManager: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        print(200% 100);
         //减小text大小的逻辑
         AddSizeCD -= Time.unscaledDeltaTime;
         if (AddSizeCD<=0 && ComboText.fontSize>=140)
@@ -53,6 +54,12 @@ public class ComboManager: MonoBehaviour
             ComboText.enabled = false;
             Combonum = 0;
         }
+        //达到combo数后时间停止
+        if (Combonum == 20 || Combonum == 50 || Combonum % 100 == 0)
+        {
+            TimeManager.TimeOut(true);
+        }
+        //combo到了进行斩杀
     }
     public static void AddComboNum()
     {

@@ -6,4 +6,8 @@ public class Sound
 {
     public AudioClip Clip;
     public string names; 
+    public void name()
+    {
+        GameObject.Find£¨
+    }
 }
