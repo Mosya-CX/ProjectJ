@@ -136,11 +136,11 @@ public class PlayerController : MonoBehaviour
                             // 判断要朝向
                             if (skipDir.x > 0)
                             {
-                                srFace.flipY = false;
+                                srFace.flipX = false;
                             }
                             else
                             {
-                                srFace.flipY = true;
+                                srFace.flipX = true;
                             }
 
                             // 判断最近的敌人在攻击范围内还是范围外
@@ -289,11 +289,11 @@ public class PlayerController : MonoBehaviour
         // 判断朝向
         if (tarEnemy.transform.position.x - gameObject.transform.position.x >= 0)
         {
-            srFace.flipY = true;
+            srFace.flipX = true;
         }
         else
         {
-            srFace.flipY = false;
+            srFace.flipX = false;
         }
         // 进行位移
         Vector2 tarPos = tarEnemy.transform.position;
