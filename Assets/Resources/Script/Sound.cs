@@ -8,6 +8,6 @@ public class Sound
     public string names; 
     public void name()
     {
-        GameObject.Find£¨
+       
     }
 }
