@@ -28,14 +28,16 @@ public class PlayerController : MonoBehaviour
     public float attackSpeed;// 攻击位移瞬时速度
     public float slowRate = 0.5f;// 减速率
 
-    // 计时器相关变量
+    // 计时器相关变量(现用于斩杀间隔相关)
     public float curTime;
-    public float totalTime = 0.3f;
-
+    public float totalTime = 0.2f;
+    public float unattachableTime = 0.5f;
+    
     public bool isReadyToSkip;// 是否允许闪避
     public bool isSkip;// 判断是否在闪避状态
     public bool isAttack;// 判断是否在攻击状态
     public bool isDead;// 判断是否死亡
+    public bool isUnattachable;// 判断是否处于无敌帧状态
 
     // 存储可攻击敌人的数据
     public List<Enemy> attackableEnemies;
@@ -63,6 +65,7 @@ public class PlayerController : MonoBehaviour
         isSkip = false;
         isAttack = false;
         isDead = false;
+        isUnattachable = false;
 
         curTime = 0;
 
@@ -103,9 +106,10 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
+                    // 检测是否在攻击或闪避状态或者死亡状态,若是则不进行字母和闪避检测
                     if (isAttack || isSkip || playerState == PlayerState.Dead)
                     {
-                        break;// 检测是否在攻击或闪避状态或者死亡状态,若是则不进行字母和闪避检测
+                        break;
                     }
                     // 然后判断闪避
                     if (Key == KeyCode.LeftShift)
@@ -163,11 +167,16 @@ public class PlayerController : MonoBehaviour
                     // 其次判断字母输入和是否在战斗状态
                     else if (Key.ToString().Length == 1 && playerState == PlayerState.Fight)
                     {
-                        // 先给可攻击对象名单排序(有高亮字体的在前，然后常态字体少的在前，接着是字母少的在前，最后在根据Acill码排升序)
-                        AttackableSort();
-
                         bool isPushMistake = true;// 检测是否按错键
                         char key = Key.ToString()[0];
+                        // 进一步检测是否是字母输入
+                        if ((int)key < 65 || (int)key > 90)
+                        {
+                            break;
+                        }
+
+                        // 先给可攻击对象名单排序(有高亮字体的在前，然后常态字体少的在前，接着是字母少的在前，最后在根据Acill码排升序)
+                        AttackableSort();
 
                         foreach (Enemy enemy in attackableEnemies)
                         {
@@ -224,10 +233,10 @@ public class PlayerController : MonoBehaviour
                             // 先判断是否使用了道具磐石
                             // if
 
-                            // 若没有就执行下面的代码
+                            // 若没有就调用Combo系统，清空连击次数
+                            
                             // 按错就扣血
                             OnHit(1);
-                            // 调用Combo系统，清空连击次数
 
 
                             isPushMistake = false;
@@ -256,6 +265,21 @@ public class PlayerController : MonoBehaviour
 
             }
         }
+        // 无敌帧状态检测
+        if (isUnattachable)
+        {
+            if (curTime >= unattachableTime)
+            {
+                isUnattachable = false;
+            }
+            else
+            {
+                if (!isAttack)
+                {
+                    curTime += Time.deltaTime;
+                }
+            }
+        }
 
     }
     // 攻击函数
@@ -272,13 +296,14 @@ public class PlayerController : MonoBehaviour
             srFace.flipY = false;
         }
         // 进行位移
-        StartCoroutine(Rush(tarEnemy.transform.position, gameObject.transform.position));
+        Vector2 tarPos = tarEnemy.transform.position;
+        StartCoroutine(Rush(tarPos, gameObject.transform.position));
         // 延迟调用攻击效果
         StartCoroutine(AttackEffect(totalTime - 0.05f, tarEnemy, lastKeyCode.ToString()[0]));
         // 调用Combo系统并增加连击次数
 
 
-        tar.RemoveAt(0);// 头删
+        tar.RemoveAt(0);// 从斩杀名单中移除
     }
 
     // 玩家攻击效果
@@ -303,7 +328,7 @@ public class PlayerController : MonoBehaviour
     {
         curTime = 0;// 重置当前计时
 
-        // 切换玩家动画状态
+        // 切换玩家姿势
 
         while (curTime < totalTime)
         {
@@ -316,6 +341,11 @@ public class PlayerController : MonoBehaviour
 
             yield return null;
         }
+
+        // 启用落地无敌帧
+        isUnattachable = true;
+
+        // 切换玩家姿势
 
         // 位移完成检测是否已斩杀完所有目标
         if (tar.Count == 0)

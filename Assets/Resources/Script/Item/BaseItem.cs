@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BaseItem 
 {
-    // 基础变量
+    // 相关变量
     public bool isUsed = false;
 
     public virtual void OnCreate()
@@ -19,11 +19,11 @@ public class BaseItem
 
     public virtual void OnDestory()
     {
-
+        
     }
 
     public virtual void Effect()
     {
-
+        
     }
 }
