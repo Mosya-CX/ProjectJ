@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.Progress;
-
+//！！！！外部只需要每次怪死亡时调用isGetItem（）函数就可以！！！
+//道具脚本方面应该也可以契合这个ItemManager
+//扩展的时候需要改随机生成的逻辑和写对应道具脚本，如item01
 public class ItemManager : MonoBehaviour
 {
     public static ItemManager Instance;
@@ -65,7 +67,6 @@ public class ItemManager : MonoBehaviour
                 {
                     ItemList[i].OnDestory();//消除道具效果
                     ItemList.RemoveAt(i);//去除道具
-                   
                 }
             }
         }
