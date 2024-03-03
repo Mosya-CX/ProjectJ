@@ -10,34 +10,82 @@ public class Enemy : MonoBehaviour
 {
     //敌人头顶的ui
     public TextMeshProUGUI enemyLabel;
+    //敌人头顶的image组件
+    public List<Image> letterImages;
     //原始的字母
     public string originalHealthLetters;
     //游戏过程中的字母
     public string currentHealthLetters;
+    //常态字母字典
+    public static Dictionary<char, Sprite> normalLetterDict;
+    //高亮字母字典
+    public static Dictionary<char, Sprite> highLightLetterDict;
     //用于回收去对象池
     public Pool owner;
     //字母数量
     public int letterAmount;
     public int enemyType;
+    //敌人阶段
+    public int enemyMaxPhase;
+    public int enemyCurrentPhase;
+    public bool CanExeute => enemyCurrentPhase == enemyMaxPhase && isHighLight;
     public bool dead=false;
+    public bool isHighLight=false;
     //伤害
     public int damage;
+    public void Awake()
+    {
+        InitDict();
+        letterImages = new List<Image>();
+    }
     public void Start()
     {
         InitializeHealthLetters(); // 获取初始生命字母序列
+        //有了图片之后用这个
+        //InitializeLetterImages();
         enemyLabel.text = currentHealthLetters;
     }
     public void OnDisable()
     {
-        
+        isHighLight = false;
+        dead = false;
     }
-    //用于外部初始化字母
-    public void SetInitialHealthLetters(string healthLetters)
+    //加载字典
+    private static Sprite LoadSpriteFromResources(string path)
     {
-        originalHealthLetters = healthLetters;
-        currentHealthLetters = healthLetters;
-        enemyLabel.text = currentHealthLetters;
+        return Resources.Load<Sprite>(path);
     }
+    public void InitDict()
+    {
+        normalLetterDict = new Dictionary<char, Sprite>();
+        highLightLetterDict = new Dictionary<char, Sprite>();
+        //根据路径加载字典
+        for (char c = 'A'; c <= 'Z'; c++)
+        {
+            string normalPath = $"Textures/Normal/{c}.png";
+            string highlightedPath = $"Textures/Highlighted/{c}.png";
+
+            Sprite normalSprite = LoadSpriteFromResources(normalPath);
+            Sprite highlightedSprite = LoadSpriteFromResources(highlightedPath);
+
+            if (normalSprite != null && highlightedSprite != null)
+            {
+                normalLetterDict[c] = normalSprite;
+                highLightLetterDict[c] = highlightedSprite;
+            }
+            else
+            {
+                Debug.LogError($"Failed to load sprites for letter {c}");
+            }
+        }
+    }
+    ////用于外部初始化字母
+    //public void SetInitialHealthLetters(string healthLetters)
+    //{
+    //    originalHealthLetters = healthLetters;
+    //    currentHealthLetters = healthLetters;
+    //    enemyLabel.text = currentHealthLetters;
+    //}
     //内部初始化字母
     virtual public void InitializeHealthLetters()
     {
@@ -53,10 +101,32 @@ public class Enemy : MonoBehaviour
         originalHealthLetters = randomLettersBuilder.ToString();
         currentHealthLetters = originalHealthLetters;
     }
-    //留给外部检测敌人内部是否含有这个字母
-    public bool HasLetter(char letter)
+    //根据originalletter初始化图片
+    public void InitializeLetterImages()
     {
-        return currentHealthLetters.IndexOf(letter) >= 0;
+        if (originalHealthLetters.Length != letterImages.Count)
+        {
+            Debug.LogError("The length of originalLetters does not match the number of letterImages.");
+            return;
+        }
+
+        for (int i = 0; i < originalHealthLetters.Length; i++)
+        {
+            char currentLetter = originalHealthLetters[i];
+            if (normalLetterDict.ContainsKey(currentLetter))
+            {
+                letterImages[i].sprite = normalLetterDict[currentLetter];
+            }
+            else
+            {
+                Debug.LogError($"No normal sprite found for letter: {currentLetter}");
+            }
+        }
+    }
+    //留给外部检测敌人内部是否含有这个字母
+    public bool HasFirstLetter(char letter)
+    {
+        return currentHealthLetters.Length > 0 && currentHealthLetters[0] == letter;
     }
     //外部将要消除的字母导入，清除敌人字母
     public void OnHit(char letter)
@@ -66,15 +136,39 @@ public class Enemy : MonoBehaviour
         //AudioManager 受击音效
         //VFXManager 受击特效
         // 播放受击动画
-        if (string.IsNullOrEmpty(currentHealthLetters))
+        //等有图片了就用这个
+        if (enemyCurrentPhase < enemyMaxPhase && isHighLight)
         {
-            dead = true;
+            HighLightLetter(letter);
+            ChangeToNextPhase();
+        }
+        else 
+        {
+            HighLightLetter(letter);
         }
     }
-    //高亮字母，待办
-    public void HighLightLetter(char letter)
+    //高亮字母
+    public void HighLightLetter(char keyPressed)
+    {
+        if (HasFirstLetter(keyPressed))
+        {
+            // 点亮第一位字母
+            int index = originalHealthLetters.IndexOf(keyPressed);
+            letterImages[index].sprite = highLightLetterDict[keyPressed];
+            isHighLight = true;
+        }
+    }
+    public void ChangeToNextPhase()
     {
 
+        enemyCurrentPhase++;
+        //特效
+        //音效
+        //重新给original赋值
+        InitializeHealthLetters();
+        //根据original重新初始化图片
+        InitializeLetterImages();
+        isHighLight=false;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -97,6 +191,7 @@ public class Enemy : MonoBehaviour
     {
         currentHealthLetters = originalHealthLetters;
         enemyLabel.text = currentHealthLetters;
+        isHighLight = false;
     }
 
     public void OnDeath()
