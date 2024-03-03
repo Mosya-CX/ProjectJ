@@ -8,37 +8,85 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-    //µÐÈËÍ·¶¥µÄui
+    //ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½ui
     public TextMeshProUGUI enemyLabel;
-    //Ô­Ê¼µÄ×ÖÄ¸
+    //ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½imageï¿½ï¿½ï¿½
+    public List<Image> letterImages;
+    //Ô­Ê¼ï¿½ï¿½ï¿½ï¿½Ä¸
     public string originalHealthLetters;
-    //ÓÎÏ·¹ý³ÌÖÐµÄ×ÖÄ¸
+    //ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½Ä¸
     public string currentHealthLetters;
-    //ÓÃÓÚ»ØÊÕÈ¥¶ÔÏó³Ø
+    //ï¿½ï¿½Ì¬ï¿½ï¿½Ä¸ï¿½Öµï¿½
+    public static Dictionary<char, Sprite> normalLetterDict;
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½Öµï¿½
+    public static Dictionary<char, Sprite> highLightLetterDict;
+    //ï¿½ï¿½ï¿½Ú»ï¿½ï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½ï¿½
     public Pool owner;
-    //×ÖÄ¸ÊýÁ¿
+    //ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½ï¿½
     public int letterAmount;
     public int enemyType;
+    //ï¿½ï¿½ï¿½Ë½×¶ï¿½
+    public int enemyMaxPhase;
+    public int enemyCurrentPhase;
+    public bool CanExeCute => enemyCurrentPhase == enemyMaxPhase && isHighLight;
     public bool dead=false;
-    //ÉËº¦
+    public bool isHighLight=false;
+    //ï¿½Ëºï¿½
     public int damage;
+    public void Awake()
+    {
+        InitDict();
+        letterImages = new List<Image>();
+    }
     public void Start()
     {
-        InitializeHealthLetters(); // »ñÈ¡³õÊ¼ÉúÃü×ÖÄ¸ÐòÁÐ
+        InitializeHealthLetters(); // ï¿½ï¿½È¡ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½ï¿½
+        //ï¿½ï¿½ï¿½ï¿½Í¼Æ¬Ö®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        //InitializeLetterImages();
         enemyLabel.text = currentHealthLetters;
     }
     public void OnDisable()
     {
-        
+        isHighLight = false;
+        dead = false;
     }
-    //ÓÃÓÚÍâ²¿³õÊ¼»¯×ÖÄ¸
-    public void SetInitialHealthLetters(string healthLetters)
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½
+    private static Sprite LoadSpriteFromResources(string path)
     {
-        originalHealthLetters = healthLetters;
-        currentHealthLetters = healthLetters;
-        enemyLabel.text = currentHealthLetters;
+        return Resources.Load<Sprite>(path);
     }
-    //ÄÚ²¿³õÊ¼»¯×ÖÄ¸
+    public void InitDict()
+    {
+        normalLetterDict = new Dictionary<char, Sprite>();
+        highLightLetterDict = new Dictionary<char, Sprite>();
+        //ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½
+        for (char c = 'A'; c <= 'Z'; c++)
+        {
+            string normalPath = $"Textures/Normal/{c}.png";
+            string highlightedPath = $"Textures/Highlighted/{c}.png";
+
+            Sprite normalSprite = LoadSpriteFromResources(normalPath);
+            Sprite highlightedSprite = LoadSpriteFromResources(highlightedPath);
+
+            if (normalSprite != null && highlightedSprite != null)
+            {
+                normalLetterDict[c] = normalSprite;
+                highLightLetterDict[c] = highlightedSprite;
+            }
+            else
+            {
+                Debug.LogError($"Failed to load sprites for letter {c}");
+            }
+        }
+    }
+    ////ï¿½ï¿½ï¿½ï¿½ï¿½â²¿ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ä¸
+    //public void SetInitialHealthLetters(string healthLetters)
+    //{
+    //    originalHealthLetters = healthLetters;
+    //    currentHealthLetters = healthLetters;
+    //    enemyLabel.text = currentHealthLetters;
+    //}
+    //ï¿½Ú²ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ä¸
     virtual public void InitializeHealthLetters()
     {
         StringBuilder randomLettersBuilder = new StringBuilder();
@@ -53,35 +101,80 @@ public class Enemy : MonoBehaviour
         originalHealthLetters = randomLettersBuilder.ToString();
         currentHealthLetters = originalHealthLetters;
     }
-    //Áô¸øÍâ²¿¼ì²âµÐÈËÄÚ²¿ÊÇ·ñº¬ÓÐÕâ¸ö×ÖÄ¸
-    public bool HasLetter(char letter)
+    //ï¿½ï¿½ï¿½ï¿½originalletterï¿½ï¿½Ê¼ï¿½ï¿½Í¼Æ¬
+    public void InitializeLetterImages()
     {
-        return currentHealthLetters.IndexOf(letter) >= 0;
+        if (originalHealthLetters.Length != letterImages.Count)
+        {
+            Debug.LogError("The length of originalLetters does not match the number of letterImages.");
+            return;
+        }
+
+        for (int i = 0; i < originalHealthLetters.Length; i++)
+        {
+            char currentLetter = originalHealthLetters[i];
+            if (normalLetterDict.ContainsKey(currentLetter))
+            {
+                letterImages[i].sprite = normalLetterDict[currentLetter];
+            }
+            else
+            {
+                Debug.LogError($"No normal sprite found for letter: {currentLetter}");
+            }
+        }
     }
-    //Íâ²¿½«ÒªÏû³ýµÄ×ÖÄ¸µ¼Èë£¬Çå³ýµÐÈË×ÖÄ¸
+    //ï¿½ï¿½ï¿½ï¿½ï¿½â²¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú²ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸
+    public bool HasFirstLetter(char letter)
+    {
+        return currentHealthLetters.Length > 0 && currentHealthLetters[0] == letter;
+    }
+    //ï¿½â²¿ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸
     public void OnHit(char letter)
     {
         currentHealthLetters = currentHealthLetters.Replace(letter.ToString(), "");
         enemyLabel.text = currentHealthLetters;
-        //AudioManager ÊÜ»÷ÒôÐ§
-        //VFXManager ÊÜ»÷ÌØÐ§
-        // ²¥·ÅÊÜ»÷¶¯»­
-
-        if (string.IsNullOrEmpty(currentHealthLetters))
+        //AudioManager ï¿½Ü»ï¿½ï¿½ï¿½Ð§
+        //VFXManager ï¿½Ü»ï¿½ï¿½ï¿½Ð§
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Ü»ï¿½ï¿½ï¿½ï¿½ï¿½
+        //ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½Ë¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        if (enemyCurrentPhase < enemyMaxPhase && isHighLight)
         {
-            dead = true;
+            HighLightLetter(letter);
+            ChangeToNextPhase();
+        }
+        else 
+        {
+            HighLightLetter(letter);
         }
     }
-    //¸ßÁÁ×ÖÄ¸£¬´ý°ì
-    public void HighLightLetter(char letter)
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸
+    public void HighLightLetter(char keyPressed)
+    {
+        if (HasFirstLetter(keyPressed))
+        {
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»Î»ï¿½ï¿½Ä¸
+            int index = originalHealthLetters.IndexOf(keyPressed);
+            letterImages[index].sprite = highLightLetterDict[keyPressed];
+            isHighLight = true;
+        }
+    }
+    public void ChangeToNextPhase()
     {
 
+        enemyCurrentPhase++;
+        //ï¿½ï¿½Ð§
+        //ï¿½ï¿½Ð§
+        //ï¿½ï¿½ï¿½Â¸ï¿½originalï¿½ï¿½Öµ
+        InitializeHealthLetters();
+        //ï¿½ï¿½ï¿½ï¿½originalï¿½ï¿½ï¿½Â³ï¿½Ê¼ï¿½ï¿½Í¼Æ¬
+        InitializeLetterImages();
+        isHighLight=false;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Attack(collision);
     }
-    //×ÓÀà¹¥»÷º¯Êý
+    //ï¿½ï¿½ï¿½à¹¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     virtual public void Attack(Collider2D collision)
     {
 
@@ -93,16 +186,17 @@ public class Enemy : MonoBehaviour
     //        ResetHealthLetters();
     //    }
     //}
-    //³ö¹¥»÷·¶Î§ºó»Ö¸´×ÖÄ¸
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î§ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ä¸
     public void ResetHealthLetters()
     {
         currentHealthLetters = originalHealthLetters;
         enemyLabel.text = currentHealthLetters;
+        isHighLight = false;
     }
 
     public void OnDeath()
     {
-        // ´¦ÀíµÐÈËËÀÍöÂß¼­£¬ÀýÈç£º
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ç£º
         owner.Return(this.gameObject);
     }
 }
