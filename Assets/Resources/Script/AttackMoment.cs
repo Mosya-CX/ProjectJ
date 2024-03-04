@@ -21,7 +21,7 @@ public class AttackMoment : MonoBehaviour
     }
 
     // ¶ÙÖ¡
-    public void HitPause(int duration)
+    public void HitPause(int duration = 12)
     {
         StartCoroutine(Pause(duration));
     }
@@ -34,7 +34,7 @@ public class AttackMoment : MonoBehaviour
     }
 
     // Ïà»ú¶¶¶¯
-    public void CamShake(float duration, float strength)
+    public void CamShake(float duration = 0.1f, float strength = 0.065f)
     {
         if (!isShake)
         {

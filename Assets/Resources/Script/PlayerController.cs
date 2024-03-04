@@ -382,8 +382,10 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(DelayTime);
 
         // 顿帧效果
+        AttackMoment.Instance.HitPause();
 
         // 屏幕抖动效果
+        AttackMoment.Instance.CamShake();
 
         // 将敌人从可攻击名单中移除
         attackableEnemies.Remove(enemy);
