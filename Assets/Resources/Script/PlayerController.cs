@@ -343,7 +343,7 @@ public class PlayerController : MonoBehaviour
             Enemy enemy = collision.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.ResetHealthLetters();
+                enemy.ResetImage();
             }
             // ÒÆ³ý¿É¹¥»÷Ãûµ¥
             attackableEnemies.Remove(collision.GetComponent<Enemy>());
