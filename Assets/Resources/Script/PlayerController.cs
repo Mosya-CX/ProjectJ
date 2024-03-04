@@ -45,6 +45,8 @@ public class PlayerController : MonoBehaviour
     KeyCode lastKeyCode;
     // 绑定玩家血条ui
     public Slider HpBar;
+    // 绑定玩家攻击范围判断触发器物体
+    public GameObject AttackArea;
     // 获得玩家刚体组件
     public Rigidbody2D rb;
     // 判断朝向
@@ -74,6 +76,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         srFace = GetComponent<SpriteRenderer>();
 
+        AttackArea = transform.Find("AttackArea").gameObject;
         if (HpBar == null)
         {
             HpBar = GameObject.Find("UI/FightPanel/Top/StatusBar/HpBar").GetComponent<Slider>();
@@ -168,6 +171,7 @@ public class PlayerController : MonoBehaviour
                     else if (Key.ToString().Length == 1 && playerState == PlayerState.Fight)
                     {
                         bool isPushMistake = true;// 检测是否按错键
+
                         char key = Key.ToString()[0];
                         // 进一步检测是否是字母输入
                         if ((int)key < 65 || (int)key > 90)
@@ -185,34 +189,73 @@ public class PlayerController : MonoBehaviour
                             {
                                 if (enemy.enemyType == 1)
                                 {
-                                    // 先判断斩杀名单中是否有高亮字母的敌人
+                                    // 先判断斩杀名单中是否有其它级别的敌人
                                     // 若无则加入斩杀名单
-                                    bool hasLightTone = false;
+                                    bool hasOhterType = false;
                                     foreach (Enemy killTar in tar)
                                     {
-                                        //if
-
+                                        if(killTar.enemyType != 1)
+                                        {
+                                            hasOhterType = true;
+                                            break;
+                                        }
                                     }
-                                    if (!hasLightTone)
+                                    if (!hasOhterType)
                                     {
                                         tar.Add(enemy);
                                     }
                                 }
                                 else if (enemy.enemyType == 2)
                                 {
-                                    // 先判断是否有高亮字母
-                                    // 如果有则加入斩杀名单
-
-                                    // 如果没有且斩杀名单内没有有高亮字母的敌人，则调用敌人的高亮函数
-
+                                    // 先判断是否可被斩杀
+                                    // 如果是则加入斩杀名单
+                                    if (enemy.CanExeCute)
+                                    {
+                                        tar.Add(enemy);
+                                    }
+                                    // 如果否且斩杀名单内没有2级或三级敌人，没有则调用敌人的高亮函数
+                                    else
+                                    {
+                                        bool canHighLight = true;
+                                        foreach (Enemy killTar in tar)
+                                        {
+                                            if (killTar.enemyType != 1)
+                                            {
+                                                canHighLight = false;
+                                                break;
+                                            }
+                                        }
+                                        if (canHighLight)
+                                        {
+                                            enemy.OnHit(key);
+                                        }
+                                    }
                                 }
                                 else if (enemy.enemyType == 3)
                                 {
                                     // 先判断是否只剩一个常态字母
                                     // 如果是则加入斩杀名单
-
-                                    // 如果否且斩杀名单内没有有高亮字母的敌人，则调用敌人的高亮函数
-
+                                    if (enemy.CanExeCute)
+                                    {
+                                        tar.Add(enemy);
+                                    }
+                                    // 如果否且斩杀名单内没有2级或三级敌人，没有则调用敌人的高亮函数
+                                    else
+                                    {
+                                        bool canHighLight = true;
+                                        foreach (Enemy killTar in tar)
+                                        {
+                                            if (killTar.enemyType != 1)
+                                            {
+                                                canHighLight = false;
+                                                break;
+                                            }
+                                        }
+                                        if (canHighLight)
+                                        {
+                                            enemy.OnHit(key);
+                                        }
+                                    }
                                 }
                                 isPushMistake = false;
                             }
@@ -282,6 +325,32 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+
+    // 攻击范围检测
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Enemy" && !isAttack && !isSkip)
+        {
+            // 添加进可攻击名单
+            attackableEnemies.Add(collision.GetComponent<Enemy>());
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Enemy" && !isAttack && !isSkip)
+        {
+            // 重置敌人字母
+            Enemy enemy = collision.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.ResetHealthLetters();
+            }
+            // 移除可攻击名单
+            attackableEnemies.Remove(collision.GetComponent<Enemy>());
+
+        }
+    }
+
     // 攻击函数
     public void Attack()
     {
@@ -373,25 +442,31 @@ public class PlayerController : MonoBehaviour
     {
         if (playerState != PlayerState.Dead)
         {
-            // 播放受击动画
-
-            // 播放受击音效
-
-            // 扣状态()
-            if (curHp > Demage)
+            // 先判断是否处于无敌帧，若否则执行下面的代码
+            if (!isUnattachable)
             {
-                curHp -= Demage;
+
+                // 播放受击动画
+
+                // 播放受击音效
+
+                // 扣状态
+                if (curHp > Demage)
+                {
+                    curHp -= Demage;
+                }
+                else
+                {
+                    curHp = 0;
+                    playerState = PlayerState.Dead;
+                    // 播放死亡动画
+
+                    // 延迟执行死亡后某些代码逻辑
+
+
+                }
             }
-            else
-            {
-                curHp = 0;
-                playerState = PlayerState.Dead;
-                // 播放死亡动画
-
-                // 延迟执行死亡后某些代码逻辑
-
-
-            }
+            
         }
     }
 
@@ -439,41 +514,54 @@ public class PlayerController : MonoBehaviour
         return tmp;
     }
 
-    // 给可攻击名单排序(有高亮字体的在前，然后常态字体少的在前，接着是字母少的在前，最后在根据Acill码排升序)
+    // 给可攻击名单排序(有高亮字体的在前，接着是字母少的在前，最后在根据Acill码排升序)
     public void AttackableSort()
     {
-        List<Enemy> lightToneEnemies = new List<Enemy>();// 存储高亮字母敌人
-        List<Enemy> normalToneEnemies = new List<Enemy>();// 存储常态字母敌人
+        List<Enemy> lightTone = new List<Enemy>();// 存储高亮字母敌人
+        List<Enemy> normalTone = new List<Enemy>();// 存储常态字母敌人
+        List<Enemy> canExeCute = new List<Enemy>();// 存储可被斩杀敌人
         // 先分组
         for (int i = 0;i < attackableEnemies.Count;i++)
         {
             // 判断是否是高亮字母敌人
             // 是
-            lightToneEnemies.Add(attackableEnemies[i]);
+            if (attackableEnemies[i].isHighLight)
+            {
+                // 判断是否可被斩杀
+                if (attackableEnemies[i].CanExeCute)
+                {
+                    canExeCute.Add(attackableEnemies[i]);
+                }
+                else
+                {
+                    lightTone.Add(attackableEnemies[i]);
+                }
+            }
             // 否
-            normalToneEnemies.Add(attackableEnemies[i]);
+            else
+            {
+                normalTone.Add(attackableEnemies[i]);
+            }
         }
-        // 排序高亮字母组
-        for (int i = 0; i < lightToneEnemies.Count; i++)
-        {
-            // 先分组
-            // 分为可被斩杀组和不可被斩杀组
-
-
-            // 然后将两组继续常规排序后拼接起来
-
-        }
+        // 排序可被斩杀组
+        canExeCute = canExeCute.OrderByDescending(c => c.originalHealthLetters.Length)// 按string长度排降序
+            .ThenBy(c => c.currentHealthLetters)// 按字母顺序排升序
+            .ToList();
         
+        // 排序高亮字母组
+        lightTone = lightTone.OrderByDescending(c => c.originalHealthLetters.Length)// 按string长度排降序
+            .ThenBy(c => c.currentHealthLetters)// 按字母顺序排升序
+            .ToList();
+
         // 排序常态字母组
-        normalToneEnemies = normalToneEnemies.OrderBy(b => b.currentHealthLetters.Length) // 按string长度升序排序  
+        normalTone = normalTone.OrderBy(b => b.currentHealthLetters.Length) // 按string长度升序排序  
                               .ThenBy(b => b.currentHealthLetters) // 长度相同时，按字母顺序升序排序（从A到Z）  
                               .ToList();
 
-        
-
         // 最后将排序好的数据拼接起来
-        attackableEnemies = new List<Enemy>(lightToneEnemies);
-        attackableEnemies.AddRange(normalToneEnemies);
+        attackableEnemies = new List<Enemy>(canExeCute);
+        attackableEnemies.AddRange(lightTone);
+        attackableEnemies.AddRange(normalTone);
 
     }
     

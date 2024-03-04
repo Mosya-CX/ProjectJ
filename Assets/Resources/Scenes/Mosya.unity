@@ -550,11 +550,15 @@ MonoBehaviour:
   slowRate: 0.5
   curTime: 0
   totalTime: 0.3
+  unattachableTime: 0.5
   isReadyToSkip: 0
   isSkip: 0
   isAttack: 0
+  isDead: 0
+  isUnattachable: 0
   attackableEnemies: []
   HpBar: {fileID: 0}
+  AttackArea: {fileID: 0}
   rb: {fileID: 0}
   srFace: {fileID: 0}
   tar: []
@@ -678,7 +682,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8699389680093791197, guid: cabbe5ccecb72b048a3f5ab14769edc6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

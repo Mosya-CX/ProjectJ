@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1537937805938924008}
   - component: {fileID: 7376425122300576266}
   - component: {fileID: 4454155753085498373}
-  - component: {fileID: 8699389680093791197}
   m_Layer: 0
   m_Name: AttackArea
   m_TagString: Untagged
@@ -121,15 +120,3 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &8699389680093791197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1014780876186985885}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cfe6d8d57875e34989f4264deddc233, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
