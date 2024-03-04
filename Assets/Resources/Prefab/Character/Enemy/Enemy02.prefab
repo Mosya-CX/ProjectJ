@@ -98,12 +98,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d398f13c61487f84ca958f837757b64c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyLabel: {fileID: 252333236946216325}
+  letterImages: []
   originalHealthLetters: 
   currentHealthLetters: 
   owner: {fileID: 11400000, guid: 4a49bfba53ae79549b0748633e2e2cc9, type: 2}
   letterAmount: 2
+  enemyType: 0
+  enemyMaxPhase: 0
+  enemyCurrentPhase: 0
   dead: 0
+  isHighLight: 0
+  damage: 0
 --- !u!1 &2283453779309613339
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,7 +126,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2960781346087905741
 RectTransform:
   m_ObjectHideFlags: 0

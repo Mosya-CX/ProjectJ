@@ -30,7 +30,7 @@ public class AttackArea : MonoBehaviour
             Enemy enemy = collision.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.ResetHealthLetters();
+                enemy.ResetImage();
             }
             // ÒÆ³ý¿É¹¥»÷Ãûµ¥
             playerData.attackableEnemies.Remove(collision.GetComponent<Enemy>());
