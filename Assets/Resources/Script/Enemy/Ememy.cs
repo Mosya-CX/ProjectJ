@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using TMPro;
 using Unity.VisualScripting;
@@ -10,7 +11,7 @@ public class Enemy : MonoBehaviour
 {
 
     //头顶的文字ui，后续不用了
-    public TextMeshProUGUI enemyLabel;
+    //public TextMeshProUGUI enemyLabel;
     //头顶的image组件，放字母
     public List<Image> letterImages;
     //初始的字母
@@ -40,14 +41,13 @@ public class Enemy : MonoBehaviour
     public void Awake()
     {
         InitDict();
-        letterImages = new List<Image>();
     }
     public void Start()
     {
         InitializeHealthLetters(); // 内部初始化字母
         //根据字母初始化图片，等有图片就用
-        //InitializeLetterImages();
-        enemyLabel.text = currentHealthLetters;
+        InitializeLetterImages();
+        //enemyLabel.text = currentHealthLetters;
     }
     public void OnDisable()
     {
@@ -63,13 +63,17 @@ public class Enemy : MonoBehaviour
     {
         normalLetterDict = new Dictionary<char, Sprite>();
         highLightLetterDict = new Dictionary<char, Sprite>();
+        //Sprite a = Resources.Load<Sprite>("A");
+        //if (a==null)
+        //{
+        //    Debug.Log("fail");
+        //}
         for (char c = 'A'; c <= 'Z'; c++)
         {
-            string normalPath = $"Textures/Normal/{c}.png";
-            string highlightedPath = $"Textures/Highlighted/{c}.png";
-
-            Sprite normalSprite = LoadSpriteFromResources(normalPath);
-            Sprite highlightedSprite = LoadSpriteFromResources(highlightedPath);
+            string normalPath = "Img/Character/Normal/" + c.ToString()  ;
+            string highlightedPath = "Img/Character/Highlight/" + c.ToString() ;
+            Sprite normalSprite = Resources.Load<Sprite>(normalPath);
+            Sprite highlightedSprite = Resources.Load<Sprite>(highlightedPath);
 
             if (normalSprite != null && highlightedSprite != null)
             {
@@ -100,7 +104,6 @@ public class Enemy : MonoBehaviour
             int randomIndex = UnityEngine.Random.Range(0, alphabet.Length);
             randomLettersBuilder.Append(alphabet[randomIndex]);
         }
-        Debug.Log(randomLettersBuilder.ToString());
         originalHealthLetters = randomLettersBuilder.ToString();
         currentHealthLetters = originalHealthLetters;
     }
@@ -135,7 +138,7 @@ public class Enemy : MonoBehaviour
     public void OnHit(char letter)
     {
         currentHealthLetters = currentHealthLetters.Replace(letter.ToString(), "");
-        enemyLabel.text = currentHealthLetters;
+        //enemyLabel.text = currentHealthLetters;
         //AudioManager 
         //VFXManager 
         //转换阶段
@@ -161,7 +164,6 @@ public class Enemy : MonoBehaviour
     }
     public void ChangeToNextPhase()
     {
-
         enemyCurrentPhase++;
         //特效
         //音效
@@ -180,6 +182,12 @@ public class Enemy : MonoBehaviour
     {
 
     }
+    public void ResetImage()
+    {
+        currentHealthLetters = originalHealthLetters;
+        isHighLight = false;
+        InitializeLetterImages();
+    }
     //void OnTriggerExit2D(Collider2D other)
     //{
     //    if (other.tag=="AttackArea")
@@ -188,12 +196,12 @@ public class Enemy : MonoBehaviour
     //    }
     //}
     //
-    public void ResetHealthLetters()
-    {
-        currentHealthLetters = originalHealthLetters;
-        enemyLabel.text = currentHealthLetters;
-        isHighLight = false;
-    }
+    //public void ResetHealthLetters()
+    //{
+    //    currentHealthLetters = originalHealthLetters;
+    //    enemyLabel.text = currentHealthLetters;
+    //    isHighLight = false;
+    //}
 
     public void OnDeath()
     {
