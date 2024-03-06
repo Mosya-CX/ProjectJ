@@ -9,10 +9,6 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-
-    //头顶的文字ui，后续不用了
-    //public TextMeshProUGUI enemyLabel;
-    //头顶的image组件，放字母
     public List<Image> letterImages;
     //初始的字母
     public string originalHealthLetters;
@@ -44,14 +40,13 @@ public class Enemy : MonoBehaviour
     }
     public void OnEnable()
     {
-        enemyCurrentPhase = enemyMaxPhase;
+        enemyCurrentPhase = 1;
     }
     public void Start()
     {
         InitializeHealthLetters(); // 内部初始化字母
-        //根据字母初始化图片，等有图片就用
+        //根据字母初始化图片
         InitializeLetterImages();
-        //enemyLabel.text = currentHealthLetters;
     }
     public void OnDisable()
     {
@@ -59,19 +54,10 @@ public class Enemy : MonoBehaviour
         dead = false;
     }
     //初始化字典
-    private static Sprite LoadSpriteFromResources(string path)
-    {
-        return Resources.Load<Sprite>(path);
-    }
     public void InitDict()
     {
         normalLetterDict = new Dictionary<char, Sprite>();
         highLightLetterDict = new Dictionary<char, Sprite>();
-        //Sprite a = Resources.Load<Sprite>("A");
-        //if (a==null)
-        //{
-        //    Debug.Log("fail");
-        //}
         for (char c = 'A'; c <= 'Z'; c++)
         {
             string normalPath = "Img/Character/Normal/" + c.ToString()  ;
@@ -105,7 +91,7 @@ public class Enemy : MonoBehaviour
 
         for (int i = 0; i < letterAmount; i++)
         {
-            int randomIndex = UnityEngine.Random.Range(0, alphabet.Length);
+            int randomIndex = Random.Range(0, alphabet.Length);
             randomLettersBuilder.Append(alphabet[randomIndex]);
         }
         originalHealthLetters = randomLettersBuilder.ToString();
@@ -141,7 +127,6 @@ public class Enemy : MonoBehaviour
     //受击
     public void OnHit(char letter)
     {
-        //currentHealthLetters = currentHealthLetters.Replace(letter.ToString(), "");
         if (!HasFirstLetter(letter))
         {
             return;
@@ -163,7 +148,7 @@ public class Enemy : MonoBehaviour
             Debug.Log("enter2");
         }
     }
-    //有图片后用
+    //点亮字母
     public void HighLightLetter(char keyPressed)
     {
         if (HasFirstLetter(keyPressed))
@@ -207,13 +192,6 @@ public class Enemy : MonoBehaviour
     //    {
     //        ResetHealthLetters();
     //    }
-    //}
-    //
-    //public void ResetHealthLetters()
-    //{
-    //    currentHealthLetters = originalHealthLetters;
-    //    enemyLabel.text = currentHealthLetters;
-    //    isHighLight = false;
     //}
 
     public void OnDeath()
