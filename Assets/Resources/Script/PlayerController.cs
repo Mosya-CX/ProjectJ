@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
 
         curTime = 0;
 
-        playerState = PlayerState.None;
+        // playerState = PlayerState.None;
 
         rb = GetComponent<Rigidbody2D>();
         srFace = GetComponent<SpriteRenderer>();
@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
             // 检测是什么按键
             if (Input.GetKeyDown(Key))
             {
-                
+                Debug.Log(Key.ToString());
                 lastKeyCode = Key;// 储存最后按下的键位
 
                 // 优先判断特殊按键
@@ -170,6 +170,8 @@ public class PlayerController : MonoBehaviour
                     // 其次判断字母输入和是否在战斗状态
                     else if (Key.ToString().Length == 1 && playerState == PlayerState.Fight)
                     {
+                        Debug.Log("通过字母输入初步检测");
+
                         bool isPushMistake = true;// 检测是否按错键
 
                         char key = Key.ToString()[0];
@@ -178,17 +180,36 @@ public class PlayerController : MonoBehaviour
                         {
                             break;
                         }
+                        // 检测是否有可攻击敌人
+                        if (attackableEnemies.Count <= 0)
+                        {
+                            // 先判断是否使用了道具磐石
+                            // if
+
+                            // 若没有就调用Combo系统，清空连击次数
+
+                            // 按错就扣血
+                            OnHit(1);
+
+                            isPushMistake = false;
+
+                            break;
+                        }
+
+                        Debug.Log("进入可攻击对象名单排序阶段");
 
                         // 先给可攻击对象名单排序(有高亮字体的在前，然后常态字体少的在前，接着是字母少的在前，最后在根据Acill码排升序)
                         AttackableSort();
-
+                        
                         foreach (Enemy enemy in attackableEnemies)
                         {
+                            Debug.Log("进入敌人判断阶段");
                             // 差别处理不同类型的敌人
                             if (enemy.currentHealthLetters[0] == key)
                             {
                                 if (enemy.enemyType == 1)
                                 {
+                                    Debug.Log("进入敌人1");
                                     // 先判断斩杀名单中是否有其它级别的敌人
                                     // 若无则加入斩杀名单
                                     bool hasOhterType = false;
@@ -207,6 +228,7 @@ public class PlayerController : MonoBehaviour
                                 }
                                 else if (enemy.enemyType == 2)
                                 {
+                                    Debug.Log("进入敌人2");
                                     // 先判断是否可被斩杀
                                     // 如果是则加入斩杀名单
                                     if (enemy.CanExeCute)
@@ -233,6 +255,7 @@ public class PlayerController : MonoBehaviour
                                 }
                                 else if (enemy.enemyType == 3)
                                 {
+                                    Debug.Log("进入敌人3");
                                     // 先判断是否只剩一个常态字母
                                     // 如果是则加入斩杀名单
                                     if (enemy.CanExeCute)
@@ -263,6 +286,7 @@ public class PlayerController : MonoBehaviour
                         // 处理玩家攻击逻辑
                         if (tar.Count > 0)
                         {
+                            Debug.Log("进入斩杀阶段1");
                             // 排序
                             KillableSort();
 
@@ -354,6 +378,7 @@ public class PlayerController : MonoBehaviour
     // 攻击函数
     public void Attack()
     {
+        Debug.Log("进入斩杀阶段2");
         Enemy tarEnemy = tar[0];
         // 判断朝向
         if (tarEnemy.transform.position.x - gameObject.transform.position.x >= 0)
@@ -380,7 +405,7 @@ public class PlayerController : MonoBehaviour
     {
         // 延迟
         yield return new WaitForSeconds(DelayTime);
-
+        Debug.Log("进入斩杀阶段3");
         // 顿帧效果
         AttackMoment.Instance.HitPause();
 
@@ -389,7 +414,7 @@ public class PlayerController : MonoBehaviour
 
         // 将敌人从可攻击名单中移除
         attackableEnemies.Remove(enemy);
-
+        Debug.Log("进入斩杀阶段5");
         // 调用敌人的受击函数
         enemy.OnHit(key);
     }
@@ -397,6 +422,8 @@ public class PlayerController : MonoBehaviour
     // 玩家攻击位移
     IEnumerator Rush(Vector2 tarPos, Vector2 startPos)
     {
+        Debug.Log("进入斩杀阶段4");
+
         curTime = 0;// 重置当前计时
 
         // 切换玩家姿势
