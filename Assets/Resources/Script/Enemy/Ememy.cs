@@ -42,6 +42,10 @@ public class Enemy : MonoBehaviour
     {
         InitDict();
     }
+    public void OnEnable()
+    {
+        enemyCurrentPhase = enemyMaxPhase;
+    }
     public void Start()
     {
         InitializeHealthLetters(); // 内部初始化字母
@@ -138,18 +142,21 @@ public class Enemy : MonoBehaviour
     public void OnHit(char letter)
     {
         currentHealthLetters = currentHealthLetters.Replace(letter.ToString(), "");
+        Debug.Log("enter");
         //enemyLabel.text = currentHealthLetters;
         //AudioManager 
         //VFXManager 
         //转换阶段
         if (enemyCurrentPhase < enemyMaxPhase && isHighLight)
         {
+            Debug.Log("enter1");
             HighLightLetter(letter);
             ChangeToNextPhase();
         }
         else 
         {
             HighLightLetter(letter);
+            Debug.Log("enter2");
         }
     }
     //有图片后用
