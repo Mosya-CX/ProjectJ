@@ -22,8 +22,7 @@ public class GameManager : MonoBehaviour
         // 初始界面和场景
 
         // 测试
-        char test = (char)65;
-        print(test);
+        
     }
 
 

@@ -417,6 +417,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("进入斩杀阶段5");
         // 调用敌人的受击函数
         enemy.OnHit(key);
+        enemy.OnDeath();// 使敌人死亡
     }
 
     // 玩家攻击位移
