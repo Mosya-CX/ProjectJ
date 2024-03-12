@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 277006226}
   - component: {fileID: 277006225}
   - component: {fileID: 277006229}
+  - component: {fileID: 277006230}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -181,6 +182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curProgress: 0
+  Player: {fileID: 0}
 --- !u!4 &277006228
 Transform:
   m_ObjectHideFlags: 0
@@ -210,6 +212,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isShake: 0
   camPos: {fileID: 1187265671}
+--- !u!114 &277006230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 277006224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b6078ae0af0c07478b204e4b79ce6fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &358113140
 PrefabInstance:
   m_ObjectHideFlags: 0
