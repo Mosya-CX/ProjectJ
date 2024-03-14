@@ -9,9 +9,10 @@ using UnityEngine.UI;
 public enum PlayerState
 {
     None,
-    Search,// 寻路状态
+    PathFinding,// 寻路状态
     Fight,// 战斗状态
     Dead,// 死亡状态
+    StoryReading,// 读剧情中
 }
 
 public class PlayerController : MonoBehaviour
@@ -105,7 +106,7 @@ public class PlayerController : MonoBehaviour
                 // 优先判断特殊按键
                 if (Key == KeyCode.Escape)
                 {
-                    UIManager.Instance.OpenPanel<SettingPanel>("SettingPanel");// 打开设置界面
+                    UIManager.Instance.OpenPanel(UIConst.SettingUI);// 打开设置界面
                 }
                 else
                 {

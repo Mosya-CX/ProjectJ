@@ -13,12 +13,7 @@ MonoBehaviour:
   m_Name: Level01
   m_EditorClassIdentifier: 
   id: 0
-  BattleScene: {fileID: 0}
   PathFindingPreBg: {fileID: 0}
   PathFindingBg: {fileID: 0}
   turnDataList:
-  - isBossTurn: 0
-    Enemy1Num: 0
-    Enemy2Num: 0
-    Enemy3Num: 0
-    BossId: 0
+  - {fileID: 11400000, guid: f8073baea963b7748abd227dfeeb1e18, type: 2}

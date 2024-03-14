@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
         curProgress = 0;
 
         // 初始界面和场景
+        UIManager.Instance.OpenPanel(UIConst.LoginUI);
 
         // 绑定玩家信息
         //Player = GameObject.FindWithTag("Player");
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
         //    // 生成玩家预制体
         //    Player = GameObject.Instantiate(Resources.Load("Prefab/Character/Player")) as GameObject;
         //}
+
         // 测试
         
     }
