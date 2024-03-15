@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Turn01_01
-  m_EditorClassIdentifier: Assembly-CSharp::FightTurn
+  m_Script: {fileID: 11500000, guid: cefaf10765492fb4580b5eb209c69d20, type: 3}
+  m_Name: FightTurn01
+  m_EditorClassIdentifier: 
   TurnScene: {fileID: 0}
   BornPos: {x: 0, y: 0, z: 0}
   playerData: {fileID: 0}

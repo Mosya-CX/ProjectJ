@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Level01
   m_EditorClassIdentifier: 
   id: 0
-  PathFindingPreBg: {fileID: 0}
-  PathFindingBg: {fileID: 0}
   turnDataList:
-  - {fileID: 11400000, guid: f8073baea963b7748abd227dfeeb1e18, type: 2}
+  - {fileID: 11400000, guid: 1ccd214c64d50d1419bc7a9b33b95244, type: 2}
+  - {fileID: 11400000, guid: 1ccd214c64d50d1419bc7a9b33b95244, type: 2}

@@ -20,9 +20,9 @@ public class LevelManager : MonoBehaviour
     public int maxTurn;
     public int enemyNum;
 
-    public GameObject PathFindingPreBg;// 寻路前景
-    public GameObject PathFindingBg;// 寻路背景
+    public Dictionary<string, GameObject> loadedScene;// 记录已经加载过的场景
     public GameObject curScene;// 记录当前场景
+    public GameObject enemySpawnPoints;// 记录战斗场景的所有刷怪点的父节点
 
     public PlayerController playerData;// 记录玩家信息
 
@@ -33,7 +33,7 @@ public class LevelManager : MonoBehaviour
         curTurn = 0;
         maxTurn = 0;
         enemyNum = 0;
-
+        loadedScene = new Dictionary<string, GameObject>();
         playerData = GameManager.Instance.Player.GetComponent<PlayerController>();
     }
 
@@ -49,23 +49,13 @@ public class LevelManager : MonoBehaviour
         maxTurn = curLevelData.turnDataList.Count;
         enemyNum = 0;
 
-        // 重置场景
-        if (PathFindingBg != null)
+        if (enemySpawnPoints != null)
         {
-            Destroy(PathFindingPreBg);
+            Destroy(enemySpawnPoints);
         }
-        if (PathFindingBg != null)
-        {
-            Destroy(PathFindingBg);
-        }
-        if (curScene != null)
-        {
-            Destroy(curScene);
-        }
-        GameObject temp = Instantiate(curLevelData.PathFindingBg, ScenePos, Quaternion.identity);
-        temp.SetActive(false);
-        temp = Instantiate(PathFindingPreBg, ScenePos, Quaternion.identity);
-        temp.SetActive(false);
+
+        // 加载第一个场景
+        LoadTurn();
     }
 
     public void LoadTurn()
@@ -74,24 +64,24 @@ public class LevelManager : MonoBehaviour
         curTurnData = curLevelData.turnDataList[curTurn];
         curTurnData.playerData = playerData;
         curTurnData.ScenePos = ScenePos;
+        if (curTurnData is FightTurn)
+        {
+
+        }
+        else if (curTurnData is StoryTurn)
+        {
+
+        }
+        else if (curTurnData is BossTurn)
+        {
+
+        }
+        else if (curTurnData is PathFindingTurn)
+        {
+
+        }
         curTurnData.OnCreate();
 
-    }
-
-    public void LoadPathFinding()
-    {
-        // 加载背景
-        curScene.SetActive(false);
-        PathFindingBg.SetActive(true);
-
-        // 设置玩家位置
-
-        // 加载玩家动画
-
-        // 设置玩家状态
-        playerData.playerState = PlayerState.PathFinding;
-        // 延迟加载下一个Turn
-        StartCoroutine(AfterPathFinding());
     }
 
     // 获取当前关卡信息
@@ -126,20 +116,14 @@ public class LevelManager : MonoBehaviour
 
                 break;
             case PlayerState.PathFinding:
-                // 处理玩家物体移动逻辑
-
+                curTurnData.OnUpdate();
                 break;
         }
 
 
     }
 
-    IEnumerator AfterPathFinding()
-    {
-        yield return new WaitForSecondsRealtime(pathFindingDuration);
-
-        LoadTurn();
-    }
+ 
 
 }
 
