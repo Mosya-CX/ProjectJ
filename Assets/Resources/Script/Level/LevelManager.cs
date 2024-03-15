@@ -16,24 +16,24 @@ public class LevelManager : MonoBehaviour
     public LevelSO curLevelData;
     public TurnData curTurnData;
 
-    public int curTurn;
+    public int curTurn;// 记录当前Turn
     public int maxTurn;
-    public int enemyNum;
 
-    public Dictionary<string, GameObject> loadedScene;// 记录已经加载过的场景
     public GameObject curScene;// 记录当前场景
-    public GameObject enemySpawnPoints;// 记录战斗场景的所有刷怪点的父节点
+    public Dictionary<string, GameObject> loadedScene;// 记录已经加载过的场景
+    //public GameObject enemySpawnPoints;// 记录战斗场景的所有刷怪点的父节点
 
     public PlayerController playerData;// 记录玩家信息
 
-    public float pathFindingDuration;// 设置寻路休息时间
+    //public bool isLastTurn;
 
     private void Start()
     {
         curTurn = 0;
         maxTurn = 0;
-        enemyNum = 0;
-        loadedScene = new Dictionary<string, GameObject>();
+
+
+
         playerData = GameManager.Instance.Player.GetComponent<PlayerController>();
     }
 
@@ -46,14 +46,17 @@ public class LevelManager : MonoBehaviour
 
         // 初始化关卡数据
         curTurn = 0;
-        maxTurn = curLevelData.turnDataList.Count;
-        enemyNum = 0;
+        maxTurn = curLevelData.turnDataList.Count - 1;
 
-        if (enemySpawnPoints != null)
+        // 清空已经加载过的场景
+        if (curLevelData != null )
         {
-            Destroy(enemySpawnPoints);
+            foreach (GameObject scene in loadedScene.Values )
+            {
+                Destroy( scene );
+            }
+            loadedScene.Clear();
         }
-
         // 加载第一个场景
         LoadTurn();
     }
@@ -81,7 +84,7 @@ public class LevelManager : MonoBehaviour
 
         }
         curTurnData.OnCreate();
-
+        loadedScene.Add(curScene.name, curScene);
     }
 
     // 获取当前关卡信息

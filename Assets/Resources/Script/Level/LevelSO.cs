@@ -7,7 +7,7 @@ using UnityEngine;
 public class LevelSO : ScriptableObject
 {
     public int id;// 关卡id
-
+    
     public List<TurnData> turnDataList = new List<TurnData>();// 存储关卡波次信息
 }
 

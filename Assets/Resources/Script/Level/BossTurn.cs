@@ -7,8 +7,9 @@ using UnityEngine;
 public class BossTurn : TurnData
 {
     public GameObject BossPrefab;
-    public Queue<EnemyOrder> enemyOrder;// 出怪的顺序
-    public int curOrder = 0;
+    public List<EnemyOrder> enemyOrder;// 出怪的顺序
+    int curOrder;// 记录当前波次
+    public GameObject enemySpwanPoints;// 记录战斗场景的所有刷怪点的父节点
     public override void OnCreate()
     {
         base.OnCreate();
@@ -20,6 +21,14 @@ public class BossTurn : TurnData
 
     }
 
+    public override void OnUpdate()
+    {
+        base.OnUpdate();
+
+        // 生成敌人
+
+
+    }
 
 }
 
