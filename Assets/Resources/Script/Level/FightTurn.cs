@@ -28,6 +28,8 @@ public class FightTurn : TurnData
         if (spareEnemyNum <= OnceCreateNum )
         {
             // Éú³ÉµÐÈË
+
+
         }
 
     }

@@ -32,7 +32,7 @@ public class LevelManager : MonoBehaviour
         curTurn = 0;
         maxTurn = 0;
 
-
+        loadedScene =new Dictionary<string, GameObject>();
 
         playerData = GameManager.Instance.Player.GetComponent<PlayerController>();
     }
@@ -40,8 +40,10 @@ public class LevelManager : MonoBehaviour
 
 
     // 加载关卡信息
-    public void LoadLevel()
+    public void LoadLevel(string levelPath)
     {
+        GetCurLevelData(levelPath);
+
         // 重置玩家位置
 
         // 初始化关卡数据
@@ -49,7 +51,7 @@ public class LevelManager : MonoBehaviour
         maxTurn = curLevelData.turnDataList.Count - 1;
 
         // 清空已经加载过的场景
-        if (curLevelData != null )
+        if (loadedScene != null )
         {
             foreach (GameObject scene in loadedScene.Values )
             {
@@ -88,18 +90,17 @@ public class LevelManager : MonoBehaviour
     }
 
     // 获取当前关卡信息
-    public void GetCurLevelData(int curProgress)
+    public void GetCurLevelData(string levelPath)
     {
-        switch (curProgress)
+        if (levelPath == null)
         {
-            case 1:
-                curLevelData = Resources.Load(LevelPathConst.Level01Path) as LevelSO;
-                break;
-            default:
-                Debug.LogWarning("无当前游戏进程的关卡信息");
-                break;
+            Debug.LogWarning("路径为空:"+levelPath);
         }
-
+        curLevelData = Resources.Load(levelPath) as LevelSO;
+        if (curLevelData == null )
+        {
+            Debug.LogWarning("此路径下未找到Level相关数据:"+levelPath);
+        }
     }
 
     private void Update()
@@ -115,7 +116,7 @@ public class LevelManager : MonoBehaviour
                 break;
             case PlayerState.Fight:
                 curTurnData.OnUpdate();
-                // 判断场景里是否只剩下最后一个小怪且已经死亡
+                // 判断场景里是否只剩下最后一个小怪且即将死亡或者Boss即将死亡
 
                 break;
             case PlayerState.PathFinding:

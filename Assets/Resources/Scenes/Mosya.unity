@@ -887,6 +887,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3108780715225422804, guid: cb8ae9475891ca94aa0dcb8a9d95cb5b, type: 3}
+      propertyPath: UI
+      value: 
+      objectReference: {fileID: 411433907}
     - target: {fileID: 4073073914255437139, guid: cb8ae9475891ca94aa0dcb8a9d95cb5b, type: 3}
       propertyPath: Player
       value: 
@@ -933,7 +937,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6064439615023763672, guid: cb8ae9475891ca94aa0dcb8a9d95cb5b, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7488663901508010564, guid: cb8ae9475891ca94aa0dcb8a9d95cb5b, type: 3}
       propertyPath: m_Name

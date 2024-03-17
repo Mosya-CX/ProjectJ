@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
         curProgress = 0;
 
         // 初始界面和场景
-        UIManager.Instance.OpenPanel(UIConst.LoginUI);
+        //UIManager.Instance.OpenPanel(UIConst.LoginUI);
 
         // 绑定玩家信息
         //Player = GameObject.FindWithTag("Player");
@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
         //}
 
         // 测试
-        
+        LevelManager.Instance.LoadLevel(LevelPathConst.Level01Path);
     }
 
 

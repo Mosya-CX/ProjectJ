@@ -78,20 +78,20 @@ public class PlayerController : MonoBehaviour
         srFace = GetComponent<SpriteRenderer>();
 
         AttackArea = transform.Find("AttackArea").gameObject;
-        if (HpBar == null)
-        {
-            HpBar = GameObject.Find("UI/FightPanel/Top/StatusBar/HpBar").GetComponent<Slider>();
-        }
+        //if (HpBar == null)
+        //{
+        //    HpBar = GameObject.Find("UI/FightPanel/Top/StatusBar/HpBar").GetComponent<Slider>();
+        //}
         
-        HpBar.maxValue = maxHp;
-        HpBar.value = curHp;
-        HpBar.minValue = 0;
+        //HpBar.maxValue = maxHp;
+        //HpBar.value = curHp;
+        //HpBar.minValue = 0;
     }
 
     private void Update()
     {
         // 血条渐变
-        HpGradualVary();
+        //HpGradualVary();
 
         // 玩家输入检测
         foreach (KeyCode Key in System.Enum.GetValues(typeof(KeyCode)))
@@ -354,7 +354,7 @@ public class PlayerController : MonoBehaviour
     // 攻击范围检测
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Enemy" && !isAttack && !isSkip)
+        if (collision.tag == "Enemy")
         {
             // 添加进可攻击名单
             attackableEnemies.Add(collision.GetComponent<Enemy>());
@@ -362,7 +362,7 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == "Enemy" && !isAttack && !isSkip)
+        if (collision.tag == "Enemy")
         {
             // 重置敌人字母
             Enemy enemy = collision.GetComponent<Enemy>();
@@ -394,7 +394,7 @@ public class PlayerController : MonoBehaviour
         Vector2 tarPos = tarEnemy.transform.position;
         StartCoroutine(Rush(tarPos, gameObject.transform.position));
         // 延迟调用攻击效果
-        StartCoroutine(AttackEffect(totalTime - 0.05f, tarEnemy, lastKeyCode.ToString()[0]));
+        StartCoroutine(AttackEffect(totalTime * 0.75f, tarEnemy, lastKeyCode.ToString()[0]));
         // 调用Combo系统并增加连击次数
 
 
