@@ -38,7 +38,7 @@ public class ComboManager: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(200% 100);
+        
         //减小text大小的逻辑
         AddSizeCD -= Time.unscaledDeltaTime;
         if (AddSizeCD<=0 && ComboText.fontSize>=140)
