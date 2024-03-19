@@ -33,7 +33,12 @@ public class GameManager : MonoBehaviour
         //}
 
         // ≤‚ ‘
-        
+        GameObject testobj = GameObject.Find("Level01FightBg");
+        SpriteRenderer spr = testobj.GetComponent<SpriteRenderer>();
+        Sprite bgsp = spr.sprite;
+        Debug.Log(bgsp.bounds.size.x);
+        Debug.Log(bgsp.bounds.size.y);
+
     }
 
 

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.U2D.IK;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 public enum PlayerState
@@ -86,12 +86,15 @@ public class PlayerController : MonoBehaviour
         //HpBar.maxValue = maxHp;
         //HpBar.value = curHp;
         //HpBar.minValue = 0;
+
+        
     }
 
     private void Update()
     {
         // 血条渐变
         //HpGradualVary();
+
 
         // 玩家输入检测
         foreach (KeyCode Key in System.Enum.GetValues(typeof(KeyCode)))
