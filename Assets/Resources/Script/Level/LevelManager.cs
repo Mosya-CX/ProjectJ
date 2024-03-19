@@ -43,7 +43,7 @@ public class LevelManager : MonoBehaviour
     public void LoadLevel(string levelPath)
     {
         GetCurLevelData(levelPath);
-
+        Debug.Log("加载Level数据成功");
         // 重置玩家位置
 
         // 初始化关卡数据
@@ -61,6 +61,7 @@ public class LevelManager : MonoBehaviour
         }
         // 加载第一个场景
         LoadTurn();
+        Debug.Log("加载Turn数据成功");
     }
 
     public void LoadTurn()
@@ -110,16 +111,28 @@ public class LevelManager : MonoBehaviour
             case PlayerState.None:
                 break;
             case PlayerState.StoryReading:
+                if (curTurnData == null)
+                {
+                    Debug.LogWarning("当前场景数据为空");
+                }
                 curTurnData.OnUpdate();
                 // 检测剧情是否阅读结束
 
                 break;
             case PlayerState.Fight:
+                if (curTurnData ==  null)
+                {
+                    Debug.LogWarning("当前场景数据为空");
+                }
                 curTurnData.OnUpdate();
                 // 判断场景里是否只剩下最后一个小怪且即将死亡或者Boss即将死亡
 
                 break;
             case PlayerState.PathFinding:
+                if (curTurnData == null)
+                {
+                    Debug.LogWarning("当前场景数据为空");
+                }
                 curTurnData.OnUpdate();
                 break;
         }

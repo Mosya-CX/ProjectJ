@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
         //}
 
         // ≤‚ ‘
-        LevelManager.Instance.LoadLevel(LevelPathConst.Level01Path);
+        
     }
 
 

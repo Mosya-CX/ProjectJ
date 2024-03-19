@@ -721,7 +721,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 10
   curHp: 0
-  playerState: 2
+  playerState: 0
   skipSpeed: 0
   attackSpeed: 0
   slowRate: 0.5
