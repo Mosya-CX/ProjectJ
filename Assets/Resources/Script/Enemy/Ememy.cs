@@ -98,7 +98,7 @@ public class Enemy : MonoBehaviour
         currentHealthLetters = originalHealthLetters;
     }
     //根据字母初始化图片
-    public void InitializeLetterImages()
+    virtual public void InitializeLetterImages()
     {
         if (originalHealthLetters.Length != letterImages.Count)
         {
@@ -180,7 +180,7 @@ public class Enemy : MonoBehaviour
     {
 
     }
-    public void ResetImage()
+    virtual public void ResetImage()
     {
         currentHealthLetters = originalHealthLetters;
         isHighLight = false;
