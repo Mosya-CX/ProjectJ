@@ -18,7 +18,7 @@ public enum PlayerState
 public class PlayerController : MonoBehaviour
 {
     // 玩家变量
-    public float maxHp;
+    public float maxHp = 100;
     public float curHp;
     //public float maxEndurance;
     //public float curEndurance;
@@ -78,14 +78,14 @@ public class PlayerController : MonoBehaviour
         srFace = GetComponent<SpriteRenderer>();
 
         AttackArea = transform.Find("AttackArea").gameObject;
-        //if (HpBar == null)
-        //{
-        //    HpBar = GameObject.Find("UI/FightPanel/Top/StatusBar/HpBar").GetComponent<Slider>();
-        //}
+        if (HpBar == null)
+        {
+            HpBar = GameObject.Find("UI/FightPanel/Top/StatusBar/HpBar").GetComponent<Slider>();
+        }
         
-        //HpBar.maxValue = maxHp;
-        //HpBar.value = curHp;
-        //HpBar.minValue = 0;
+        HpBar.maxValue = maxHp;
+        HpBar.value = curHp;
+        HpBar.minValue = 0;
 
         
     }
@@ -93,8 +93,10 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         // 血条渐变
-        //HpGradualVary();
-
+        if (HpBar!= null)
+        {
+            HpGradualVary();
+        }
 
         // 玩家输入检测
         foreach (KeyCode Key in System.Enum.GetValues(typeof(KeyCode)))
