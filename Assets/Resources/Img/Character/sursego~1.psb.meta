@@ -1,0 +1,801 @@
+fileFormatVersion: 2
+guid: e8c54a24b3ec1a246af881fae70d348b
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: b2a9591990af98743ba3ff7cf1000886, type: 3}
+  textureImporterSettings:
+    alphaSource: 1
+    mipMapMode: 0
+    enableMipMap: 1
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+    convertToNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+    swizzle: 50462976
+    isReadable: 0
+    streamingMipmaps: 1
+    streamingMipmapsPriority: 0
+    vTOnly: 0
+    ignoreMipmapLimit: 0
+    nPOTScale: 1
+    sRGBTexture: 1
+    spriteMode: 2
+    spriteExtrude: 1
+    spriteMeshType: 1
+    alignment: 0
+    spritePivot: {x: 0.5, y: 0.5}
+    spritePixelsToUnits: 100
+    spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+    spriteGenerateFallbackPhysicsShape: 0
+    generateCubemap: 6
+    cubemapConvolution: 0
+    seamlessCubemap: 0
+    alphaIsTransparency: 1
+    spriteTessellationDetail: -1
+    textureType: 8
+    textureShape: 1
+    singleChannelComponent: 0
+    flipbookRows: 0
+    flipbookColumns: 0
+    ignorePngGamma: 0
+    cookieMode: 0
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
+    normalMap: 0
+    textureFormat: 0
+    maxTextureSize: 0
+    lightmap: 0
+    compressionQuality: 0
+    linearTexture: 0
+    grayScaleToAlpha: 0
+    rGBM: 0
+    cubemapConvolutionSteps: 0
+    cubemapConvolutionExponent: 0
+    maxTextureSizeSet: 0
+    compressionQualitySet: 0
+    textureFormatSet: 0
+    applyGammaDecoding: 0
+  spriteImportData:
+  - name: 
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    spriteID: 
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+    spritePosition: {x: 0, y: 0}
+  mosaicSpriteImportData: []
+  rigSpriteImportData:
+  - name: "biaoqing \u526F\u672C"
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 544
+      y: 718
+      width: 234
+      height: 120
+    spriteID: 5998f99bfa7550c49ae652575cfdf7c9
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 544, y: 718}
+    spritePosition: {x: 266, y: 488}
+  - name: "jiao \u526F\u672C"
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 726
+      y: 4
+      width: 280
+      height: 246
+    spriteID: 8f2dbc49cba39ab4aa467cf35414ea8e
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 726, y: 4}
+    spritePosition: {x: 226, y: 606}
+  - name: "qian2 \u526F\u672C"
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 1462
+      width: 134
+      height: 254
+    spriteID: 1794250a7a5f62a45b151379222c017c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 1462}
+    spritePosition: {x: 320, y: 512}
+  - name: "qian3 \u526F\u672C"
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 338
+      y: 310
+      width: 368
+      height: 254
+    spriteID: a2392524dd88d7d469fb1f5295ef19cd
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 338, y: 310}
+    spritePosition: {x: 300, y: 556}
+  - name: "qian4 \u526F\u672C"
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 1724
+      width: 136
+      height: 210
+    spriteID: 7c0d303e19d306c44ba31e0e588c38e9
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 1724}
+    spritePosition: {x: 446, y: 466}
+  - name: "qian1 \u526F\u672C"
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 1198
+      width: 170
+      height: 256
+    spriteID: fb48bfa7cb4c1ea4f8a2e173ce7af538
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 1198}
+    spritePosition: {x: 190, y: 510}
+  - name: "zhong \u526F\u672C"
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 830
+      width: 204
+      height: 360
+    spriteID: e49aefc05730feb42af9ad1300a1fd3c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 830}
+    spritePosition: {x: 420, y: 378}
+  - name: "lian \u526F\u672C"
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 338
+      y: 4
+      width: 380
+      height: 298
+    spriteID: a219567c97578d14fb13c5ba228b5166
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 338, y: 4}
+    spritePosition: {x: 220, y: 456}
+  - name: "hou3 \u526F\u672C"
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 460
+      width: 326
+      height: 362
+    spriteID: 1b45b8e5aacd1e24482137a869cd184d
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 460}
+    spritePosition: {x: 486, y: 526}
+  - name: "shenti \u526F\u672C"
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 714
+      y: 310
+      width: 182
+      height: 222
+    spriteID: 70abcdb59e71e81409b486fcb3bdf254
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 714, y: 310}
+    spritePosition: {x: 314, y: 272}
+  - name: "zuo1 \u526F\u672C"
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 904
+      y: 436
+      width: 84
+      height: 126
+    spriteID: f82054281990467419aee9af72aeaeab
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 904, y: 436}
+    spritePosition: {x: 256, y: 266}
+  - name: "zuo2 \u526F\u672C"
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 216
+      y: 956
+      width: 100
+      height: 98
+    spriteID: 93bff7705cc7ef747947db4880aa6fb2
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 216, y: 956}
+    spritePosition: {x: 294, y: 352}
+  - name: "you1 \u526F\u672C"
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 904
+      y: 310
+      width: 94
+      height: 118
+    spriteID: b5775fc255ec0e548974668b1385fc8b
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 904, y: 310}
+    spritePosition: {x: 446, y: 296}
+  - name: "you2 \u526F\u672C"
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 216
+      y: 1062
+      width: 114
+      height: 78
+    spriteID: ef53c95beef74cb4da6bef415f6df5df
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 216, y: 1062}
+    spritePosition: {x: 412, y: 376}
+  - name: "you3 \u526F\u672C"
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 1942
+      width: 160
+      height: 102
+    spriteID: d88de38852d21ba46b3505456a9e8d12
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 1942}
+    spritePosition: {x: 330, y: 224}
+  - name: "you4 \u526F\u672C"
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 182
+      y: 1198
+      width: 138
+      height: 148
+    spriteID: 01a0bc21a20994e4b9c029a2da6464ab
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 182, y: 1198}
+    spritePosition: {x: 402, y: 112}
+  - name: "zuo3 \u526F\u672C"
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 216
+      y: 830
+      width: 86
+      height: 118
+    spriteID: fce564a6a9d2da847a8f6df3e37d1bc8
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 216, y: 830}
+    spritePosition: {x: 314, y: 226}
+  - name: "zuo4 \u526F\u672C"
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 338
+      y: 572
+      width: 444
+      height: 138
+    spriteID: 1edcee34ee5cb3142a215d778def8bbc
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 338, y: 572}
+    spritePosition: {x: 304, y: 122}
+  - name: "hou2 \u526F\u672C"
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 326
+      height: 448
+    spriteID: e93371736aeacae43b3440d25307c825
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 4}
+    spritePosition: {x: 388, y: 242}
+  - name: "hou1 \u526F\u672C"
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 338
+      y: 718
+      width: 198
+      height: 164
+    spriteID: c688e4aa09a3cd24a81730dee776753a
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 338, y: 718}
+    spritePosition: {x: 204, y: 412}
+  characterData:
+    bones: []
+    parts: []
+    dimension: {x: 0, y: 0}
+    characterGroups: []
+    pivot: {x: 0, y: 0}
+    boneReadOnly: 0
+  sharedRigSpriteImportData: []
+  sharedRigCharacterData:
+    bones: []
+    parts: []
+    dimension: {x: 0, y: 0}
+    characterGroups: []
+    pivot: {x: 0, y: 0}
+    boneReadOnly: 0
+  platformSettings: []
+  mosaicLayers: 1
+  characterMode: 1
+  documentPivot: {x: 0, y: 0}
+  documentAlignment: 7
+  importHiddenLayers: 0
+  layerMappingOption: 2
+  generatePhysicsShape: 0
+  paperDollMode: 0
+  keepDupilcateSpriteName: 1
+  skeletonAssetReferenceID: 
+  padding: 4
+  spriteSizeExpand: 0
+  spriteCategoryList:
+    categories: []
+  spritePackingTag: 
+  resliceFromLayer: 0
+  mosaicPSDLayers: []
+  rigPSDLayers:
+  - name: "1 \u526F\u672C"
+    spriteName: 
+    isGroup: 1
+    parentIndex: -1
+    spriteID: 7b074446f55845c4499a0959de01fb6d
+    layerID: 0
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: "\u7EC4 4 \u526F\u672C"
+    spriteName: 
+    isGroup: 1
+    parentIndex: 0
+    spriteID: 660aa95552600d543a7126253d56f7f5
+    layerID: -913786297
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: "biaoqing \u526F\u672C"
+    spriteName: "biaoqing \u526F\u672C"
+    isGroup: 0
+    parentIndex: 1
+    spriteID: 5998f99bfa7550c49ae652575cfdf7c9
+    layerID: -360395905
+    mosaicPosition: {x: 544, y: 718}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: "jiao \u526F\u672C"
+    spriteName: "jiao \u526F\u672C"
+    isGroup: 0
+    parentIndex: 1
+    spriteID: 8f2dbc49cba39ab4aa467cf35414ea8e
+    layerID: -1142694306
+    mosaicPosition: {x: 726, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: "qian2 \u526F\u672C"
+    spriteName: "qian2 \u526F\u672C"
+    isGroup: 0
+    parentIndex: 1
+    spriteID: 1794250a7a5f62a45b151379222c017c
+    layerID: 2047118414
+    mosaicPosition: {x: 4, y: 1462}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: "qian3 \u526F\u672C"
+    spriteName: "qian3 \u526F\u672C"
+    isGroup: 0
+    parentIndex: 1
+    spriteID: a2392524dd88d7d469fb1f5295ef19cd
+    layerID: 2047118447
+    mosaicPosition: {x: 338, y: 310}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: "qian4 \u526F\u672C"
+    spriteName: "qian4 \u526F\u672C"
+    isGroup: 0
+    parentIndex: 1
+    spriteID: 7c0d303e19d306c44ba31e0e588c38e9
+    layerID: 2047118356
+    mosaicPosition: {x: 4, y: 1724}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: "qian1 \u526F\u672C"
+    spriteName: "qian1 \u526F\u672C"
+    isGroup: 0
+    parentIndex: 1
+    spriteID: fb48bfa7cb4c1ea4f8a2e173ce7af538
+    layerID: 2047118257
+    mosaicPosition: {x: 4, y: 1198}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: "zhong \u526F\u672C"
+    spriteName: "zhong \u526F\u672C"
+    isGroup: 0
+    parentIndex: 1
+    spriteID: e49aefc05730feb42af9ad1300a1fd3c
+    layerID: -1072177565
+    mosaicPosition: {x: 4, y: 830}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: "lian \u526F\u672C"
+    spriteName: "lian \u526F\u672C"
+    isGroup: 0
+    parentIndex: 1
+    spriteID: a219567c97578d14fb13c5ba228b5166
+    layerID: 1807535269
+    mosaicPosition: {x: 338, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: "hou3 \u526F\u672C"
+    spriteName: "hou3 \u526F\u672C"
+    isGroup: 0
+    parentIndex: 1
+    spriteID: 1b45b8e5aacd1e24482137a869cd184d
+    layerID: 1754265954
+    mosaicPosition: {x: 4, y: 460}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: "\u7EC4 3 \u526F\u672C"
+    spriteName: 
+    isGroup: 1
+    parentIndex: 0
+    spriteID: 868aa93e7638b0c42a84ce2d4040cf5b
+    layerID: -913785430
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: "shenti \u526F\u672C"
+    spriteName: "shenti \u526F\u672C"
+    isGroup: 0
+    parentIndex: 11
+    spriteID: 70abcdb59e71e81409b486fcb3bdf254
+    layerID: -496669244
+    mosaicPosition: {x: 714, y: 310}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: "zuo1 \u526F\u672C"
+    spriteName: "zuo1 \u526F\u672C"
+    isGroup: 0
+    parentIndex: 11
+    spriteID: f82054281990467419aee9af72aeaeab
+    layerID: -477189566
+    mosaicPosition: {x: 904, y: 436}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: "zuo2 \u526F\u672C"
+    spriteName: "zuo2 \u526F\u672C"
+    isGroup: 0
+    parentIndex: 11
+    spriteID: 93bff7705cc7ef747947db4880aa6fb2
+    layerID: -618352067
+    mosaicPosition: {x: 216, y: 956}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: "you1 \u526F\u672C"
+    spriteName: "you1 \u526F\u672C"
+    isGroup: 0
+    parentIndex: 11
+    spriteID: b5775fc255ec0e548974668b1385fc8b
+    layerID: -1336970007
+    mosaicPosition: {x: 904, y: 310}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: "you2 \u526F\u672C"
+    spriteName: "you2 \u526F\u672C"
+    isGroup: 0
+    parentIndex: 11
+    spriteID: ef53c95beef74cb4da6bef415f6df5df
+    layerID: 1895954424
+    mosaicPosition: {x: 216, y: 1062}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: "you3 \u526F\u672C"
+    spriteName: "you3 \u526F\u672C"
+    isGroup: 0
+    parentIndex: 11
+    spriteID: d88de38852d21ba46b3505456a9e8d12
+    layerID: 1754791923
+    mosaicPosition: {x: 4, y: 1942}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: "you4 \u526F\u672C"
+    spriteName: "you4 \u526F\u672C"
+    isGroup: 0
+    parentIndex: 11
+    spriteID: 01a0bc21a20994e4b9c029a2da6464ab
+    layerID: -1760457510
+    mosaicPosition: {x: 182, y: 1198}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: "zuo3 \u526F\u672C"
+    spriteName: "zuo3 \u526F\u672C"
+    isGroup: 0
+    parentIndex: 11
+    spriteID: fce564a6a9d2da847a8f6df3e37d1bc8
+    layerID: -759514568
+    mosaicPosition: {x: 216, y: 830}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: "zuo4 \u526F\u672C"
+    spriteName: "zuo4 \u526F\u672C"
+    isGroup: 0
+    parentIndex: 11
+    spriteID: 1edcee34ee5cb3142a215d778def8bbc
+    layerID: -900677069
+    mosaicPosition: {x: 338, y: 572}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: "hou2 \u526F\u672C"
+    spriteName: "hou2 \u526F\u672C"
+    isGroup: 0
+    parentIndex: 0
+    spriteID: e93371736aeacae43b3440d25307c825
+    layerID: 1895428455
+    mosaicPosition: {x: 4, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: "hou1 \u526F\u672C"
+    spriteName: "hou1 \u526F\u672C"
+    isGroup: 0
+    parentIndex: 0
+    spriteID: c688e4aa09a3cd24a81730dee776753a
+    layerID: -1337495976
+    mosaicPosition: {x: 338, y: 718}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: "\u7EB8\u5F20"
+    spriteName: 
+    isGroup: 0
+    parentIndex: -1
+    spriteID: fd43685618b5eed44841637253be427a
+    layerID: -2059958122
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 0
+  sharedRigPSDLayers: []
+  pSDLayerImportSetting: []
+  importFileNodeState: 1
+  platformSettingsDirtyTick: 0
+  spriteSizeExpandChanged: 0
+  generateGOHierarchy: 0
+  textureAssetName: 
+  prefabAssetName: 
+  spriteLibAssetName: 
+  skeletonAssetName: 
+  secondarySpriteTextures: []
