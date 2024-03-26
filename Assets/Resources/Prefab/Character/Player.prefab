@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8544119674310586708}
   - component: {fileID: 2657577500896115475}
   - component: {fileID: 8643815233306554451}
+  - component: {fileID: 687080965109465907}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -94,6 +95,41 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!70 &687080965109465907
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3356989222068974269}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.042912822, y: 0.20741364}
+  m_Size: {x: 1.0858269, y: 0.65669674}
+  m_Direction: 1
 --- !u!1 &5617154819071229186
 GameObject:
   m_ObjectHideFlags: 0
