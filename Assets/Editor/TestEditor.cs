@@ -10,4 +10,12 @@ public class TestEditor
     {
         LevelManager.Instance.LoadLevel(LevelPathConst.Level01Path);
     }
+    [MenuItem("≤‚ ‘/Ã·π©µ–»À")]
+    public static void Enemy()
+    {
+        EnemyManager.Instance.CreateEnemy01(new Vector3(0,0, 0));
+        EnemyManager.Instance.CreateEnemy02(new Vector3(0, 2, 2));
+        EnemyManager.Instance.CreateEnemy03(new Vector3(0, 4, 4));
+
+    }
 }

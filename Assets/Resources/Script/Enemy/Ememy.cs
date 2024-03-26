@@ -127,10 +127,6 @@ public class Enemy : MonoBehaviour
     //受击
     public void OnHit(char letter)
     {
-        if (!HasFirstLetter(letter))
-        {
-            return;
-        }
         Debug.Log("enter");
         //enemyLabel.text = currentHealthLetters;
         //AudioManager 
@@ -151,14 +147,13 @@ public class Enemy : MonoBehaviour
     //点亮字母
     public void HighLightLetter(char keyPressed)
     {
-        if (HasFirstLetter(keyPressed))
-        {
+
             Debug.Log("enter3");
             int index = originalHealthLetters.IndexOf(keyPressed);
             letterImages[index].sprite = highLightLetterDict[keyPressed];
             isHighLight = true;
             currentHealthLetters = currentHealthLetters.Replace(keyPressed.ToString(), "");
-        }
+
     }
     public void ChangeToNextPhase()
     {
