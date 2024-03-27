@@ -18,6 +18,9 @@ public class Enemy : MonoBehaviour
     public static Dictionary<char, Sprite> normalLetterDict;
     //高亮字母图片字典
     public static Dictionary<char, Sprite> highLightLetterDict;
+    //无双图片
+    public static Sprite matchLessNormalSprite;
+    public static Sprite matchLessHighLightSprite;
     //池子
     public Pool owner;
     //字母数量
@@ -29,12 +32,14 @@ public class Enemy : MonoBehaviour
     public int enemyCurrentPhase;
     //敌人是否可以斩杀
     public bool CanExeCute => enemyCurrentPhase == enemyMaxPhase && isHighLight;
+    //是否处于无双状态
+    public bool IsMathchlessMode => currentHealthLetters[0] == '~';
     public bool dead=false;
     //当前是否有高亮的字母
     public bool isHighLight=false;
     //伤害
     public int damage;
-    public void Awake()
+    virtual public void Awake()
     {
         InitDict();
     }
@@ -44,6 +49,11 @@ public class Enemy : MonoBehaviour
     }
     public void Start()
     {
+        //初始化无双图片
+        string normalPath = "Img/Character/Normal/" + '~';
+        string highlightedPath = "Img/Character/Highlight/" + '~';
+        matchLessNormalSprite = Resources.Load<Sprite>(normalPath);
+        matchLessHighLightSprite = Resources.Load<Sprite>(highlightedPath);
         InitializeHealthLetters(); // 内部初始化字母
         //根据字母初始化图片
         InitializeLetterImages();
@@ -145,15 +155,13 @@ public class Enemy : MonoBehaviour
         }
     }
     //点亮字母
-    public void HighLightLetter(char keyPressed)
+    virtual public void HighLightLetter(char keyPressed)
     {
-
-            Debug.Log("enter3");
-            int index = originalHealthLetters.IndexOf(keyPressed);
-            letterImages[index].sprite = highLightLetterDict[keyPressed];
-            isHighLight = true;
-            currentHealthLetters = currentHealthLetters.Replace(keyPressed.ToString(), "");
-
+        Debug.Log("enter3");
+        int index = originalHealthLetters.IndexOf(keyPressed);
+        letterImages[index].sprite = highLightLetterDict[keyPressed];
+        isHighLight = true;
+        currentHealthLetters = currentHealthLetters.Replace(keyPressed.ToString(), "");
     }
     public void ChangeToNextPhase()
     {
@@ -180,6 +188,14 @@ public class Enemy : MonoBehaviour
         currentHealthLetters = originalHealthLetters;
         isHighLight = false;
         InitializeLetterImages();
+    }
+    virtual public void ChangeToMatchlessMode()
+    {
+
+    }
+    virtual public void ChangeToNormalMode()
+    {
+
     }
     //void OnTriggerExit2D(Collider2D other)
     //{
