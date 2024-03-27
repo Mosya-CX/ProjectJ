@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public enum PlayerState
 {
@@ -75,7 +76,7 @@ public class PlayerController : MonoBehaviour
         // playerState = PlayerState.None;
 
         rb = GetComponent<Rigidbody2D>();
-        srFace = GetComponent<SpriteRenderer>();
+        srFace = GetComponentInChildren<SpriteRenderer>();
 
         AttackArea = transform.Find("AttackArea").gameObject;
         if (HpBar == null)
@@ -380,10 +381,25 @@ public class PlayerController : MonoBehaviour
     // 攻击范围检测
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Enemy")
+        if (collision.tag == "Enemy" && !isAttack)
         {
             // 添加进可攻击名单
-            attackableEnemies.Add(collision.GetComponent<Enemy>());
+            if (!attackableEnemies.Contains(collision.GetComponent<Enemy>()))
+            {
+                attackableEnemies.Add(collision.GetComponent<Enemy>());
+            }
+            
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.tag == "Enemy" && !isAttack)
+        {
+            // 添加进可攻击名单
+            if (!attackableEnemies.Contains(collision.GetComponent<Enemy>()))
+            {
+                attackableEnemies.Add(collision.GetComponent<Enemy>());
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -416,6 +432,13 @@ public class PlayerController : MonoBehaviour
         {
             srFace.flipX = false;
         }
+
+        //tarEnemy.OnHit(lastKeyCode.ToString()[0]);
+        //tarEnemy.OnDeath();// 使敌人死亡
+
+        // 将敌人从可攻击名单中移除
+        attackableEnemies.Remove(tarEnemy);
+
         // 进行位移
         Vector2 tarPos = tarEnemy.transform.position;
         StartCoroutine(Rush(tarPos, gameObject.transform.position));
@@ -423,8 +446,7 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(AttackEffect(totalTime * 0.75f, tarEnemy, lastKeyCode.ToString()[0]));
         // 调用Combo系统并增加连击次数
 
-
-        tar.RemoveAt(0);// 从斩杀名单中移除
+        tar.Remove(tarEnemy);// 从斩杀名单中移除
     }
 
     // 玩家攻击效果
@@ -439,8 +461,6 @@ public class PlayerController : MonoBehaviour
         // 屏幕抖动效果
         AttackMoment.Instance.CamShake();
 
-        // 将敌人从可攻击名单中移除
-        attackableEnemies.Remove(enemy);
         Debug.Log("进入斩杀阶段5");
         // 调用敌人的受击函数
         enemy.OnHit(key);
