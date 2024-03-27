@@ -11,6 +11,7 @@ public class CameraControl : MonoBehaviour
     private GameObject target;//记录相机要跟随的对象
     public GameObject Player;
     public float smooth;//柔滑度
+    private GameObject curScene;
 
     // Start is called before the first frame update
     void Start()
@@ -23,27 +24,31 @@ public class CameraControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (target != null)//跟随Target
+        if (target != null&&curScene!=null)//跟随Target
         {
             if (transform.position != target.transform.position)
             {
                 //对x和y坐标进行限制
-                //float x=Mathf.Clamp(target.transform.position.x，地图左边缘x加上一半摄像机x，地图右边缘x减去一半摄像机x);
-                //float y=Mathf.Clamp(target.transform.position.y，地图下边缘y加上一半摄像机y，地图上边缘y加去一半摄像机y);
+                float x = Mathf.Clamp(target.transform.position.x, -curScene.GetComponent<SpriteRenderer>().sprite.bounds.size.x/2 + GameManager.Instance.viewWidth / 2,/*地图左边缘x加上一半摄像机x*/
+                    curScene.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2 - GameManager.Instance.viewWidth / 2/*地图右边缘x减去一半摄像机x*/);
+                float y = Mathf.Clamp(target.transform.position.y, -curScene.GetComponent<SpriteRenderer>().bounds.size.x / 2 + GameManager.Instance.viewHeight / 2,/*地图下边缘y加上一半摄像机y*/
+                      curScene.GetComponent<SpriteRenderer>().sprite.bounds.size.y/2 - GameManager.Instance.viewHeight / 2/*地图上边缘y加去一半摄像机y */);
                 //再进行lerp
-                //transform.position = Vector2.Lerp(transform.position, new Vector3(x,y,-10), smooth);
+                transform.position = Vector2.Lerp(transform.position, new Vector3(x, y, -10), smooth);
             }
         }
-        if (target == null )//移动到某个指定点
+        if (target == null&&curScene!=null )//移动到某个指定点
         {
-            
-            if(transform.position != Position)
+
+            if (transform.position != Position)
             {
                 //对x和y坐标进行限制
-                //float x=Mathf.Clamp(Position.x，地图左边缘x加上一半摄像机x，地图右边缘x减去一半摄像机x);
-                //float y=Mathf.Clamp(Position.y，地图下边缘y加上一半摄像机y，地图上边缘y加去一半摄像机y);
+                float x = Mathf.Clamp(target.transform.position.x, -curScene.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2 + GameManager.Instance.viewWidth / 2,/*地图左边缘x加上一半摄像机x*/
+                   curScene.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2 - GameManager.Instance.viewWidth / 2/*地图右边缘x减去一半摄像机x*/);
+                float y = Mathf.Clamp(target.transform.position.y, -curScene.GetComponent<SpriteRenderer>().bounds.size.x / 2 + GameManager.Instance.viewHeight / 2,/*地图下边缘y加上一半摄像机y*/
+                      curScene.GetComponent<SpriteRenderer>().sprite.bounds.size.y / 2 - GameManager.Instance.viewHeight / 2/*地图上边缘y加去一半摄像机y */);
                 //再进行lerp
-                //transform.position = Vector2.Lerp(transform.position, new Vector3(x,y,-10), smooth);
+                transform.position = Vector2.Lerp(transform.position, new Vector3(x, y, -10), smooth);
             }
         }
     }
@@ -71,6 +76,14 @@ public class CameraControl : MonoBehaviour
         target = null;
         Position = changePosition;
 
+    }
+    public void GetCursceneAndEnable(GameObject Curscene)//获取curscene，并且启动摄像机跟随
+    {
+        curScene = Curscene;
+    }
+    public void DeleteCursceneAndStop()//关闭摄像机跟随
+    {
+        curScene = null;
     }
 
 }

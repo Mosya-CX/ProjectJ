@@ -25,5 +25,6 @@ public class TestPlayer : MonoBehaviour
         {
             TimeManager.TimeOut(false); //不是combo导致的暂停
         }
+
     }
 }
