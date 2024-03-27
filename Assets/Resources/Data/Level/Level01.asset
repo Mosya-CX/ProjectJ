@@ -15,3 +15,5 @@ MonoBehaviour:
   id: 0
   turnDataList:
   - {fileID: 11400000, guid: 1ccd214c64d50d1419bc7a9b33b95244, type: 2}
+  - {fileID: 11400000, guid: 1601a1f77711d914591d71a719c3fa77, type: 2}
+  - {fileID: 11400000, guid: 1ccd214c64d50d1419bc7a9b33b95244, type: 2}
