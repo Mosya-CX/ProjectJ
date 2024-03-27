@@ -15,11 +15,17 @@ public class GameManager : MonoBehaviour
     public int curProgress;
     // 储存玩家信息
     public GameObject Player;
+    // 存储摄像机相关信息
+    public float viewHeight;
+    public float viewWidth;
 
     private void Start()
     {
         // 初始化变量
         curProgress = 0;
+
+        viewHeight = Camera.main.orthographicSize * 2;
+        viewWidth = viewHeight * Camera.main.aspect;
 
         // 初始界面和场景
         //UIManager.Instance.OpenPanel(UIConst.LoginUI);
@@ -33,11 +39,7 @@ public class GameManager : MonoBehaviour
         //}
 
         // 测试
-        GameObject testobj = GameObject.Find("Level01FightBg");
-        SpriteRenderer spr = testobj.GetComponent<SpriteRenderer>();
-        Sprite bgsp = spr.sprite;
-        Debug.Log(bgsp.bounds.size.x);
-        Debug.Log(bgsp.bounds.size.y);
+        
 
     }
 

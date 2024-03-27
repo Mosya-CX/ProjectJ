@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     public Transform UI;// 绑定ui画布
-    List<BasePanel> UIList;// ui界面存储
+    public List<BasePanel> UIList;// ui界面存储
 
     private void Awake()
     {
@@ -69,6 +69,22 @@ public class UIManager : MonoBehaviour
             }
         }
         return null;
+    }
+    public bool isAvailable(string uiName)
+    {
+        BasePanel panel = FindPanel(uiName);
+        if (panel == null)
+        {
+            return false;
+        }
+        if (panel.gameObject.activeSelf)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 }

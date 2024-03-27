@@ -7,15 +7,16 @@ public class StoryTurn : TurnData
 {
     public List<string> Dialogue;
     int index;
-    public override void OnCreate()
+    public override GameObject OnCreate()
     {
-        base.OnCreate();
+        GameObject obj = base.OnCreate();
 
         index = 0;
 
         GameManager.Instance.Player.GetComponent<PlayerController>().playerState = PlayerState.StoryReading;
         // ≤•∑≈œ‡”¶bgm
 
+        return obj;
     }
 
     public override void OnUpdate()
