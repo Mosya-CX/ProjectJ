@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cefaf10765492fb4580b5eb209c69d20, type: 3}
+  m_Name: FightTurn01
+  m_EditorClassIdentifier: 
+  TurnScene: {fileID: 2835299641056527194, guid: 16dfbbfa80299e942bbab76de8cb476d, type: 3}
+  BornPos: {x: 0, y: 0, z: 0}
+  playerData: {fileID: 0}
+  parent: {fileID: 0}
+  isOver: 0
+  enemySpwanPoints: {fileID: 7433004147033412168, guid: 16dfbbfa80299e942bbab76de8cb476d, type: 3}
+  totalEnemyNum: 100
+  createDuration: 3
+  startDuration: 5
+  endDuration: 10
+  OnceCreateNum: 4
+  curEnemyNum: 4
+  spareEnemyNum: 96
+  Timer: 1.9677669
+  isStart: 1

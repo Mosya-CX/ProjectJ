@@ -3,21 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.U2D.IK;
+using UnityEngine.AI;
 using UnityEngine.UI;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public enum PlayerState
 {
     None,
-    Search,// 寻路状态
+    PathFinding,// 寻路状态
     Fight,// 战斗状态
     Dead,// 死亡状态
+    StoryReading,// 读剧情中
 }
 
 public class PlayerController : MonoBehaviour
 {
     // 玩家变量
-    public float maxHp;
+    public float maxHp = 100;
     public float curHp;
     //public float maxEndurance;
     //public float curEndurance;
@@ -45,6 +47,8 @@ public class PlayerController : MonoBehaviour
     KeyCode lastKeyCode;
     // 绑定玩家血条ui
     public Slider HpBar;
+    // 绑定玩家攻击范围判断触发器物体
+    public GameObject AttackArea;
     // 获得玩家刚体组件
     public Rigidbody2D rb;
     // 判断朝向
@@ -69,11 +73,12 @@ public class PlayerController : MonoBehaviour
 
         curTime = 0;
 
-        playerState = PlayerState.None;
+        // playerState = PlayerState.None;
 
         rb = GetComponent<Rigidbody2D>();
-        srFace = GetComponent<SpriteRenderer>();
+        srFace = GetComponentInChildren<SpriteRenderer>();
 
+        AttackArea = transform.Find("AttackArea").gameObject;
         if (HpBar == null)
         {
             HpBar = GameObject.Find("UI/FightPanel/Top/StatusBar/HpBar").GetComponent<Slider>();
@@ -82,228 +87,366 @@ public class PlayerController : MonoBehaviour
         HpBar.maxValue = maxHp;
         HpBar.value = curHp;
         HpBar.minValue = 0;
+
+        
     }
 
     private void Update()
     {
-        // 血条渐变
-        HpGradualVary();
+        
 
-        // 玩家输入检测
-        foreach (KeyCode Key in System.Enum.GetValues(typeof(KeyCode)))
+        // 优先判断特殊按键
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            
-            // 检测是什么按键
-            if (Input.GetKeyDown(Key))
+            if (UIManager.Instance.isAvailable(UIConst.SettingUI))
             {
-                
-                lastKeyCode = Key;// 储存最后按下的键位
+                UIManager.Instance.ClosePanel(UIConst.SettingUI);
+            }
+            else
+            {
+                UIManager.Instance.OpenPanel(UIConst.SettingUI);// 打开设置界面
+            }
+        }
 
-                // 优先判断特殊按键
-                if (Key == KeyCode.Escape)
+        switch (playerState)
+        {
+            case PlayerState.None: break;
+            case PlayerState.Fight:
+                // 血条渐变
+                if (HpBar != null)
                 {
-                    UIManager.Instance.OpenPanel<SettingPanel>("SettingPanel");// 打开设置界面
+                    HpGradualVary();
                 }
-                else
+                // 玩家输入检测
+                foreach (KeyCode Key in System.Enum.GetValues(typeof(KeyCode)))
                 {
-                    // 检测是否在攻击或闪避状态或者死亡状态,若是则不进行字母和闪避检测
-                    if (isAttack || isSkip || playerState == PlayerState.Dead)
+
+                    // 检测是什么按键
+                    if (Input.GetKeyDown(Key))
                     {
-                        break;
-                    }
-                    // 然后判断闪避
-                    if (Key == KeyCode.LeftShift)
-                    {
+                        Debug.Log(Key.ToString());
+                        lastKeyCode = Key;// 储存最后按下的键位
 
-                        // 判断是否为战斗状态
-                        if (playerState != PlayerState.Fight)
-                        {
-                            // 播放虚化动画
-
-                            break;
-                        }
-
-                        // 存储当前场上距离玩家最近的敌人的信息
-                        Enemy TheClosest = FindCloseEnemy();
-
-                        if (TheClosest != null)
-                        {
-                            isSkip = true;
-                            // 计算方向
-                            Vector2 skipDir = (gameObject.transform.position - TheClosest.transform.position).normalized;
-                            // 切换成闪避姿势
-
-                            // 判断要朝向
-                            if (skipDir.x > 0)
-                            {
-                                srFace.flipY = false;
-                            }
-                            else
-                            {
-                                srFace.flipY = true;
-                            }
-
-                            // 判断最近的敌人在攻击范围内还是范围外
-                            if (attackableEnemies.Count > 0)
-                            {
-                                // 远离最近的敌人
-                                rb.velocity = skipDir * skipSpeed;
-
-                            }
-                            else
-                            {
-                                // 靠近最近的敌人
-                                rb.velocity = -skipDir * skipSpeed;
-                            }
-                        }
-                        else
-                        {
-                            // 播放虚化动画
-
-                        }
-
-                        break;
-                    }
-                    // 其次判断字母输入和是否在战斗状态
-                    else if (Key.ToString().Length == 1 && playerState == PlayerState.Fight)
-                    {
-                        bool isPushMistake = true;// 检测是否按错键
-                        char key = Key.ToString()[0];
-                        // 进一步检测是否是字母输入
-                        if ((int)key < 65 || (int)key > 90)
+                        // 检测是否在攻击或闪避状态,若是则不进行字母和闪避检测
+                        if (isAttack || isSkip)
                         {
                             break;
                         }
-
-                        // 先给可攻击对象名单排序(有高亮字体的在前，然后常态字体少的在前，接着是字母少的在前，最后在根据Acill码排升序)
-                        AttackableSort();
-
-                        foreach (Enemy enemy in attackableEnemies)
+                        // 然后判断闪避
+                        if (Key == KeyCode.LeftShift)
                         {
-                            // 差别处理不同类型的敌人
-                            if (enemy.currentHealthLetters[0] == key)
+
+                            // 存储当前场上距离玩家最近的敌人的信息
+                            Enemy TheClosest = FindCloseEnemy();
+
+                            if (TheClosest != null)
                             {
-                                if (enemy.enemyType == 1)
+                                isSkip = true;
+                                // 计算方向
+                                Vector2 skipDir = (gameObject.transform.position - TheClosest.transform.position).normalized;
+                                // 切换成闪避姿势
+
+                                // 判断要朝向
+                                if (skipDir.x > 0)
                                 {
-                                    // 先判断斩杀名单中是否有高亮字母的敌人
-                                    // 若无则加入斩杀名单
-                                    bool hasLightTone = false;
-                                    foreach (Enemy killTar in tar)
+                                    srFace.flipX = false;
+                                }
+                                else
+                                {
+                                    srFace.flipX = true;
+                                }
+
+                                // 判断最近的敌人在攻击范围内还是范围外
+                                if (attackableEnemies.Count > 0)
+                                {
+                                    // 远离最近的敌人
+                                    rb.velocity = skipDir * skipSpeed;
+
+                                }
+                                else
+                                {
+                                    // 靠近最近的敌人
+                                    rb.velocity = -skipDir * skipSpeed;
+                                }
+                            }
+                            else
+                            {
+                                // 播放虚化动画
+
+                            }
+
+                            break;
+                        }
+                        // 其次判断字母输入和是否在战斗状态
+                        else if (Key.ToString().Length == 1 && playerState == PlayerState.Fight)
+                        {
+                            Debug.Log("通过字母输入初步检测");
+
+                            bool isPushMistake = true;// 检测是否按错键
+
+                            char key = Key.ToString()[0];
+                            // 进一步检测是否是字母输入
+                            if ((int)key < 65 || (int)key > 90)
+                            {
+                                break;
+                            }
+                            // 检测是否有可攻击敌人
+                            if (attackableEnemies.Count <= 0)
+                            {
+                                // 先判断是否使用了道具磐石
+                                // if
+
+                                // 若没有就调用Combo系统，清空连击次数
+
+                                // 按错就扣血
+                                OnHit(1);
+
+                                isPushMistake = false;
+
+                                break;
+                            }
+
+                            Debug.Log("进入可攻击对象名单排序阶段");
+
+                            // 先给可攻击对象名单排序(有高亮字体的在前，然后常态字体少的在前，接着是字母少的在前，最后在根据Acill码排升序)
+                            AttackableSort();
+
+                            foreach (Enemy enemy in attackableEnemies)
+                            {
+                                Debug.Log("进入敌人判断阶段");
+                                // 差别处理不同类型的敌人
+                                if (enemy.currentHealthLetters[0] == key)
+                                {
+                                    if (enemy.enemyType == 1)
                                     {
-                                        //if
-
+                                        Debug.Log("进入敌人1");
+                                        // 先判断斩杀名单中是否有其它级别的敌人
+                                        // 若无则加入斩杀名单
+                                        bool hasOhterType = false;
+                                        foreach (Enemy killTar in tar)
+                                        {
+                                            if (killTar.enemyType != 1)
+                                            {
+                                                hasOhterType = true;
+                                                break;
+                                            }
+                                        }
+                                        if (!hasOhterType)
+                                        {
+                                            tar.Add(enemy);
+                                        }
                                     }
-                                    if (!hasLightTone)
+                                    else if (enemy.enemyType == 2)
                                     {
-                                        tar.Add(enemy);
+                                        Debug.Log("进入敌人2");
+                                        // 先判断是否可被斩杀
+                                        // 如果是则加入斩杀名单
+                                        if (enemy.CanExeCute)
+                                        {
+                                            tar.Add(enemy);
+                                        }
+                                        // 如果否且斩杀名单内没有2级或三级敌人，没有则调用敌人的高亮函数
+                                        else
+                                        {
+                                            bool canHighLight = true;
+                                            foreach (Enemy killTar in tar)
+                                            {
+                                                if (killTar.enemyType != 1)
+                                                {
+                                                    canHighLight = false;
+                                                    break;
+                                                }
+                                            }
+                                            if (canHighLight)
+                                            {
+                                                enemy.OnHit(key);
+                                            }
+                                        }
                                     }
+                                    else if (enemy.enemyType == 3)
+                                    {
+                                        Debug.Log("进入敌人3");
+                                        // 先判断是否只剩一个常态字母
+                                        // 如果是则加入斩杀名单
+                                        if (enemy.CanExeCute)
+                                        {
+                                            tar.Add(enemy);
+                                        }
+                                        // 如果否且斩杀名单内没有2级或三级敌人，没有则调用敌人的高亮函数
+                                        else
+                                        {
+                                            bool canHighLight = true;
+                                            foreach (Enemy killTar in tar)
+                                            {
+                                                if (killTar.enemyType != 1)
+                                                {
+                                                    canHighLight = false;
+                                                    break;
+                                                }
+                                            }
+                                            if (canHighLight)
+                                            {
+                                                enemy.OnHit(key);
+                                            }
+                                        }
+                                    }
+                                    isPushMistake = false;
                                 }
-                                else if (enemy.enemyType == 2)
-                                {
-                                    // 先判断是否有高亮字母
-                                    // 如果有则加入斩杀名单
+                            }
+                            // 处理玩家攻击逻辑
+                            if (tar.Count > 0)
+                            {
+                                Debug.Log("进入斩杀阶段1");
+                                // 排序
+                                KillableSort();
 
-                                    // 如果没有且斩杀名单内没有有高亮字母的敌人，则调用敌人的高亮函数
+                                isAttack = true;// 调整
 
-                                }
-                                else if (enemy.enemyType == 3)
-                                {
-                                    // 先判断是否只剩一个常态字母
-                                    // 如果是则加入斩杀名单
+                                Attack();// 调用攻击函数
+                            }
 
-                                    // 如果否且斩杀名单内没有有高亮字母的敌人，则调用敌人的高亮函数
+                            if (isPushMistake)
+                            {
+                                // 先判断是否使用了道具磐石
+                                // if
 
-                                }
+                                // 若没有就调用Combo系统，清空连击次数
+
+                                // 按错就扣血
+                                OnHit(1);
+
+
                                 isPushMistake = false;
                             }
                         }
-                        // 处理玩家攻击逻辑
-                        if (tar.Count > 0)
+                    
+
+
+                        break;
+                    }
+                }
+
+                // 检测是否在闪避状态
+                if (isSkip)
+                {
+
+                    // 减速
+                    if (rb.velocity.magnitude >= slowRate)
+                    {
+                        rb.velocity *= (1f - slowRate * Time.deltaTime);
+                    }
+                    else
+                    {
+                        rb.velocity = Vector2.zero;
+                        isSkip = false;
+                        // 结束闪避姿势
+
+                    }
+                }
+                // 无敌帧状态检测
+                if (isUnattachable)
+                {
+                    if (curTime >= unattachableTime)
+                    {
+                        isUnattachable = false;
+                    }
+                    else
+                    {
+                        if (!isAttack)
                         {
-                            // 排序
-                            KillableSort();
-
-                            isAttack = true;// 调整
-
-                            Attack();// 调用攻击函数
-                        }
-
-                        if (isPushMistake)
-                        {
-                            // 先判断是否使用了道具磐石
-                            // if
-
-                            // 若没有就调用Combo系统，清空连击次数
-                            
-                            // 按错就扣血
-                            OnHit(1);
-
-
-                            isPushMistake = false;
+                            curTime += Time.deltaTime;
                         }
                     }
                 }
-                
-                break; 
-            }
-        }
+                break;
+            case PlayerState.Dead:
 
-        // 检测是否在闪避状态
-        if (isSkip)
-        {
-
-            // 减速
-            if (rb.velocity.magnitude >= slowRate)
-            {
-                rb.velocity *= (1f - slowRate * Time.deltaTime);
-            }
-            else
-            {
-                rb.velocity = Vector2.zero;
-                isSkip = false;
-                // 结束闪避姿势
-
-            }
-        }
-        // 无敌帧状态检测
-        if (isUnattachable)
-        {
-            if (curTime >= unattachableTime)
-            {
-                isUnattachable = false;
-            }
-            else
-            {
-                if (!isAttack)
+                break;
+            case PlayerState.PathFinding:
+                if (Input.GetKeyDown(KeyCode.Escape))
                 {
-                    curTime += Time.deltaTime;
+                    // 播放闪避虚化动画
+
                 }
-            }
+
+                break;
+            case PlayerState.StoryReading:
+
+                break;
         }
+        
 
     }
+
+    // 攻击范围检测
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Enemy" && !isAttack)
+        {
+            // 添加进可攻击名单
+            if (!attackableEnemies.Contains(collision.GetComponent<Enemy>()))
+            {
+                attackableEnemies.Add(collision.GetComponent<Enemy>());
+            }
+            
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.tag == "Enemy" && !isAttack)
+        {
+            // 添加进可攻击名单
+            if (!attackableEnemies.Contains(collision.GetComponent<Enemy>()))
+            {
+                attackableEnemies.Add(collision.GetComponent<Enemy>());
+            }
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Enemy")
+        {
+            // 重置敌人字母
+            Enemy enemy = collision.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.ResetImage();
+            }
+            // 移除可攻击名单
+            attackableEnemies.Remove(collision.GetComponent<Enemy>());
+
+        }
+    }
+
     // 攻击函数
     public void Attack()
     {
+        Debug.Log("进入斩杀阶段2");
         Enemy tarEnemy = tar[0];
         // 判断朝向
         if (tarEnemy.transform.position.x - gameObject.transform.position.x >= 0)
         {
-            srFace.flipY = true;
+            srFace.flipX = true;
         }
         else
         {
-            srFace.flipY = false;
+            srFace.flipX = false;
         }
+
+        //tarEnemy.OnHit(lastKeyCode.ToString()[0]);
+        //tarEnemy.OnDeath();// 使敌人死亡
+
+        // 将敌人从可攻击名单中移除
+        attackableEnemies.Remove(tarEnemy);
+
         // 进行位移
         Vector2 tarPos = tarEnemy.transform.position;
         StartCoroutine(Rush(tarPos, gameObject.transform.position));
         // 延迟调用攻击效果
-        StartCoroutine(AttackEffect(totalTime - 0.05f, tarEnemy, lastKeyCode.ToString()[0]));
+        StartCoroutine(AttackEffect(totalTime * 0.75f, tarEnemy, lastKeyCode.ToString()[0]));
         // 调用Combo系统并增加连击次数
 
-
-        tar.RemoveAt(0);// 从斩杀名单中移除
+        tar.Remove(tarEnemy);// 从斩杀名单中移除
     }
 
     // 玩家攻击效果
@@ -311,21 +454,24 @@ public class PlayerController : MonoBehaviour
     {
         // 延迟
         yield return new WaitForSeconds(DelayTime);
-
+        Debug.Log("进入斩杀阶段3");
         // 顿帧效果
+        AttackMoment.Instance.HitPause();
 
         // 屏幕抖动效果
+        AttackMoment.Instance.CamShake();
 
-        // 将敌人从可攻击名单中移除
-        attackableEnemies.Remove(enemy);
-
+        Debug.Log("进入斩杀阶段5");
         // 调用敌人的受击函数
         enemy.OnHit(key);
+        enemy.OnDeath();// 使敌人死亡
     }
 
     // 玩家攻击位移
     IEnumerator Rush(Vector2 tarPos, Vector2 startPos)
     {
+        Debug.Log("进入斩杀阶段4");
+
         curTime = 0;// 重置当前计时
 
         // 切换玩家姿势
@@ -373,25 +519,31 @@ public class PlayerController : MonoBehaviour
     {
         if (playerState != PlayerState.Dead)
         {
-            // 播放受击动画
-
-            // 播放受击音效
-
-            // 扣状态()
-            if (curHp > Demage)
+            // 先判断是否处于无敌帧，若否则执行下面的代码
+            if (!isUnattachable)
             {
-                curHp -= Demage;
+
+                // 播放受击动画
+
+                // 播放受击音效
+
+                // 扣状态
+                if (curHp > Demage)
+                {
+                    curHp -= Demage;
+                }
+                else
+                {
+                    curHp = 0;
+                    playerState = PlayerState.Dead;
+                    // 播放死亡动画
+
+                    // 延迟执行死亡后某些代码逻辑
+
+
+                }
             }
-            else
-            {
-                curHp = 0;
-                playerState = PlayerState.Dead;
-                // 播放死亡动画
-
-                // 延迟执行死亡后某些代码逻辑
-
-
-            }
+            
         }
     }
 
@@ -439,41 +591,54 @@ public class PlayerController : MonoBehaviour
         return tmp;
     }
 
-    // 给可攻击名单排序(有高亮字体的在前，然后常态字体少的在前，接着是字母少的在前，最后在根据Acill码排升序)
+    // 给可攻击名单排序(有高亮字体的在前，接着是字母少的在前，最后在根据Acill码排升序)
     public void AttackableSort()
     {
-        List<Enemy> lightToneEnemies = new List<Enemy>();// 存储高亮字母敌人
-        List<Enemy> normalToneEnemies = new List<Enemy>();// 存储常态字母敌人
+        List<Enemy> lightTone = new List<Enemy>();// 存储高亮字母敌人
+        List<Enemy> normalTone = new List<Enemy>();// 存储常态字母敌人
+        List<Enemy> canExeCute = new List<Enemy>();// 存储可被斩杀敌人
         // 先分组
         for (int i = 0;i < attackableEnemies.Count;i++)
         {
             // 判断是否是高亮字母敌人
             // 是
-            lightToneEnemies.Add(attackableEnemies[i]);
+            if (attackableEnemies[i].isHighLight)
+            {
+                // 判断是否可被斩杀
+                if (attackableEnemies[i].CanExeCute)
+                {
+                    canExeCute.Add(attackableEnemies[i]);
+                }
+                else
+                {
+                    lightTone.Add(attackableEnemies[i]);
+                }
+            }
             // 否
-            normalToneEnemies.Add(attackableEnemies[i]);
+            else
+            {
+                normalTone.Add(attackableEnemies[i]);
+            }
         }
-        // 排序高亮字母组
-        for (int i = 0; i < lightToneEnemies.Count; i++)
-        {
-            // 先分组
-            // 分为可被斩杀组和不可被斩杀组
-
-
-            // 然后将两组继续常规排序后拼接起来
-
-        }
+        // 排序可被斩杀组
+        canExeCute = canExeCute.OrderByDescending(c => c.originalHealthLetters.Length)// 按string长度排降序
+            .ThenBy(c => c.currentHealthLetters)// 按字母顺序排升序
+            .ToList();
         
+        // 排序高亮字母组
+        lightTone = lightTone.OrderByDescending(c => c.originalHealthLetters.Length)// 按string长度排降序
+            .ThenBy(c => c.currentHealthLetters)// 按字母顺序排升序
+            .ToList();
+
         // 排序常态字母组
-        normalToneEnemies = normalToneEnemies.OrderBy(b => b.currentHealthLetters.Length) // 按string长度升序排序  
+        normalTone = normalTone.OrderBy(b => b.currentHealthLetters.Length) // 按string长度升序排序  
                               .ThenBy(b => b.currentHealthLetters) // 长度相同时，按字母顺序升序排序（从A到Z）  
                               .ToList();
 
-        
-
         // 最后将排序好的数据拼接起来
-        attackableEnemies = new List<Enemy>(lightToneEnemies);
-        attackableEnemies.AddRange(normalToneEnemies);
+        attackableEnemies = new List<Enemy>(canExeCute);
+        attackableEnemies.AddRange(lightTone);
+        attackableEnemies.AddRange(normalTone);
 
     }
     

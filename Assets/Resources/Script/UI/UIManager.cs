@@ -8,36 +8,37 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    public Transform UI;// 绑定ui画布
+    public List<BasePanel> UIList;// ui界面存储
+
     private void Awake()
     {
         Instance = this;
-    }
-
-    public Transform UI;// 绑定ui画布
-    List<BasePanel> UIList;// ui界面存储
-
-    private void Start()
-    {
         if (UI == null)
         {
             UI = GameObject.Find("UI").transform;
         }
+    }
+
+    private void Start()
+    {
+        
         UIList = new List<BasePanel>();
     }
 
-    public BasePanel OpenPanel<T>(string uiName) where T : BasePanel
+    public BasePanel OpenPanel(string uiName) 
     {
         BasePanel panel = FindPanel(uiName);
 
         if (panel != null)
         {
-            panel.Open();
+            panel.Open(uiName);
         }
         else
         {
             GameObject obj = GameObject.Instantiate(Resources.Load("Prefab/UI/"+uiName), UI) as GameObject;
-            obj.name = uiName;
-            panel = obj.GetComponent<T>();
+            
+            panel = obj.GetComponent<BasePanel>();
             UIList.Add(panel);
         }
 
@@ -52,6 +53,10 @@ public class UIManager : MonoBehaviour
         {
             panel.Close();   
         }
+        else
+        {
+            Debug.LogWarning("未打开" + uiName + "界面，无法关闭");
+        }
     }
 
     public BasePanel FindPanel(string uiName)
@@ -65,5 +70,29 @@ public class UIManager : MonoBehaviour
         }
         return null;
     }
+    public bool isAvailable(string uiName)
+    {
+        BasePanel panel = FindPanel(uiName);
+        if (panel == null)
+        {
+            return false;
+        }
+        if (panel.gameObject.activeSelf)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
+}
+
+public class UIConst
+{
+    public const string LoginUI = "LoginPanel";
+    public const string FightUI = "FightPanel";
+    public const string CreditsUI = "CreditsPanel";
+    public const string SettingUI = "SettingPanel";
 }

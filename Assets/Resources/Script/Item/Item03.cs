@@ -8,14 +8,14 @@ using UnityEngine;
 
 public class Item03 : BaseItem
 {
-    public int curShield = 0;
+    public int curShield = 3;
     public Transform ShieldArea;
 
     public override void OnCreate()
     {
         base.OnCreate();
         // 初始化数据
-        curShield += 3;
+        curShield = 3;
         // 通过UIManager绑定护盾区域
 
         // 其它调整
