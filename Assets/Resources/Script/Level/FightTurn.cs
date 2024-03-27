@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -59,6 +60,7 @@ public class FightTurn : TurnData
             }
             else
             {
+                curEnemyNum = EnemyManager.Instance.enemyList.Count;
                 if (Timer >= createDuration)
                 {
                     // 调用生成怪物的函数
@@ -92,24 +94,64 @@ public class FightTurn : TurnData
         // 先判断是否是最后一次生成敌人
         if (spareEnemyNum <= OnceCreateNum)
         {
+            int index;
             // 生成敌人
             for (int i = 0; i < spareEnemyNum - 1; i++)
             {
                 Transform point = RandomCreatePoint();
+                index = UnityEngine.Random.Range(0, 3);
+                switch (index)
+                {
+                    case 0:
+                        
+                        EnemyManager.Instance.CreateEnemy01(point.position);
+                        Debug.Log("生成1级敌人");
+                        break;
+                    case 1:
+                        
+                        EnemyManager.Instance.CreateEnemy02(point.position);
+                        Debug.Log("生成2级敌人");
+                        break;
+                    case 2:
+                        
+                        EnemyManager.Instance.CreateEnemy03(point.position);
+                        Debug.Log("生成3级敌人");
+                        break;
+                }
 
             }
-            curEnemyNum += spareEnemyNum;
+            //curEnemyNum += spareEnemyNum;
             spareEnemyNum = 0;
         }
         else
         {
+            int index;
             for (int i = 0; i < OnceCreateNum; i++)
             {
                 // 生成敌人
                 Transform point = RandomCreatePoint();
 
+                index = UnityEngine.Random.Range(0, 3);
+                switch (index)
+                {
+                    case 0:
+
+                        EnemyManager.Instance.CreateEnemy01(point.position);
+                        Debug.Log("生成1级敌人");
+                        break;
+                    case 1:
+
+                        EnemyManager.Instance.CreateEnemy02(point.position);
+                        Debug.Log("生成2级敌人");
+                        break;
+                    case 2:
+
+                        EnemyManager.Instance.CreateEnemy03(point.position);
+                        Debug.Log("生成3级敌人");
+                        break;
+                }
             }
-            curEnemyNum += OnceCreateNum;
+            //curEnemyNum += OnceCreateNum;
             spareEnemyNum -= OnceCreateNum;
         }
     }
@@ -123,7 +165,7 @@ public class FightTurn : TurnData
         do
         {
             count++;
-            index = Random.Range(0, enemySpwanPoints.transform.childCount);
+            index = UnityEngine.Random.Range(0, enemySpwanPoints.transform.childCount);
 
             Debug.Log("屏幕一半长:" + halfView.x);
             Debug.Log("屏幕一半宽:" + halfView.y);
@@ -132,7 +174,7 @@ public class FightTurn : TurnData
             point = enemySpwanPoints.transform.GetChild(index);
 
             // 判断该点是否在玩家视野内
-            if (Mathf.Abs(point.position.x - Camera.main.transform.position.x) <= (halfView.x + 1) && Mathf.Abs(point.position.y - Camera.main.transform.position.y) <= (halfView.y + 0.5f))
+            if (Mathf.Abs(point.position.x - Camera.main.transform.position.x) <= (halfView.x + 1) && Mathf.Abs(point.position.y - Camera.main.transform.position.y) <= (halfView.y + 1f))
             {
                 Debug.Log("无效刷怪点【" + point.name + ":" + point.position + "】");
                 Debug.Log("X的差距:" + Mathf.Abs(point.position.x - Camera.main.transform.position.x));
