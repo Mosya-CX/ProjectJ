@@ -10,7 +10,7 @@ public class LevelManager : MonoBehaviour
     {
         Instance = this;
     }
-    public Vector2 ScenePos;// 设置场景位置
+    public Transform SceneParentNode;// 设置场景位置
 
     // 储存关卡信息
     public LevelSO curLevelData;
@@ -48,7 +48,7 @@ public class LevelManager : MonoBehaviour
 
         // 初始化关卡数据
         curTurn = 0;
-        maxTurn = curLevelData.turnDataList.Count - 1;
+        maxTurn = curLevelData.turnDataList.Count;
 
         // 清空已经加载过的场景
         if (loadedScene != null )
@@ -67,9 +67,20 @@ public class LevelManager : MonoBehaviour
     public void LoadTurn()
     {
         // 加载当前Turn
-        curTurnData = curLevelData.turnDataList[curTurn];
+        if (curTurn >= maxTurn)
+        {
+            // 加载下一关或者什么什么
+
+            Debug.Log("当前关卡测试结束");
+            return;
+        }
+        else
+        {
+            curTurnData = curLevelData.turnDataList[curTurn];
+        }
         curTurnData.playerData = playerData;
-        curTurnData.ScenePos = ScenePos;
+        curTurnData.parent = SceneParentNode;
+        playerData.transform.position = curTurnData.BornPos;
         if (curTurnData is FightTurn)
         {
 
@@ -86,8 +97,11 @@ public class LevelManager : MonoBehaviour
         {
 
         }
-        curTurnData.OnCreate();
-        loadedScene.Add(curScene.name, curScene);
+        curScene = curTurnData.OnCreate();
+        if (!loadedScene.ContainsKey(curScene.name))
+        {
+            loadedScene.Add(curScene.name, curScene);
+        }
     }
 
     // 获取当前关卡信息

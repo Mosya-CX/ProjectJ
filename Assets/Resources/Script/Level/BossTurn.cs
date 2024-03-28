@@ -10,15 +10,17 @@ public class BossTurn : TurnData
     public List<EnemyOrder> enemyOrder;// 出怪的顺序
     int curOrder;// 记录当前波次
     public GameObject enemySpwanPoints;// 记录战斗场景的所有刷怪点的父节点
-    public override void OnCreate()
+    public override GameObject OnCreate()
     {
-        base.OnCreate();
+        GameObject obj = base.OnCreate();
         curOrder = 0;
         GameManager.Instance.Player.GetComponent<PlayerController>().playerState = PlayerState.Fight;
         // 播放相应bgm
 
         // 加载boss
 
+        
+        return obj;
     }
 
     public override void OnUpdate()
