@@ -82,6 +82,7 @@ public class PlayerController : MonoBehaviour
         if (HpBar == null)
         {
             HpBar = GameObject.Find("UI/FightPanel/Top/StatusBar/HpBar").GetComponent<Slider>();
+            
         }
         
         HpBar.maxValue = maxHp;
@@ -460,6 +461,9 @@ public class PlayerController : MonoBehaviour
 
         // 屏幕抖动效果
         AttackMoment.Instance.CamShake();
+
+        // 增加Combo数
+        ComboManager.AddComboNum();
 
         Debug.Log("进入斩杀阶段5");
         // 调用敌人的受击函数
