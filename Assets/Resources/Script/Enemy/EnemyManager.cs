@@ -9,7 +9,7 @@ public class EnemyManager : Singleton<EnemyManager>
     public Pool enemy03Pool;
     public Pool[] enemyPools;
     // 存储场景内敌人单位
-    public List<Enemy> enemyList;
+    public  List<Enemy> enemyList;
     public static Dictionary<GameObject,Pool> enemyPoolDictionary;
     public bool HasEnemy =>enemyList.Count > 0;
     public override void Awake()
@@ -42,25 +42,81 @@ public class EnemyManager : Singleton<EnemyManager>
     }
 
     // 生成敌人
-    public GameObject CreateEnemy01(Vector3 pos)
+    public Enemy CreateEnemy01(Vector3 pos)
     {
-        GameObject enemy = enemy01Pool.Request();
+        Enemy enemy = enemy01Pool.Request().GetComponent<Enemy>();
+        if(!enemyList.Contains(enemy))
+        {
+            enemyList.Add(enemy);
+        }
+        else
+        {
+            Debug.Log("List has contain");
+        }
         enemy.transform.position=pos;
         return enemy;
     }
-    public GameObject CreateEnemy02(Vector3 pos)
+    public Enemy CreateEnemy02(Vector3 pos)
     {
-        GameObject enemy = enemy02Pool.Request();
+        Enemy enemy = enemy01Pool.Request().GetComponent<Enemy>();
+        if (!enemyList.Contains(enemy))
+        {
+            enemyList.Add(enemy);
+        }
+        else
+        {
+            Debug.Log("List has contain");
+        }
         enemy.transform.position = pos;
         return enemy;
     }
-    public GameObject CreateEnemy03(Vector3 pos)
+    public Enemy CreateEnemy03(Vector3 pos)
     {
-        GameObject enemy = enemy03Pool.Request();
+        Enemy enemy = enemy01Pool.Request().GetComponent<Enemy>();
+        if (!enemyList.Contains(enemy))
+        {
+            enemyList.Add(enemy);
+        }
+        else
+        {
+            Debug.Log("List has contain");
+        }
         enemy.transform.position = pos;
         return enemy;
     }
-    public static GameObject CreateEnemyBasedOnPrefab(GameObject prefab, Vector3 pos)
+    public void RemoveFromList(Enemy enemy)
+    {
+        enemyList.Remove(enemy);
+    }
+    public Enemy RandomlyGenerateEnemy(Vector3 pos,float probability01,float probability02)
+    {
+        if (Mathf.Abs(probability01 + probability02 - 1f) > Mathf.Epsilon)
+        {
+            Debug.LogError("The probabilities do not add up to 1!");
+            return null;
+        }
+
+        // 随机数生成器
+        Random.InitState((int)(Time.timeSinceLevelLoad * 1000f)); // 初始化随机种子以避免重复
+
+        // 根据概率随机选择
+        float randomValue = Random.Range(0f, 1f);
+
+        Enemy enemyToSpawn = null;
+        if (randomValue < probability01)
+        {
+            // 如果随机值小于probability01，则生成第一种类型的敌人
+            enemyToSpawn = CreateEnemy01(pos);
+        }
+        else
+        {
+            // 否则，生成第二种类型的敌人（因为剩下的概率一定是probability02）
+            enemyToSpawn = CreateEnemy02(pos);
+        }
+
+        return enemyToSpawn;
+    }
+    public  Enemy CreateEnemyBasedOnPrefab(GameObject prefab, Vector3 pos)
     {
         Pool targetPool = enemyPoolDictionary.TryGetValue(prefab, out var pool) ? pool : null;
         if (targetPool == null)
@@ -69,7 +125,15 @@ public class EnemyManager : Singleton<EnemyManager>
         }
         else
         {
-            GameObject target = targetPool.Request();
+            Enemy target = enemy01Pool.Request().GetComponent<Enemy>();
+            if (!enemyList.Contains(target))
+            {
+                enemyList.Add(target);
+            }
+            else
+            {
+                Debug.Log("List has contain");
+            }
             target.transform.position = pos;
             return target;
         }

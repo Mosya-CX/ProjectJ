@@ -39,6 +39,9 @@ public class Enemy : MonoBehaviour
     public bool isHighLight=false;
     //伤害
     public int damage;
+    //攻击频率
+    public float attackFrequency = 1;
+    private WaitForSeconds waitForAttackFrequency;
     virtual public void Awake()
     {
         InitDict();
@@ -57,6 +60,7 @@ public class Enemy : MonoBehaviour
         InitializeHealthLetters(); // 内部初始化字母
         //根据字母初始化图片
         InitializeLetterImages();
+        waitForAttackFrequency = new WaitForSeconds(attackFrequency);
     }
     public void OnDisable()
     {
@@ -176,12 +180,33 @@ public class Enemy : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Attack(collision);
+        if(collision.tag=="Player")
+        {
+            StartCoroutine(Attack(collision));
+        }
     }
     //
-    virtual public void Attack(Collider2D collision)
+    void OnTriggerExit2D(Collider2D other)
     {
-
+        if (other.tag == "Player")
+        {
+            StopCoroutine(Attack(other));
+        }
+    }
+    public IEnumerator Attack(Collider2D collision)
+    {
+        //如果玩家处于无敌状态也返回
+        var playerController = collision.GetComponent<PlayerController>();
+        if (playerController != null)
+        {
+            playerController.OnHit(damage);
+        }
+        else
+        {
+            Debug.Log(collision.name);
+            Debug.Log("No PlayerController component found on the collided object.");
+        }
+        yield return waitForAttackFrequency;
     }
     virtual public void ResetImage()
     {
@@ -197,17 +222,18 @@ public class Enemy : MonoBehaviour
     {
 
     }
-    //void OnTriggerExit2D(Collider2D other)
-    //{
-    //    if (other.tag=="AttackArea")
-    //    {
-    //        ResetHealthLetters();
-    //    }
-    //}
 
     public void OnDeath()
     {
         // 斩杀时调用
+        if(EnemyManager.Instance.enemyList.Contains(this))
+        {
+            EnemyManager.Instance.RemoveFromList(this);
+        }
+        else
+        {
+            Debug.Log("remove error");
+        }
         owner.Return(this.gameObject);
     }
 }
