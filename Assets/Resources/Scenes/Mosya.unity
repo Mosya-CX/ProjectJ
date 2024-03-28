@@ -327,15 +327,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2011828299447425720, guid: b554766222272d143a9467193ae33c62, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2011828299447425720, guid: b554766222272d143a9467193ae33c62, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2011828299447425720, guid: b554766222272d143a9467193ae33c62, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282596393767498726, guid: b554766222272d143a9467193ae33c62, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5244016933474022162, guid: b554766222272d143a9467193ae33c62, type: 3}
       propertyPath: m_AnchorMax.x
@@ -427,15 +431,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5749987634806360181, guid: b554766222272d143a9467193ae33c62, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5749987634806360181, guid: b554766222272d143a9467193ae33c62, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5749987634806360181, guid: b554766222272d143a9467193ae33c62, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6926803765096527514, guid: b554766222272d143a9467193ae33c62, type: 3}
       propertyPath: m_Name
@@ -870,6 +874,29 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!1 &1770805201 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7488663901508010564, guid: cb8ae9475891ca94aa0dcb8a9d95cb5b, type: 3}
+  m_PrefabInstance: {fileID: 7776845903109352998}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1770805209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1770805201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c096674a9ea92b45af4df5cf51837a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicSound: []
+  sfxSound:
+  - Clip: {fileID: 8300000, guid: a85f308b480b39a4c9c6845024a95e1a, type: 3}
+    names: b
+  musicSource: {fileID: 423077715044697679, guid: e9c9c2e1f46a8064db662cdab69aed16, type: 3}
+  sfxSource: {fileID: 2504919963195224065, guid: e9c9c2e1f46a8064db662cdab69aed16, type: 3}
 --- !u!1001 &2517669517340881101
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -995,10 +1022,14 @@ PrefabInstance:
       propertyPath: camPos
       value: 
       objectReference: {fileID: 1187265671}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4540914999560830958, guid: cb8ae9475891ca94aa0dcb8a9d95cb5b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7488663901508010564, guid: cb8ae9475891ca94aa0dcb8a9d95cb5b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1770805209}
   m_SourcePrefab: {fileID: 100100000, guid: cb8ae9475891ca94aa0dcb8a9d95cb5b, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

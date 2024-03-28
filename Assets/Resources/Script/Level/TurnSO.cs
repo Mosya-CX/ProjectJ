@@ -18,13 +18,16 @@ public class TurnData : ScriptableObject
         playerData.transform.position = BornPos;
 
         GameObject scene;
+        
+        // 先将当前场景关闭
+        if (LevelManager.Instance.curScene != null)
+        {
+            LevelManager.Instance.curScene.SetActive(false);
+        }
         // 加载场景
         if (!LevelManager.Instance.loadedScene.ContainsKey(TurnScene.name))
         {
-            if (LevelManager.Instance.curScene != null)
-            {
-                LevelManager.Instance.curScene.SetActive(false);
-            }
+            
             scene = Instantiate(TurnScene, Vector3.zero, Quaternion.identity);// 生成到场景上
             scene.transform.SetParent(parent, false);
             scene.name = TurnScene.name;

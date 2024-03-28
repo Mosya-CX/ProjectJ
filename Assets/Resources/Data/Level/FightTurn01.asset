@@ -24,6 +24,6 @@ MonoBehaviour:
   endDuration: 10
   OnceCreateNum: 4
   curEnemyNum: 0
-  spareEnemyNum: 96
-  Timer: 2.868015
-  isStart: 1
+  spareEnemyNum: 100
+  Timer: 1.4235497
+  isStart: 0

@@ -165,12 +165,8 @@ public class FightTurn : TurnData
         do
         {
             count++;
+            // 随机刷怪点
             index = UnityEngine.Random.Range(0, enemySpwanPoints.transform.childCount);
-
-            Debug.Log("屏幕一半长:" + halfView.x);
-            Debug.Log("屏幕一半宽:" + halfView.y);
-            Debug.Log("摄像机位置:" + Camera.main.transform.position);
-
             point = enemySpwanPoints.transform.GetChild(index);
 
             // 判断该点是否在玩家视野内
