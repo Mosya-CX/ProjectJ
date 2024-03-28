@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 4965842767159364397}
   - component: {fileID: 4213169276010954485}
   - component: {fileID: 7067037811305774075}
+  - component: {fileID: 5471073591234273636}
+  - component: {fileID: 1245203576805658548}
+  - component: {fileID: 7349885537834599761}
   m_Layer: 0
   m_Name: Enemy01
   m_TagString: Enemy
@@ -31,8 +34,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6664816802591503930}
   - {fileID: 6802466828807300772}
+  - {fileID: 6664816802591503930}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4213169276010954485
@@ -58,7 +61,8 @@ MonoBehaviour:
   enemyCurrentPhase: 0
   dead: 0
   isHighLight: 0
-  damage: 0
+  damage: 5
+  attackFrequency: 1
 --- !u!70 &7067037811305774075
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -91,9 +95,80 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.04259328, y: -0.9552236}
-  m_Size: {x: 0.9415379, y: 0.5390274}
+  m_Offset: {x: 0.04259311, y: -0.13506354}
+  m_Size: {x: 2.1793594, y: 2.1793594}
   m_Direction: 1
+--- !u!114 &5471073591234273636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7565688859722776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  drawGizmos: 1
+  detailedGizmos: 0
+  startEndModifier:
+    addPoints: 0
+    exactStartPoint: 3
+    exactEndPoint: 3
+    useRaycasting: 0
+    mask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    useGraphRaycasting: 0
+  traversableTags: -1
+  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  graphMask:
+    value: -1
+--- !u!114 &1245203576805658548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7565688859722776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecba45f85229868418ae1e7ce2787a96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  speed: 5
+  nextNodeDistance: 3
+  isReached: 0
+--- !u!50 &7349885537834599761
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7565688859722776}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 1.2
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &1322927218337981311
 GameObject:
   m_ObjectHideFlags: 0

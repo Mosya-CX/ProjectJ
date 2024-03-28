@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3108780715225422804}
   - component: {fileID: 8977521820393471860}
   - component: {fileID: 6064439615023763672}
+  - component: {fileID: 2223249228788264829}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -50,6 +51,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curProgress: 0
   Player: {fileID: 0}
+  viewHeight: 0
+  viewWidth: 0
 --- !u!114 &4540914999560830958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,6 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UI: {fileID: 0}
+  UIList: []
 --- !u!114 &8977521820393471860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,10 +105,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b6078ae0af0c07478b204e4b79ce6fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScenePos: {x: 0, y: 0}
+  SceneParentNode: {fileID: 0}
   curLevelData: {fileID: 0}
   curTurnData: {fileID: 0}
   curTurn: 0
   maxTurn: 0
   curScene: {fileID: 0}
   playerData: {fileID: 0}
+--- !u!114 &2223249228788264829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7488663901508010564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f3340c3e6b513f4090706a7fbd02890, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy01Pool: {fileID: 11400000, guid: ee8a9fa6c50c6db44b2a6521bf70ddfd, type: 2}
+  enemy02Pool: {fileID: 11400000, guid: 4a49bfba53ae79549b0748633e2e2cc9, type: 2}
+  enemy03Pool: {fileID: 11400000, guid: 4f2dc3bbe89de094f9f4502ac6685450, type: 2}
+  enemyPools:
+  - {fileID: 11400000, guid: ee8a9fa6c50c6db44b2a6521bf70ddfd, type: 2}
+  - {fileID: 11400000, guid: 4a49bfba53ae79549b0748633e2e2cc9, type: 2}
+  - {fileID: 11400000, guid: 4f2dc3bbe89de094f9f4502ac6685450, type: 2}
+  enemyList: []
