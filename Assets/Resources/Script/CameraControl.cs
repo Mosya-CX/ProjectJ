@@ -29,12 +29,12 @@ public class CameraControl : MonoBehaviour
             if (transform.position != target.transform.position)
             {
                 //对x和y坐标进行限制
-                float x = Mathf.Clamp(target.transform.position.x, -curScene.GetComponent<SpriteRenderer>().sprite.bounds.size.x/2 + GameManager.Instance.viewWidth / 2,/*地图左边缘x加上一半摄像机x*/
-                    curScene.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2 - GameManager.Instance.viewWidth / 2/*地图右边缘x减去一半摄像机x*/);
-                float y = Mathf.Clamp(target.transform.position.y, -curScene.GetComponent<SpriteRenderer>().bounds.size.x / 2 + GameManager.Instance.viewHeight / 2,/*地图下边缘y加上一半摄像机y*/
-                      curScene.GetComponent<SpriteRenderer>().sprite.bounds.size.y/2 - GameManager.Instance.viewHeight / 2/*地图上边缘y加去一半摄像机y */);
+                //float x = Mathf.Clamp(target.transform.position.x, -curScene.GetComponent<SpriteRenderer>().sprite.bounds.size.x/2 + GameManager.Instance.viewWidth / 2,/*地图左边缘x加上一半摄像机x*/
+                    //curScene.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2 - GameManager.Instance.viewWidth / 2/*地图右边缘x减去一半摄像机x*/);
+               // float y = Mathf.Clamp(target.transform.position.y, -curScene.GetComponent<SpriteRenderer>().bounds.size.x / 2 + GameManager.Instance.viewHeight / 2,/*地图下边缘y加上一半摄像机y*/
+                     // curScene.GetComponent<SpriteRenderer>().sprite.bounds.size.y/2 - GameManager.Instance.viewHeight / 2/*地图上边缘y加去一半摄像机y */);
                 //再进行lerp
-                transform.position = Vector2.Lerp(transform.position, new Vector3(x, y, -10), smooth);
+               // transform.position = Vector2.Lerp(transform.position, new Vector3(x, y, -10), smooth);
             }
         }
         if (target == null&&curScene!=null )//移动到某个指定点
@@ -43,12 +43,12 @@ public class CameraControl : MonoBehaviour
             if (transform.position != Position)
             {
                 //对x和y坐标进行限制
-                float x = Mathf.Clamp(target.transform.position.x, -curScene.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2 + GameManager.Instance.viewWidth / 2,/*地图左边缘x加上一半摄像机x*/
-                   curScene.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2 - GameManager.Instance.viewWidth / 2/*地图右边缘x减去一半摄像机x*/);
-                float y = Mathf.Clamp(target.transform.position.y, -curScene.GetComponent<SpriteRenderer>().bounds.size.x / 2 + GameManager.Instance.viewHeight / 2,/*地图下边缘y加上一半摄像机y*/
-                      curScene.GetComponent<SpriteRenderer>().sprite.bounds.size.y / 2 - GameManager.Instance.viewHeight / 2/*地图上边缘y加去一半摄像机y */);
+               // float x = Mathf.Clamp(target.transform.position.x, -curScene.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2 + GameManager.Instance.viewWidth / 2,/*地图左边缘x加上一半摄像机x*/
+                  // curScene.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2 - GameManager.Instance.viewWidth / 2/*地图右边缘x减去一半摄像机x*/);
+               // float y = Mathf.Clamp(target.transform.position.y, -curScene.GetComponent<SpriteRenderer>().bounds.size.x / 2 + GameManager.Instance.viewHeight / 2,/*地图下边缘y加上一半摄像机y*/
+                     // curScene.GetComponent<SpriteRenderer>().sprite.bounds.size.y / 2 - GameManager.Instance.viewHeight / 2/*地图上边缘y加去一半摄像机y */);
                 //再进行lerp
-                transform.position = Vector2.Lerp(transform.position, new Vector3(x, y, -10), smooth);
+                //transform.position = Vector2.Lerp(transform.position, new Vector3(x, y, -10), smooth);
             }
         }
     }
