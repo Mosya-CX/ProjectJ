@@ -29,7 +29,9 @@ public class FightTurn : TurnData
         spareEnemyNum = totalEnemyNum;
         curEnemyNum = 0;
         Timer = 0;
-        isStart = false;    
+        isStart = false;
+
+        CameraControl.Instance.GetCursceneAndEnable(obj);// 启用摄像机跟随
 
         GameManager.Instance.Player.GetComponent<PlayerController>().playerState = PlayerState.Fight;
         GameManager.Instance.Player.transform.Find("AttackArea").gameObject.SetActive(true);
@@ -64,7 +66,7 @@ public class FightTurn : TurnData
                 if (Timer >= createDuration)
                 {
                     // 调用生成怪物的函数
-                    CreateEnemy();
+                    //CreateEnemy();
                     Timer = 0;
                 }
             }
@@ -86,6 +88,9 @@ public class FightTurn : TurnData
     public override void OnDestory()
     {
         Time.timeScale = 1;
+
+        CameraControl.Instance.DeleteCursceneAndStop();//  禁用摄像机跟随
+
         base.OnDestory();
     }
 
