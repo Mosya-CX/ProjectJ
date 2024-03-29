@@ -7,17 +7,16 @@ using UnityEngine.UIElements;
 public class CameraControl : MonoBehaviour
 {
     public static CameraControl Instance;
-    private Vector3 Position;//记录要相机移动到的点
+    public Vector3 Position;//记录要相机移动到的点
     private GameObject target;//记录相机要跟随的对象
     public GameObject Player;
     public float smooth;//柔滑度
-    private GameObject curScene;
+    public GameObject curScene;
 
     // Start is called before the first frame update
     void Start()
     {
         target = Player;
-        
 
     }
 
