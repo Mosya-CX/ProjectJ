@@ -120,6 +120,10 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
+        if (playerData == null)
+        {
+            return;
+        }
         switch(playerData.playerState)
         {
             case PlayerState.None:

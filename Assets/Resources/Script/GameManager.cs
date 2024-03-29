@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        CreatePlayer();
     }
 
     // 游戏进程记录
@@ -28,18 +29,12 @@ public class GameManager : MonoBehaviour
         viewWidth = viewHeight * Camera.main.aspect;
 
         // 初始界面和场景
-        //UIManager.Instance.OpenPanel(UIConst.LoginUI);
+        
 
-        // 绑定玩家信息
-        //Player = GameObject.FindWithTag("Player");
-        //if (Player == null)
-        //{
-        //    // 生成玩家预制体
-        //    Player = GameObject.Instantiate(Resources.Load("Prefab/Character/Player")) as GameObject;
-        //}
+        
 
         // 测试
-        
+
 
     }
 
@@ -47,5 +42,21 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         
+    }
+
+    public void CreatePlayer()
+    {
+        //绑定玩家信息
+        if (Player == null)
+        {
+            Player = GameObject.FindWithTag("Player");
+        }
+        
+        if (Player == null)
+        {
+            // 生成玩家预制体
+            Player = GameObject.Instantiate(Resources.Load("Prefab/Character/Player")) as GameObject;
+            Player.SetActive(false);
+        }
     }
 }

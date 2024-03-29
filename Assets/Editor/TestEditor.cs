@@ -18,4 +18,6 @@ public class TestEditor
         EnemyManager.Instance.CreateEnemy03(new Vector3(0, 4, 4));
 
     }
+
+
 }
