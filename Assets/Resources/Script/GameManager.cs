@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : SingletonWithMono<GameManager>
 {
-    public static GameManager Instance;
-    private void Awake()
+    protected override void Awake()
     {
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+        base.Awake();
+        
         CreatePlayer();
     }
 
@@ -56,7 +55,9 @@ public class GameManager : MonoBehaviour
         {
             // 生成玩家预制体
             Player = GameObject.Instantiate(Resources.Load("Prefab/Character/Player")) as GameObject;
-            Player.SetActive(false);
+            
         }
+        Player.name = "Player";
+        Player.SetActive(false);
     }
 }

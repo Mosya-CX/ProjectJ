@@ -35,6 +35,7 @@ public class LevelManager : MonoBehaviour
         loadedScene =new Dictionary<string, GameObject>();
 
         playerData = GameManager.Instance.Player.GetComponent<PlayerController>();
+        
     }
 
 
@@ -42,6 +43,11 @@ public class LevelManager : MonoBehaviour
     // 加载关卡信息
     public void LoadLevel(string levelPath)
     {
+        if (!playerData.gameObject.activeSelf)
+        {
+            playerData.gameObject.SetActive(true);
+        }
+
         GetCurLevelData(levelPath);
         Debug.Log("加载Level数据成功");
         // 重置玩家位置
