@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
 
 [CreateAssetMenu(fileName = "FightTurn", menuName = "LevelSO/TurnInfo/FightTurn")]
 public class FightTurn : TurnData
@@ -31,6 +32,7 @@ public class FightTurn : TurnData
         Timer = 0;
         isStart = false;
 
+        RefreshAStarGraph();// 跟新网格信息
         CameraControl.Instance.GetCursceneAndEnable(obj);// 启用摄像机跟随
 
         GameManager.Instance.Player.GetComponent<PlayerController>().playerState = PlayerState.Fight;
@@ -66,7 +68,7 @@ public class FightTurn : TurnData
                 if (Timer >= createDuration)
                 {
                     // 调用生成怪物的函数
-                    //CreateEnemy();
+                    CreateEnemy();
                     Timer = 0;
                 }
             }
@@ -196,5 +198,16 @@ public class FightTurn : TurnData
 
 
         return point;
+    }
+
+    public void RefreshAStarGraph()
+    {
+        Sprite mapSprite = TurnScene.GetComponent<Sprite>();
+        int width = (int)mapSprite.bounds.size.x;
+        int depth = (int)mapSprite.bounds.size.y;
+        var gridGraph = AstarPath.active.data.gridGraph;// 拿到第一个Grid网格
+        gridGraph.width = width;
+        gridGraph.depth = depth;
+        AstarPath.active.Scan(gridGraph);
     }
 }
