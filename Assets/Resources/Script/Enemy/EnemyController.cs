@@ -21,7 +21,8 @@ public class EnemyController : MonoBehaviour
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
     }
-    private void OnEnable()
+
+    public void StartUpdatePath()
     {
         InvokeRepeating(nameof(UpdatePath), 0, 1f);
     }
