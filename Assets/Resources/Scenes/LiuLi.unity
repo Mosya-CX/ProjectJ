@@ -123,32 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &125252492 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7231043965200157383, guid: 9d1eb94cd96976b4fb4b920e8bbe4c68, type: 3}
-  m_PrefabInstance: {fileID: 3914527827164192963}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &125252494
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 125252492}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ef0af2a2c21a4c9429b0da854a802b55, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &179686344
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,32 +359,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &989511585 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3800717125684830793, guid: 9d1eb94cd96976b4fb4b920e8bbe4c68, type: 3}
-  m_PrefabInstance: {fileID: 3914527827164192963}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &989511587
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 989511585}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ef0af2a2c21a4c9429b0da854a802b55, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1788391031
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,10 +537,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy03
       objectReference: {fileID: 0}
-    - target: {fileID: 1011434803175617492, guid: 9d1eb94cd96976b4fb4b920e8bbe4c68, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1392051713921905657, guid: 9d1eb94cd96976b4fb4b920e8bbe4c68, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -636,13 +580,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3800717125684830793, guid: 9d1eb94cd96976b4fb4b920e8bbe4c68, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 989511587}
-    - targetCorrespondingSourceObject: {fileID: 7231043965200157383, guid: 9d1eb94cd96976b4fb4b920e8bbe4c68, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 125252494}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d1eb94cd96976b4fb4b920e8bbe4c68, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
