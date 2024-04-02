@@ -42,6 +42,7 @@ public class Enemy : MonoBehaviour
     //攻击频率
     public float attackFrequency = 1;
     private WaitForSeconds waitForAttackFrequency;
+    public Coroutine attackCoroutine;
     virtual public void Awake()
     {
         InitDict();
@@ -182,7 +183,12 @@ public class Enemy : MonoBehaviour
     {
         if(collision.tag=="Player")
         {
-            StartCoroutine(Attack(collision));
+            Debug.Log("enter");
+            if(attackCoroutine==null)
+            {
+                Debug.Log("attack");
+                attackCoroutine = StartCoroutine(Attack(collision));
+            }
         }
     }
     //
@@ -190,16 +196,23 @@ public class Enemy : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            StopCoroutine(Attack(other));
+            if(attackCoroutine!=null)
+            {
+                Debug.Log("exit attack");
+                StopCoroutine(attackCoroutine);
+                attackCoroutine=null;
+            }
         }
     }
     public IEnumerator Attack(Collider2D collision)
     {
         //如果玩家处于无敌状态也返回
+        Debug.Log("enterAttack");
         var playerController = collision.GetComponent<PlayerController>();
         if (playerController != null)
         {
             playerController.OnHit(damage);
+            Debug.Log(collision.name);
         }
         else
         {
