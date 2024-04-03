@@ -80,6 +80,7 @@ public class CameraControl : MonoBehaviour
     public void GetCursceneAndEnable(GameObject Curscene)//获取curscene，并且启动摄像机跟随
     {
         print("1213e");
+        target = Player;
         curScene = Curscene;
     }
     public void DeleteCursceneAndStop()//关闭摄像机跟随

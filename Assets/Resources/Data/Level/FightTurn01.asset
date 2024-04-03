@@ -23,7 +23,9 @@ MonoBehaviour:
   startDuration: 5
   endDuration: 10
   OnceCreateNum: 4
-  curEnemyNum: 0
-  spareEnemyNum: 100
-  Timer: 1.4235497
-  isStart: 0
+  createEnemy01Probability: 0.7
+  createEnemy02Probability: 0.3
+  curEnemyNum: 21
+  spareEnemyNum: 68
+  Timer: 0.29538605
+  isStart: 1

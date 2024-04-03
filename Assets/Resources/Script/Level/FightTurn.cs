@@ -14,6 +14,8 @@ public class FightTurn : TurnData
     public float startDuration;// 开始刷怪的时间
     public float endDuration;// 结束后持续时间
     public int OnceCreateNum;// 一次生成多少敌人
+    public float createEnemy01Probability;// 生成一级敌人的概率
+    public float createEnemy02Probability;// 生成二级敌人的概率
     [Header("别修改")]
     public int curEnemyNum;
     public int spareEnemyNum;
@@ -32,8 +34,18 @@ public class FightTurn : TurnData
         Timer = 0;
         isStart = false;
 
-        RefreshAStarGraph();// 跟新网格信息
-        CameraControl.Instance.GetCursceneAndEnable(obj);// 启用摄像机跟随
+        if (createEnemy01Probability == 0)
+        {
+            createEnemy01Probability = 0.7f;
+        }
+        if (createEnemy02Probability == 0)
+        {
+            createEnemy02Probability = 0.3f;
+        }
+
+        RefreshAStarGraph(obj);// 跟新网格信息
+        CameraControl.Instance.Player = GameManager.Instance.Player;
+        CameraControl.Instance.GetCursceneAndEnable(obj);// 启用摄像机跟随 
 
         GameManager.Instance.Player.GetComponent<PlayerController>().playerState = PlayerState.Fight;
         GameManager.Instance.Player.transform.Find("AttackArea").gameObject.SetActive(true);
@@ -45,15 +57,18 @@ public class FightTurn : TurnData
     {
         base.OnUpdate();
         // 当全部敌人被清完时调用OnDestory函数
+
         
         if (!isOver)
         {
+            //Debug.Log("进入判断是否结束");
             if (curEnemyNum == 0 && spareEnemyNum == 0)
             {
                 isOver = true;
                 Time.timeScale = 0.5f;
                 Timer = 0;
             }
+            //Debug.Log("进入判断是否开始");
             if (!isStart)
             {
                 if (Timer >= startDuration)
@@ -64,6 +79,7 @@ public class FightTurn : TurnData
             }
             else
             {
+                //Debug.Log("进入生成敌人");
                 curEnemyNum = EnemyManager.Instance.enemyList.Count;
                 if (Timer >= createDuration)
                 {
@@ -72,6 +88,7 @@ public class FightTurn : TurnData
                     Timer = 0;
                 }
             }
+            //Debug.Log("累加计时器");
             Timer += Time.deltaTime;
         }
         else
@@ -132,31 +149,12 @@ public class FightTurn : TurnData
         }
         else
         {
-            int index;
             for (int i = 0; i < OnceCreateNum; i++)
             {
                 // 生成敌人
                 Transform point = RandomCreatePoint();
 
-                index = UnityEngine.Random.Range(0, 3);
-                switch (index)
-                {
-                    case 0:
-
-                        EnemyManager.Instance.CreateEnemy01(point.position);
-                        Debug.Log("生成1级敌人");
-                        break;
-                    case 1:
-
-                        EnemyManager.Instance.CreateEnemy02(point.position);
-                        Debug.Log("生成2级敌人");
-                        break;
-                    case 2:
-
-                        EnemyManager.Instance.CreateEnemy03(point.position);
-                        Debug.Log("生成3级敌人");
-                        break;
-                }
+                EnemyManager.Instance.RandomlyGenerateEnemy(point.position, createEnemy01Probability, createEnemy02Probability);
             }
             //curEnemyNum += OnceCreateNum;
             spareEnemyNum -= OnceCreateNum;
@@ -200,9 +198,9 @@ public class FightTurn : TurnData
         return point;
     }
 
-    public void RefreshAStarGraph()
+    public void RefreshAStarGraph(GameObject scene)
     {
-        Sprite mapSprite = TurnScene.GetComponent<Sprite>();
+        Sprite mapSprite = scene.GetComponent<SpriteRenderer>().sprite;
         int width = (int)mapSprite.bounds.size.x;
         int depth = (int)mapSprite.bounds.size.y;
         var gridGraph = AstarPath.active.data.gridGraph;// 拿到第一个Grid网格
