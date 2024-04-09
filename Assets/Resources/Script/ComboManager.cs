@@ -17,7 +17,14 @@ public class ComboManager: MonoBehaviour
     public float AddSizeCD;//combo大小增加的Cd，越小增大越快
     private float StartAddSizeCD;//记录一开始的AddSizeCD
     
-    // Start is called before the first frame update
+    public float comboNum// 用于外部得到当前连击数
+    {
+        get
+        {
+            return Combonum;
+        }
+    }
+
     private void Awake()
     {
         if (Instance != null)

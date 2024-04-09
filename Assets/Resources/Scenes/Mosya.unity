@@ -431,15 +431,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5749987634806360181, guid: b554766222272d143a9467193ae33c62, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5749987634806360181, guid: b554766222272d143a9467193ae33c62, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5749987634806360181, guid: b554766222272d143a9467193ae33c62, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6926803765096527514, guid: b554766222272d143a9467193ae33c62, type: 3}
       propertyPath: m_Name
@@ -988,8 +988,11 @@ MonoBehaviour:
   effectiveSkillList: []
   maxSp: 4
   curSp: 0
+  recoveryDuration: 15
   existedSkillList: []
   skillBar: {fileID: 0}
+  spBar: {fileID: 0}
+  playerData: {fileID: 0}
 --- !u!114 &4668108229900793330
 MonoBehaviour:
   m_ObjectHideFlags: 0

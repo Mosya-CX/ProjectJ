@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: Skill02
   m_EditorClassIdentifier: 
   isUsed: 0
-  spCost: 0
+  spCost: 3
+  skillIcon: {fileID: 0}
+  playData: {fileID: 0}
+  duration: 3
+  curTime: 0

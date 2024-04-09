@@ -13,5 +13,59 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Skill02", menuName = "SkillSO/Skill02")]
 public class Skill02 : BaseSkill
 {
-    
+    public float duration = 3f;// 持续时间
+    [Header("别修改")]
+    public float curTime = 0f;// 记录当前流逝时间
+
+    public override bool OnTrigger()
+    {
+        if (!base.OnTrigger())
+        {
+            return false;
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public override void OnCreate()
+    {
+        base.OnCreate();
+        OnReset();
+
+        Effect();// 调用技能效果
+    }
+    public override void OnUpdate()
+    {
+        base.OnUpdate();
+        if (curTime >= duration)
+        {
+            isUsed = true;
+        }
+        else
+        {
+            curTime += Time.deltaTime;
+        }
+    }
+
+    public override void OnDestory()
+    {
+        base.OnDestory();
+        // 将敌人状态改回去
+
+    }
+
+    public override void OnReset()
+    {
+        base.OnReset();
+        curTime = 0;
+    }
+
+    public override void Effect()
+    {
+        base.Effect();
+        // 将全场所有敌人的对应按键改为 all。即无论 1/2/3 级的怪物均可以用 26 键中的任意键位一击必杀
+    }
 }

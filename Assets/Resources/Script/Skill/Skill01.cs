@@ -10,9 +10,48 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Skill01", menuName = "SkillSO/Skill01")]
 public class Skill01 : BaseSkill
 {
+    [Header("请勿修改")]
+    public int markCombo = 0;
 
+    public override bool OnTrigger()
+    {
+        if( !base.OnTrigger())
+        {
+            markCombo = (int)ComboManager.Instance.comboNum;
+            return false;
+        }
+        int curCombo = (int)ComboManager.Instance.comboNum;// 记录当前连击数
+        int result = curCombo - markCombo;// 计算当前从满足条件开始的连击数
+        if (result < 0)// 判断是否断了连击数
+        {
+            markCombo = curCombo;
+            return false;
+        }
+        if (result >= 50)
+        {
+            markCombo = curCombo;
+            return true;
+        }
+        return false;
+    }
+    public override void OnCreate()
+    {
+        base.OnCreate();
+        // 进行UI或者外观上的一些调整
 
-    
+        Effect();// 调用技能效果
+    }
 
-   
+    public override void Effect()
+    {
+        base.Effect();
+        // 改变每次combo计数
+        playData.comboAdd = 2;
+    }
+
+    public override void OnReset()
+    {
+        base.OnReset();
+        markCombo = 0;
+    }
 }

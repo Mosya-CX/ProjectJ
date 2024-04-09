@@ -21,8 +21,9 @@ public class PlayerController : MonoBehaviour
     // 玩家变量
     public float maxHp = 100;
     public float curHp;
-    //public float maxEndurance;
-    //public float curEndurance;
+    public int shield;//护盾数量
+
+    public int comboAdd = 1;// combo每次增加数量
 
     public PlayerState playerState;// 玩家状态
 
@@ -35,18 +36,23 @@ public class PlayerController : MonoBehaviour
     public float totalTime = 0.2f;
     public float unattachableTime = 0.5f;
     
-    public bool isReadyToSkip;// 是否允许闪避
+    //public bool isReadyToSkip;// 是否允许闪避
     public bool isSkip;// 判断是否在闪避状态
     public bool isAttack;// 判断是否在攻击状态
     public bool isDead;// 判断是否死亡
     public bool isUnattachable;// 判断是否处于无敌帧状态
+    public bool isSkipSuccess;// 判断是否闪避成功
 
     // 存储可攻击敌人的数据
     public List<Enemy> attackableEnemies;
+    public List<Enemy> tar;// 存储要斩杀的敌人
     // 储存玩家最后按下的按键的信息
     KeyCode lastKeyCode;
+
     // 绑定玩家血条ui
     public Slider HpBar;
+    public Transform shieldBar;// 绑定玩家护盾
+
     // 绑定玩家攻击范围判断触发器物体
     public GameObject AttackArea;
     // 获得玩家刚体组件
@@ -54,8 +60,7 @@ public class PlayerController : MonoBehaviour
     // 判断朝向
     public SpriteRenderer srFace;
 
-    public List<Enemy> tar;// 存储要斩杀的敌人
-
+    
     private void Start()
     {
         // 初始化
@@ -65,11 +70,12 @@ public class PlayerController : MonoBehaviour
         attackableEnemies = new List<Enemy>();
         tar = new List<Enemy>();
 
-        isReadyToSkip = false;
+        //isReadyToSkip = false;
         isSkip = false;
         isAttack = false;
         isDead = false;
         isUnattachable = false;
+        isSkipSuccess = false;
 
         curTime = 0;
 
@@ -88,13 +94,10 @@ public class PlayerController : MonoBehaviour
         HpBar.maxValue = maxHp;
         HpBar.value = curHp;
         HpBar.minValue = 0;
-
-        
     }
 
     private void Update()
     {
-        
 
         // 优先判断特殊按键
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -109,15 +112,16 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        // 血条渐变
+        if (HpBar != null)
+        {
+            HpGradualVary();
+        }
+
         switch (playerState)
         {
             case PlayerState.None: break;
             case PlayerState.Fight:
-                // 血条渐变
-                if (HpBar != null)
-                {
-                    HpGradualVary();
-                }
                 // 玩家输入检测
                 foreach (KeyCode Key in System.Enum.GetValues(typeof(KeyCode)))
                 {
@@ -145,30 +149,19 @@ public class PlayerController : MonoBehaviour
                                 isSkip = true;
                                 // 计算方向
                                 Vector2 skipDir = (gameObject.transform.position - TheClosest.transform.position).normalized;
-                                // 切换成闪避姿势
-
-                                // 判断要朝向
-                                if (skipDir.x > 0)
-                                {
-                                    srFace.flipX = false;
-                                }
-                                else
-                                {
-                                    srFace.flipX = true;
-                                }
-
-                                // 判断最近的敌人在攻击范围内还是范围外
                                 if (attackableEnemies.Count > 0)
                                 {
                                     // 远离最近的敌人
-                                    rb.velocity = skipDir * skipSpeed;
+                                    Skip(skipDir);
 
                                 }
                                 else
                                 {
                                     // 靠近最近的敌人
-                                    rb.velocity = -skipDir * skipSpeed;
+                                    Skip(-skipDir);
                                 }
+                                
+                                
                             }
                             else
                             {
@@ -195,7 +188,6 @@ public class PlayerController : MonoBehaviour
                             if (attackableEnemies.Count <= 0)
                             {
                                 // 先判断是否使用了道具磐石
-                                // if
 
                                 // 若没有就调用Combo系统，清空连击次数
 
@@ -209,8 +201,7 @@ public class PlayerController : MonoBehaviour
 
                             Debug.Log("进入可攻击对象名单排序阶段");
 
-                            // 先给可攻击对象名单排序(有高亮字体的在前，然后常态字体少的在前，接着是字母少的在前，最后在根据Acill码排升序)
-                            AttackableSort();
+                            
 
                             foreach (Enemy enemy in attackableEnemies)
                             {
@@ -388,6 +379,8 @@ public class PlayerController : MonoBehaviour
             if (!attackableEnemies.Contains(collision.GetComponent<Enemy>()))
             {
                 attackableEnemies.Add(collision.GetComponent<Enemy>());
+                // 先给可攻击对象名单排序(有高亮字体的在前，然后常态字体少的在前，接着是字母少的在前，最后在根据Acill码排升序)
+                AttackableSort();
             }
             
         }
@@ -400,6 +393,8 @@ public class PlayerController : MonoBehaviour
             if (!attackableEnemies.Contains(collision.GetComponent<Enemy>()))
             {
                 attackableEnemies.Add(collision.GetComponent<Enemy>());
+                // 先给可攻击对象名单排序(有高亮字体的在前，然后常态字体少的在前，接着是字母少的在前，最后在根据Acill码排升序)
+                AttackableSort();
             }
         }
     }
@@ -415,7 +410,8 @@ public class PlayerController : MonoBehaviour
             }
             // 移除可攻击名单
             attackableEnemies.Remove(collision.GetComponent<Enemy>());
-
+            // 先给可攻击对象名单排序(有高亮字体的在前，然后常态字体少的在前，接着是字母少的在前，最后在根据Acill码排升序)
+            AttackableSort();
         }
     }
 
@@ -456,6 +452,9 @@ public class PlayerController : MonoBehaviour
         // 延迟
         yield return new WaitForSeconds(DelayTime);
         Debug.Log("进入斩杀阶段3");
+        // 启用落地无敌帧
+        isUnattachable = true;
+
         // 顿帧效果
         AttackMoment.Instance.HitPause();
 
@@ -478,7 +477,7 @@ public class PlayerController : MonoBehaviour
 
         curTime = 0;// 重置当前计时
 
-        // 切换玩家姿势
+        // 播放动画
 
         while (curTime < totalTime)
         {
@@ -492,10 +491,7 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
-        // 启用落地无敌帧
-        isUnattachable = true;
-
-        // 切换玩家姿势
+        // 结束动画
 
         // 位移完成检测是否已斩杀完所有目标
         if (tar.Count == 0)
@@ -524,8 +520,10 @@ public class PlayerController : MonoBehaviour
         if (playerState != PlayerState.Dead)
         {
             // 先判断是否处于无敌帧，若否则执行下面的代码
-            if (!isUnattachable)
+            if (!isUnattachable && !isAttack)
             {
+                // 清空combo数
+                //ComboManager.ReSetComboNum();
 
                 // 播放受击动画
 
@@ -551,6 +549,34 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // 玩家闪避方法
+    public void Skip(Vector3 skipDir)
+    {
+        // 播放闪避动画
+
+        // 判断要朝向
+        if (skipDir.x > 0)
+        {
+            srFace.flipX = false;
+        }
+        else
+        {
+            srFace.flipX = true;
+        }
+
+        rb.velocity = skipDir * skipSpeed;
+    }
+    
+    // 闪避成功外部调用
+    public void SkipSuccessDuration(float delayTime = 0.3f)
+    {
+        StartCoroutine(DelayToFalseSkip(delayTime));
+    }
+    IEnumerator DelayToFalseSkip(float delayTime)
+    {
+        yield return new WaitForSecondsRealtime(delayTime);
+        isSkipSuccess = false;
+    }
     // 查询攻击范围内外距离玩家最近的敌人
     public Enemy FindCloseEnemy()
     {

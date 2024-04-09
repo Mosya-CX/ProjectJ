@@ -13,4 +13,10 @@ MonoBehaviour:
   m_Name: Skill06
   m_EditorClassIdentifier: 
   isUsed: 0
-  spCost: 0
+  spCost: 1
+  skillIcon: {fileID: 0}
+  playData: {fileID: 0}
+  curTime: 0
+  setPeriod: 3
+  markCombo: 0
+  standardCombo: 7

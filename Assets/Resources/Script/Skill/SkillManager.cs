@@ -19,8 +19,11 @@ public class SkillManager : SingletonWithMono<SkillManager>
     public const string skillsSOPath = "Data/Skill/";
     public int maxSp = 4;
     public int curSp;
-    public List<BaseSkill> existedSkillList = new List<BaseSkill>(); // 存储已得到的技能信息
+    public float recoveryDuration = 15;
+    public List<BaseSkill> existedSkillList = new List<BaseSkill>(); // 存储可用的技能的信息
     public Transform skillBar;// 绑定技能栏
+    public Transform spBar;// 绑定sp槽
+    public PlayerController playerData;// 绑定玩家信息
 
     protected override void Awake()
     {
@@ -36,6 +39,8 @@ public class SkillManager : SingletonWithMono<SkillManager>
             maxSp = 4;
         }
         curSp = maxSp;
+
+        playerData = GameManager.Instance.Player.GetComponent<PlayerController>();// 绑定玩家信息
     }
     // 添加技能
     public void AddSkill(SkillType skillType)
@@ -78,11 +83,18 @@ public class SkillManager : SingletonWithMono<SkillManager>
         }
         else
         {
+
             existedSkillList.Add(skill);// 添加进已拥有的技能库里
 
-            // 并在技能栏上显示
+            skill.playData = playerData;// 在技能里存储玩家对象信息
+
+            // 并在技能栏上显示UI
+
+
+            Debug.Log("技能成功添加进技能库");
         }
 
+        Debug.Log("技能加载完成");
     }
     // 触发技能
     public void TriggerSkillEffect(BaseSkill skill)
@@ -97,6 +109,7 @@ public class SkillManager : SingletonWithMono<SkillManager>
         {
             effectiveSkillList.Add(skill);
         }
+        existedSkillList.Remove(skill);
     }
     // 改变sp
     public void consumSP(int cost)
@@ -108,6 +121,20 @@ public class SkillManager : SingletonWithMono<SkillManager>
 
     void Update()
     {
+        // 判断是否处于战斗状态
+        if (playerData.playerState != PlayerState.Fight)
+        {
+            if (effectiveSkillList.Count > 0)
+            {
+                for (int i = 0; i < effectiveSkillList.Count; i++)
+                {
+                    effectiveSkillList[i].OnReset();
+                }
+                effectiveSkillList.Clear();
+            }
+            return;
+        }
+        // 绑定技能栏
         if (skillBar == null)
         {
             Debug.LogWarning("未找到技能栏UI");
@@ -117,13 +144,19 @@ public class SkillManager : SingletonWithMono<SkillManager>
             }
             return;
         }
+
+        // 进行技能槽的改变
+        VarySkillBar();
+
         // 判断是否触发技能
         if (existedSkillList.Count > 0)
         {
             for (int i = 0; i < existedSkillList.Count;i++)
             {
+                // 当技能条件被满足时返回 true
                 if(existedSkillList[i].OnTrigger())
                 {
+                    // 并执行技能逻辑
                     TriggerSkillEffect(existedSkillList[i]);
                 }
             }
@@ -151,9 +184,30 @@ public class SkillManager : SingletonWithMono<SkillManager>
             for (int i = 0;i < markIndex.Count; i++)
             {
                 BaseSkill skill = effectiveSkillList[markIndex[i]];
-                effectiveSkillList.Remove(skill);
-                skill = null; 
+                effectiveSkillList.Remove(skill);// 从正在生效的技能组里剔除
+                existedSkillList.Add(skill);// 加回可用技能组
             }
+        }
+    }
+
+    public void VarySkillBar()
+    {
+        if (curSp < maxSp)
+        {
+            recoveryDuration -= Time.deltaTime;
+            if (recoveryDuration <= 0)
+            {
+                recoveryDuration = 15;
+                curSp++;
+            }
+        }
+        else
+        {
+            recoveryDuration = 15;
+        }
+        if (curSp != spBar.childCount)
+        {
+            // 进行UI方面的调整
         }
     }
 }

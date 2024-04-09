@@ -11,5 +11,37 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Skill05", menuName = "SkillSO/Skill05")]
 public class Skill5 : BaseSkill
 {
-    
+    public override bool OnTrigger()
+    {
+        if( !base.OnTrigger())
+        {
+            return false;
+        }
+        if (playData.isSkipSuccess )
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public override void OnCreate()
+    {
+        base.OnCreate();
+        Effect();
+    }
+
+    public override void Effect()
+    {
+        base.Effect();
+        // 进入时停
+
+        // 获得1点血量、3点护盾
+        if (!(playData.curHp + 1 > playData.maxHp))
+        {
+            playData.curHp++;
+        }
+        playData.shield = 3;
+
+        isUsed = true;
+    }
 }
