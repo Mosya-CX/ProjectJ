@@ -7,13 +7,12 @@ using System.Runtime.CompilerServices;
 using TMPro;
 //！！！只需要在player攻击成功时调用AddComboNum函数就可以了！！！！
 
-public class ComboManager: MonoBehaviour
+public class ComboManager: SingletonWithMono<ComboManager>
 {
-    public static ComboManager Instance;
     private TextMeshProUGUI ComboText;
     public float DeleteComboTextTime;//combo重置的时间
     private float startDeleteComboTextTime;//记录一开始的combo重置的时间
-    private float Combonum;//comBo的段数
+    public float Combonum;//comBo的段数
     public float AddSizeCD;//combo大小增加的Cd，越小增大越快
     private float StartAddSizeCD;//记录一开始的AddSizeCD
     
@@ -25,24 +24,20 @@ public class ComboManager: MonoBehaviour
         }
     }
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance != null)
-        {
-            Destroy(this);
-        }
-        Instance = this;
+        base.Awake();
     }
     void Start()
     {
-        Instance.StartAddSizeCD = Instance.AddSizeCD;
-        Instance.AddSizeCD = 0;
-        Instance.ComboText = GetComponent<TextMeshProUGUI>();
-        Instance.Combonum = 0;
-        Instance.startDeleteComboTextTime = Instance.DeleteComboTextTime;
-        Instance.DeleteComboTextTime = 0;
-        Instance.ComboText.enableAutoSizing = false;
-       //Instance.ComboText.rectTransform=UIManager.Instance.FindPanel.coombo.rectTransform;
+        StartAddSizeCD = AddSizeCD;
+        AddSizeCD = 0;
+        ComboText = UIManager.Instance.FindPanel(UIConst.FightUI).GetComponent<FightPanel>().ComboText;
+        Combonum = 0;
+        startDeleteComboTextTime = DeleteComboTextTime;
+        DeleteComboTextTime = 0;
+        ComboText.enableAutoSizing = false;
+       //ComboText.rectTransform=FindPanel.coombo.rectTransform;
     }
 
     // Update is called once per frame
@@ -50,12 +45,12 @@ public class ComboManager: MonoBehaviour
     {
         
         //减小text大小的逻辑
-        Instance.AddSizeCD -= Time.unscaledDeltaTime;
+        AddSizeCD -= Time.unscaledDeltaTime;
         
-        if (Instance.AddSizeCD <=0 && Instance.ComboText.fontSize>=140)
+        if (AddSizeCD <=0 && ComboText.fontSize>=140)
         {
-            Instance.ComboText.fontSize -= 2;
-            Instance.AddSizeCD = Instance.StartAddSizeCD;
+            ComboText.fontSize -= 2;
+            AddSizeCD = StartAddSizeCD;
         }
         Debug.Log(Combonum);
         Instance.ComboText.text = ((int)Instance.Combonum).ToString();

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SingletonWithMono<T> : MonoBehaviour where T : Component
@@ -17,6 +18,7 @@ public class SingletonWithMono<T> : MonoBehaviour where T : Component
                 {
                     var obj = new GameObject(typeof(T).Name);
                     instance = obj.AddComponent<T>();
+                    Debug.Log("创建新的单例模式:" + instance.name);
                 }
             }
             return instance;

@@ -49,10 +49,6 @@ public class PlayerController : MonoBehaviour
     // 储存玩家最后按下的按键的信息
     KeyCode lastKeyCode;
 
-    // 绑定玩家血条ui
-    public Slider HpBar;
-    public Transform shieldBar;// 绑定玩家护盾
-
     // 绑定玩家攻击范围判断触发器物体
     public GameObject AttackArea;
     // 获得玩家刚体组件
@@ -60,15 +56,10 @@ public class PlayerController : MonoBehaviour
     // 判断朝向
     public SpriteRenderer srFace;
 
-    
-    private void Start()
+    private void Awake()
     {
         // 初始化
         curHp = maxHp;
-        //curEndurance = maxEndurance;
-
-        attackableEnemies = new List<Enemy>();
-        tar = new List<Enemy>();
 
         //isReadyToSkip = false;
         isSkip = false;
@@ -77,6 +68,12 @@ public class PlayerController : MonoBehaviour
         isUnattachable = false;
         isSkipSuccess = false;
 
+        attackableEnemies = new List<Enemy>();
+        tar = new List<Enemy>();
+    }
+
+    private void Start()
+    {
         curTime = 0;
 
         // playerState = PlayerState.None;
@@ -85,15 +82,6 @@ public class PlayerController : MonoBehaviour
         srFace = GetComponentInChildren<SpriteRenderer>();
 
         AttackArea = transform.Find("AttackArea").gameObject;
-        if (HpBar == null)
-        {
-            HpBar = GameObject.Find("UI/FightPanel/Top/StatusBar/HpBar").GetComponent<Slider>();
-            
-        }
-        
-        HpBar.maxValue = maxHp;
-        HpBar.value = curHp;
-        HpBar.minValue = 0;
     }
 
     private void Update()
@@ -110,12 +98,6 @@ public class PlayerController : MonoBehaviour
             {
                 UIManager.Instance.OpenPanel(UIConst.SettingUI);// 打开设置界面
             }
-        }
-
-        // 血条渐变
-        if (HpBar != null)
-        {
-            HpGradualVary();
         }
 
         switch (playerState)
@@ -680,13 +662,5 @@ public class PlayerController : MonoBehaviour
             .ToList();
     }
 
-    // 血条渐变方法
-    public void HpGradualVary()
-    {
-        if (curHp != HpBar.value)
-        {
-            HpBar.value = Mathf.Lerp(HpBar.value, curHp, Time.deltaTime);
-        }
-    }
 
 }

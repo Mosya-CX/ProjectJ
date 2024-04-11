@@ -4,44 +4,44 @@ using System.Xml.Linq;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
-public class UIManager : MonoBehaviour
+public class UIManager : SingletonWithMono<UIManager>
 {
-    public static UIManager Instance;
 
     public Transform UI;// 绑定ui画布
     public List<BasePanel> UIList;// ui界面存储
 
-    private void Awake()
+    protected override void Awake()
     {
-        Instance = this;
         if (UI == null)
         {
             UI = GameObject.Find("UI").transform;
         }
+        UIList = new List<BasePanel>();
     }
 
     private void Start()
     {
         
-        UIList = new List<BasePanel>();
     }
 
     public BasePanel OpenPanel(string uiName) 
     {
         BasePanel panel = FindPanel(uiName);
 
-        if (panel != null)
+        if (panel == null)
         {
-            panel.Open(uiName);
-        }
-        else
-        {
-            GameObject obj = GameObject.Instantiate(Resources.Load("Prefab/UI/"+uiName), UI) as GameObject;
-            
+            GameObject obj = GameObject.Instantiate(Resources.Load("Prefab/UI/" + uiName), UI) as GameObject;
+
             panel = obj.GetComponent<BasePanel>();
             UIList.Add(panel);
+            
+            if (panel == null)
+            {
+                Debug.LogWarning("打开UI失败:" + uiName);
+                return panel;
+            }
         }
-
+        panel.Open(uiName);
         return panel;
     }
 

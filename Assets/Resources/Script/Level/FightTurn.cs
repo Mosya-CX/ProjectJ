@@ -29,6 +29,12 @@ public class FightTurn : TurnData
             enemySpwanPoints = TurnScene.transform.Find("EnemySpwanPoints");
         }
 
+        if (UIManager.Instance == null)
+        {
+            Debug.LogWarning("UIManager为空");
+        }
+        UIManager.Instance.OpenPanel(UIConst.FightUI);// 打开战斗UI
+
         spareEnemyNum = totalEnemyNum;
         curEnemyNum = 0;
         Timer = 0;
@@ -83,8 +89,9 @@ public class FightTurn : TurnData
                 curEnemyNum = EnemyManager.Instance.enemyList.Count;
                 if (Timer >= createDuration)
                 {
+                    Debug.Log("生成敌人");
                     // 调用生成怪物的函数
-                    CreateEnemy();
+                    //CreateEnemy();
                     Timer = 0;
                 }
             }
@@ -109,6 +116,7 @@ public class FightTurn : TurnData
         Time.timeScale = 1;
 
         CameraControl.Instance.DeleteCursceneAndStop();//  禁用摄像机跟随
+        UIManager.Instance.ClosePanel(UIConst.FightUI);// 关闭战斗UI
 
         base.OnDestory();
     }

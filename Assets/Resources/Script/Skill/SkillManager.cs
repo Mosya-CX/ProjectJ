@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEditor.Progress;
 
 public enum SkillType
@@ -21,13 +22,14 @@ public class SkillManager : SingletonWithMono<SkillManager>
     public int curSp;
     public float recoveryDuration = 15;
     public List<BaseSkill> existedSkillList = new List<BaseSkill>(); // 存储可用的技能的信息
-    public Transform skillBar;// 绑定技能栏
+    public Transform skillFields;// 绑定技能栏
     public Transform spBar;// 绑定sp槽
     public PlayerController playerData;// 绑定玩家信息
 
     protected override void Awake()
     {
         base.Awake();
+        playerData = GameManager.Instance.Player.GetComponent<PlayerController>();// 绑定玩家信息
     }
     
     
@@ -40,11 +42,12 @@ public class SkillManager : SingletonWithMono<SkillManager>
         }
         curSp = maxSp;
 
-        playerData = GameManager.Instance.Player.GetComponent<PlayerController>();// 绑定玩家信息
+        
     }
     // 添加技能
     public void AddSkill(SkillType skillType)
     {
+        Debug.Log("正在添加技能:"+ skillType);
         BaseSkill skill;
         switch(skillType)
         {
@@ -85,20 +88,25 @@ public class SkillManager : SingletonWithMono<SkillManager>
         {
 
             existedSkillList.Add(skill);// 添加进已拥有的技能库里
-
+            if (playerData == null)
+            {
+                Debug.LogWarning("传入的玩家数据为空");
+            }
             skill.playData = playerData;// 在技能里存储玩家对象信息
 
             // 并在技能栏上显示UI
 
 
-            Debug.Log("技能成功添加进技能库");
+            Debug.Log("技能添加成功:"+skill.name);
+            return;
         }
 
-        Debug.Log("技能加载完成");
+        Debug.Log("技能添加失败:"+skill.name);
     }
     // 触发技能
     public void TriggerSkillEffect(BaseSkill skill)
     {
+        Debug.Log("正在触发技能");
         if (skill == null)
         {
             Debug.LogWarning("未找到该技能:" + skill.name);
@@ -108,8 +116,10 @@ public class SkillManager : SingletonWithMono<SkillManager>
         if (!effectiveSkillList.Contains(skill))
         {
             effectiveSkillList.Add(skill);
+            Debug.Log("添加进生效组:" + skill.name);
         }
-        existedSkillList.Remove(skill);
+        existedSkillList.Remove(skill);// 从可用技能组中移除
+        Debug.Log("触发完毕");
     }
     // 改变sp
     public void consumSP(int cost)
@@ -135,24 +145,31 @@ public class SkillManager : SingletonWithMono<SkillManager>
             return;
         }
         // 绑定技能栏
-        if (skillBar == null)
+        if (skillFields == null)
         {
             Debug.LogWarning("未找到技能栏UI");
             if (UIManager.Instance != null)
             {
-                skillBar = UIManager.Instance.FindPanel(UIConst.FightUI).GetComponent<FightPanel>().SkillBar;
+                Debug.Log("正在查找技能栏UI");
+                skillFields = UIManager.Instance.FindPanel(UIConst.FightUI).GetComponent<FightPanel>().SkillFields;
             }
-            return;
+            if (skillFields == null)
+            {
+                Debug.Log("查找失败");
+                return;
+            }
         }
 
         // 进行技能槽的改变
-        VarySkillBar();
+        //VarySkillBar();
 
         // 判断是否触发技能
         if (existedSkillList.Count > 0)
         {
+            Debug.Log("正在检测技能是否被触发");
             for (int i = 0; i < existedSkillList.Count;i++)
             {
+                Debug.Log("检测技能:" + existedSkillList[i].name);
                 // 当技能条件被满足时返回 true
                 if(existedSkillList[i].OnTrigger())
                 {
@@ -160,26 +177,28 @@ public class SkillManager : SingletonWithMono<SkillManager>
                     TriggerSkillEffect(existedSkillList[i]);
                 }
             }
+            Debug.Log("检测完毕");
         }
-        else
-        {
-            return;
-        }
+
         //判断列表里是否有道具，有的话就调用所有道具的Update函数
         if (effectiveSkillList.Count > 0)
         {
+            Debug.Log("正在调用技能");
             List<int> markIndex = new List<int>();
             int count = effectiveSkillList.Count;
             for (int i = 0; i < count; i++)
             {
+                Debug.Log("调用技能Update:" + effectiveSkillList[i].name);
                 effectiveSkillList[i].OnUpdate();
                 if (effectiveSkillList[i].isUsed)//被使用了
                 {
+                    Debug.Log("调用技能Destory:" + effectiveSkillList[i].name);
                     effectiveSkillList[i].OnDestory();//消除道具效果
                     
                     markIndex.Add(i);
                 }
             }
+            Debug.Log("调用完毕，正在销毁已用完的技能");
             // 销毁道具
             for (int i = 0;i < markIndex.Count; i++)
             {
@@ -187,6 +206,7 @@ public class SkillManager : SingletonWithMono<SkillManager>
                 effectiveSkillList.Remove(skill);// 从正在生效的技能组里剔除
                 existedSkillList.Add(skill);// 加回可用技能组
             }
+            Debug.Log("销毁完毕");
         }
     }
 
@@ -205,9 +225,18 @@ public class SkillManager : SingletonWithMono<SkillManager>
         {
             recoveryDuration = 15;
         }
-        if (curSp != spBar.childCount)
+        // 进行UI方面的调整
+        for (int i = 0;i < spBar.childCount;i++)
         {
-            // 进行UI方面的调整
+            Transform child = spBar.GetChild(i);
+            if (curSp > i)
+            {
+                child.gameObject.SetActive(true);
+            }
+            else
+            {
+                child.gameObject.SetActive(false);
+            }
         }
     }
 }
