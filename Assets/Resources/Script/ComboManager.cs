@@ -77,14 +77,14 @@ public class ComboManager: SingletonWithMono<ComboManager>
         }
         //combo到了进行斩杀
     }
-    public static void AddComboNum(int AddComboNum)
+    public  void AddComboNum(int AddComboNum)
     {
         Instance.ComboText.enabled = true;
         Instance.ComboText.fontSize = 180;//将大小变大
         Instance.DeleteComboTextTime = Instance.startDeleteComboTextTime;//刷新text消失的时间
         Instance.Combonum += AddComboNum; 
     }
-    public static void ReSetComboNum()
+    public  void ReSetComboNum()
     {
         Instance.Combonum = 0;
     }
