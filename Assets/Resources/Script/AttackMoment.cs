@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackMoment : MonoBehaviour
+public class AttackMoment : SingletonWithMono<AttackMoment>
 {
-    public static AttackMoment Instance;
-
-    private void Awake()
+    protected override void Awake()
     {
-        Instance = this;
+        base.Awake();
+        camPos = Camera.main.transform;
     }
 
     public bool isShake;// 判断相机是否在抖动
@@ -17,7 +16,7 @@ public class AttackMoment : MonoBehaviour
     private void Start()
     {
         isShake = false;
-        camPos = Camera.main.transform;
+        
     }
 
     // 顿帧

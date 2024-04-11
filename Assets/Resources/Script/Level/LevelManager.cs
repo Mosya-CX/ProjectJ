@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : SingletonWithMono<LevelManager>
 {
-    public static LevelManager Instance;
-    private void Awake()
+    protected override void Awake()
     {
-        Instance = this;
+        base.Awake();
+        curTurn = 0;
+        maxTurn = 0;
+
+        loadedScene = new Dictionary<string, GameObject>();
+        playerData = GameManager.Instance.Player.GetComponent<PlayerController>();
     }
     public Transform SceneParentNode;// 设置场景位置
 
@@ -29,12 +33,9 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        curTurn = 0;
-        maxTurn = 0;
+        
 
-        loadedScene =new Dictionary<string, GameObject>();
-
-        playerData = GameManager.Instance.Player.GetComponent<PlayerController>();
+        
         
     }
 
@@ -43,6 +44,7 @@ public class LevelManager : MonoBehaviour
     // 加载关卡信息
     public void LoadLevel(string levelPath)
     {
+        
         if (!playerData.gameObject.activeSelf)
         {
             playerData.gameObject.SetActive(true);

@@ -4,9 +4,9 @@ using UnityEngine;
 
 //！！！！无需进行任何改变，只需要调用TImeOut函数，并传入是否是iscombostop这个bool值就好了！！！！
 
-public class TimeManager: MonoBehaviour
+public class TimeManager: SingletonWithMono<TimeManager>
 {
-    public static TimeManager Instance;
+
     public float StopLength;//暂停多久时间
     public float Time_Scale;//放缩尺度
     public float TimeStopCD;//时间停止的CD
@@ -14,12 +14,9 @@ public class TimeManager: MonoBehaviour
     private float StartTimeStopCD;//记录一开始的时间停止的CD
 
     // Start is called before the first frame update
-    void Awake()
+    protected override void Awake()
     {
-        //给Instance赋值
-        if (Instance != null)
-            Destroy(this);
-        Instance = this;
+        base.Awake();
     }
     void Start()
     {

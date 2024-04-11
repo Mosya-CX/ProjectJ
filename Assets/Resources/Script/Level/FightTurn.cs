@@ -91,7 +91,7 @@ public class FightTurn : TurnData
                 {
                     Debug.Log("生成敌人");
                     // 调用生成怪物的函数
-                    //CreateEnemy();
+                    CreateEnemy();
                     Timer = 0;
                 }
             }

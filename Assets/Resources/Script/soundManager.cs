@@ -3,20 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.VisualScripting;
 
-public class soundManager : MonoBehaviour
+public class soundManager : SingletonWithMono<soundManager>
 {
-    public static soundManager Instance;
     [Header("文件管理与播放器")]
     public List<Sound> musicSound, sfxSound = new List<Sound>();
      public  AudioSource musicSource, sfxSource;
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance != null)
-        {
-            Destroy(Instance);
-        }
-        Instance = this;
+        base.Awake();
     }
     //播放music
     public void PlayMusic(string name)

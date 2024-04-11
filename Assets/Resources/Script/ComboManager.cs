@@ -9,12 +9,12 @@ using TMPro;
 
 public class ComboManager: SingletonWithMono<ComboManager>
 {
-    private TextMeshProUGUI ComboText;
+    public TextMeshProUGUI ComboText;
     public float DeleteComboTextTime;//combo重置的时间
-    private float startDeleteComboTextTime;//记录一开始的combo重置的时间
+    public float startDeleteComboTextTime;//记录一开始的combo重置的时间
     public float Combonum;//comBo的段数
     public float AddSizeCD;//combo大小增加的Cd，越小增大越快
-    private float StartAddSizeCD;//记录一开始的AddSizeCD
+    public float StartAddSizeCD;//记录一开始的AddSizeCD
     
     public float comboNum// 用于外部得到当前连击数
     {
@@ -27,9 +27,6 @@ public class ComboManager: SingletonWithMono<ComboManager>
     protected override void Awake()
     {
         base.Awake();
-    }
-    void Start()
-    {
         StartAddSizeCD = AddSizeCD;
         AddSizeCD = 0;
         ComboText = UIManager.Instance.FindPanel(UIConst.FightUI).GetComponent<FightPanel>().ComboText;
@@ -37,7 +34,11 @@ public class ComboManager: SingletonWithMono<ComboManager>
         startDeleteComboTextTime = DeleteComboTextTime;
         DeleteComboTextTime = 0;
         ComboText.enableAutoSizing = false;
-       //ComboText.rectTransform=FindPanel.coombo.rectTransform;
+        //ComboText.rectTransform=FindPanel.coombo.rectTransform;
+    }
+    void Start()
+    {
+        
     }
 
     // Update is called once per frame
@@ -58,6 +59,7 @@ public class ComboManager: SingletonWithMono<ComboManager>
         Instance.DeleteComboTextTime -= Time.unscaledDeltaTime;
         if (Instance.DeleteComboTextTime <= 0)
         {
+            Debug.Log("连击时间过了");
             Instance.ComboText.enabled = false;
             Instance.Combonum = 0;
         }
@@ -77,6 +79,7 @@ public class ComboManager: SingletonWithMono<ComboManager>
     }
     public static void ReSetComboNum()
     {
+        Debug.Log("清除了combo计数");
         Instance.Combonum = 0;
     }
          

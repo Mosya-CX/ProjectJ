@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
     public bool isDead;// 判断是否死亡
     public bool isUnattachable;// 判断是否处于无敌帧状态
     public bool isSkipSuccess;// 判断是否闪避成功
+    public bool isTest;// 是否在测试
 
     // 存储可攻击敌人的数据
     public List<Enemy> attackableEnemies;
@@ -67,6 +68,7 @@ public class PlayerController : MonoBehaviour
         isDead = false;
         isUnattachable = false;
         isSkipSuccess = false;
+        isTest = false;
 
         attackableEnemies = new List<Enemy>();
         tar = new List<Enemy>();
@@ -278,13 +280,14 @@ public class PlayerController : MonoBehaviour
 
                                 Attack();// 调用攻击函数
                             }
-
+                            // 判断是否按错键了
                             if (isPushMistake)
                             {
-                                // 先判断是否使用了道具磐石
-                                // if
+                                // 判断是否有盾
 
                                 // 若没有就调用Combo系统，清空连击次数
+                                Debug.Log("按错键了");
+                                ComboManager.ReSetComboNum();
 
                                 // 按错就扣血
                                 OnHit(1);
@@ -292,6 +295,7 @@ public class PlayerController : MonoBehaviour
 
                                 isPushMistake = false;
                             }
+
                         }
                     
 
@@ -423,7 +427,8 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(Rush(tarPos, gameObject.transform.position));
         // 延迟调用攻击效果
         StartCoroutine(AttackEffect(totalTime * 0.75f, tarEnemy, lastKeyCode.ToString()[0]));
-        // 调用Combo系统并增加连击次数
+        // 增加combo数
+        ComboManager.AddComboNum();
 
         tar.Remove(tarEnemy);// 从斩杀名单中移除
     }
@@ -499,13 +504,18 @@ public class PlayerController : MonoBehaviour
     // 玩家受击判定
     public void OnHit(int Demage)
     {
+        if (isTest)
+        {
+            return;
+        }
         if (playerState != PlayerState.Dead)
         {
             // 先判断是否处于无敌帧，若否则执行下面的代码
             if (!isUnattachable && !isAttack)
             {
                 // 清空combo数
-                //ComboManager.ReSetComboNum();
+                Debug.Log("受伤了");
+                ComboManager.ReSetComboNum();
 
                 // 播放受击动画
 
@@ -550,8 +560,9 @@ public class PlayerController : MonoBehaviour
     }
     
     // 闪避成功外部调用
-    public void SkipSuccessDuration(float delayTime = 0.3f)
+    public void SkipSuccess(float delayTime = 0.3f)
     {
+        isSkipSuccess = true;
         StartCoroutine(DelayToFalseSkip(delayTime));
     }
     IEnumerator DelayToFalseSkip(float delayTime)
