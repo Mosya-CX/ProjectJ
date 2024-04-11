@@ -17,7 +17,7 @@ public class TestPlayer : MonoBehaviour
         if (UnityEngine.Input.GetMouseButtonDown(0))
         {
            TimeManager.TimeOut(true);//combo导致的暂停\
-            ComboManager.AddComboNum();//攻击成功
+            ComboManager.AddComboNum(1);//攻击成功
             soundManager.Instance.Playsfx("b");
             print("dkjasjfkdl");
         }

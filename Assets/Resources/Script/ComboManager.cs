@@ -12,7 +12,7 @@ public class ComboManager: SingletonWithMono<ComboManager>
     private TextMeshProUGUI ComboText;
     public float DeleteComboTextTime;//combo重置的时间
     private float startDeleteComboTextTime;//记录一开始的combo重置的时间
-    public float Combonum;//comBo的段数
+    private int Combonum;//comBo的段数
     public float AddSizeCD;//combo大小增加的Cd，越小增大越快
     private float StartAddSizeCD;//记录一开始的AddSizeCD
     
@@ -30,13 +30,17 @@ public class ComboManager: SingletonWithMono<ComboManager>
     }
     void Start()
     {
-        StartAddSizeCD = AddSizeCD;
-        AddSizeCD = 0;
-        ComboText = UIManager.Instance.FindPanel(UIConst.FightUI).GetComponent<FightPanel>().ComboText;
-        Combonum = 0;
-        startDeleteComboTextTime = DeleteComboTextTime;
-        DeleteComboTextTime = 0;
-        ComboText.enableAutoSizing = false;
+        Instance.StartAddSizeCD = Instance.AddSizeCD;
+        Instance.AddSizeCD = 0;
+        Instance.ComboText = UIManager.Instance.FindPanel(UIConst.FightUI).GetComponent<FightPanel>().ComboText;
+        Instance.Combonum = 0;
+        if (Instance.DeleteComboTextTime == 0)
+        {
+            Instance.DeleteComboTextTime = 4;
+        }
+        Instance.startDeleteComboTextTime = Instance.DeleteComboTextTime;
+        Instance.DeleteComboTextTime = 0;
+        Instance.ComboText.enableAutoSizing = false;
        //ComboText.rectTransform=FindPanel.coombo.rectTransform;
     }
 
@@ -45,20 +49,25 @@ public class ComboManager: SingletonWithMono<ComboManager>
     {
         
         //减小text大小的逻辑
-        AddSizeCD -= Time.unscaledDeltaTime;
+        Instance.AddSizeCD -= Time.unscaledDeltaTime;
+        Debug.Log(Instance.ComboText);
         
-        if (AddSizeCD <=0 && ComboText.fontSize>=140)
+        if (Instance.AddSizeCD <=0 && Instance.ComboText.fontSize>=140)
         {
-            ComboText.fontSize -= 2;
-            AddSizeCD = StartAddSizeCD;
+            Instance.ComboText.fontSize -= 2;
+            Instance.AddSizeCD = Instance.StartAddSizeCD;
         }
         Debug.Log(Combonum);
-        Instance.ComboText.text = ((int)Instance.Combonum).ToString();
+        Instance.ComboText.text = Instance.Combonum.ToString();
         //时间过了后断combo的逻辑
-        Instance.DeleteComboTextTime -= Time.unscaledDeltaTime;
+        if (Instance.DeleteComboTextTime >= 0)
+        {
+            Instance.DeleteComboTextTime -= Time.unscaledDeltaTime;
+        }
+        
         if (Instance.DeleteComboTextTime <= 0)
         {
-            Instance.ComboText.enabled = false;
+            Instance.ComboText.enabled = false;         
             Instance.Combonum = 0;
         }
         //达到combo数后时间停止
@@ -68,12 +77,12 @@ public class ComboManager: SingletonWithMono<ComboManager>
         }
         //combo到了进行斩杀
     }
-    public static void AddComboNum()
+    public static void AddComboNum(int AddComboNum)
     {
         Instance.ComboText.enabled = true;
         Instance.ComboText.fontSize = 180;//将大小变大
         Instance.DeleteComboTextTime = Instance.startDeleteComboTextTime;//刷新text消失的时间
-        Instance.Combonum += 1; 
+        Instance.Combonum += AddComboNum; 
     }
     public static void ReSetComboNum()
     {

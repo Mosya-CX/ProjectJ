@@ -23,7 +23,7 @@ public class CameraControl : MonoBehaviour
     void Update()
     {
 
-        Debug.Log(target);
+        //Debug.Log(target);
         if (target != null&&curScene!=null)//¸úËæTarget
         {
             if (transform.position != target.transform.position)
