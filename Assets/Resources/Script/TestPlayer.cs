@@ -8,7 +8,7 @@ public class TestPlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+       // ComboManager.Instance.DisableCombo();
     }
 
     // Update is called once per frame
@@ -16,14 +16,14 @@ public class TestPlayer : MonoBehaviour
     {
         if (UnityEngine.Input.GetMouseButtonDown(0))
         {
-           TimeManager.TimeOut(true);//combo导致的暂停\
+           TimeManager.Instance.TimeOut(true);//combo导致的暂停\
             ComboManager.Instance.AddComboNum(1);//攻击成功
             soundManager.Instance.Playsfx("b");
             print("dkjasjfkdl");
         }
         else if (UnityEngine.Input.GetMouseButtonDown(1))
         {
-            TimeManager.TimeOut(false); //不是combo导致的暂停
+            TimeManager.Instance.TimeOut(false); //不是combo导致的暂停
         }
 
     }
