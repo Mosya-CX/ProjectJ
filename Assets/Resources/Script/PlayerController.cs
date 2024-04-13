@@ -444,7 +444,7 @@ public class PlayerController : MonoBehaviour
         AttackMoment.Instance.CamShake();
 
         // 增加Combo数
-        ComboManager.AddComboNum(1);
+        ComboManager.Instance.AddComboNum(1);
 
         Debug.Log("进入斩杀阶段5");
         // 调用敌人的受击函数
