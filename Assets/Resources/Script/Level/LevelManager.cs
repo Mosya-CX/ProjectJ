@@ -11,6 +11,14 @@ public class LevelManager : SingletonWithMono<LevelManager>
         curTurn = 0;
         maxTurn = 0;
 
+        if (SceneParentNode ==  null)
+        {
+            GameObject obj = new GameObject();
+            obj.transform.position = Vector3.zero;
+            obj.name = "SceneParentNode";
+            SceneParentNode = obj.transform;
+        }
+
         loadedScene = new Dictionary<string, GameObject>();
         playerData = GameManager.Instance.Player.GetComponent<PlayerController>();
     }

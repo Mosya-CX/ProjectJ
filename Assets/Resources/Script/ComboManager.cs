@@ -27,6 +27,10 @@ public class ComboManager: SingletonWithMono<ComboManager>
     protected override void Awake()
     {
         base.Awake();
+        if (DeleteComboTextTime <= 0)
+        {
+            DeleteComboTextTime = 10;
+        }
         StartAddSizeCD = AddSizeCD;
         AddSizeCD = 0;
         ComboText = UIManager.Instance.FindPanel(UIConst.FightUI).GetComponent<FightPanel>().ComboText;

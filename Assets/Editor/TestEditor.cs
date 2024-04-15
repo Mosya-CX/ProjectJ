@@ -42,5 +42,13 @@ public class TestEditor
             SkillManager.Instance.TriggerSkillEffect(list[0]);
         } 
     }
+    [MenuItem("测试/增加十次Combos数")]
+    public static void AddTenCombo()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            ComboManager.AddComboNum();
+        }
+    }
 
 }

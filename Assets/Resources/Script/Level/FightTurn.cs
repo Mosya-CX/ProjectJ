@@ -116,6 +116,7 @@ public class FightTurn : TurnData
         Time.timeScale = 1;
 
         CameraControl.Instance.DeleteCursceneAndStop();//  禁用摄像机跟随
+        ComboManager.ReSetComboNum();// 重置combo数
         UIManager.Instance.ClosePanel(UIConst.FightUI);// 关闭战斗UI
 
         base.OnDestory();
