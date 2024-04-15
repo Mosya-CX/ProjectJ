@@ -17,10 +17,10 @@ public class Skill01 : BaseSkill
     {
         if( !base.OnTrigger())
         {
-            markCombo = (int)ComboManager.Instance.comboNum;
+            markCombo = ComboManager.Instance.comboNum;
             return false;
         }
-        int curCombo = (int)ComboManager.Instance.comboNum;// 记录当前连击数
+        int curCombo = ComboManager.Instance.comboNum;// 记录当前连击数
         int result = curCombo - markCombo;// 计算当前从满足条件开始的连击数
         if (result < 0)// 判断是否断了连击数
         {

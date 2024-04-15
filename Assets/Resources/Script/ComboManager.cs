@@ -11,7 +11,7 @@ using TMPro;
 public class ComboManager: SingletonWithMono<ComboManager>
 {
     private TextMeshProUGUI ComboText;
-    public float DeleteComboTextTime=4;//combo重置的时间
+    public float DeleteComboTextTime = 4 ;//combo重置的时间
     private float startDeleteComboTextTime;//记录一开始的combo重置的时间
     private int Combonum;//comBo的段数
     public float AddSizeCD=0.03f;//combo大小增加的Cd，越小增大越快
@@ -20,7 +20,7 @@ public class ComboManager: SingletonWithMono<ComboManager>
     private bool IsComboEnable=true;//判断ComboManager是否启动（默认启动）
 
     
-    public float comboNum// 用于外部得到当前连击数
+    public int comboNum// 用于外部得到当前连击数
     {
         get
         {

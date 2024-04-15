@@ -26,6 +26,7 @@ public class SkillManager : SingletonWithMono<SkillManager>
     public Transform spBar;// 绑定sp槽
     public PlayerController playerData;// 绑定玩家信息
 
+    public bool isPause;
     protected override void Awake()
     {
         base.Awake();
@@ -42,7 +43,7 @@ public class SkillManager : SingletonWithMono<SkillManager>
         }
         curSp = maxSp;
 
-        
+        isPause = false;
     }
     // 添加技能
     public void AddSkill(SkillType skillType)
@@ -160,8 +161,11 @@ public class SkillManager : SingletonWithMono<SkillManager>
             }
         }
 
-        // 进行技能槽的改变
-        //VarySkillBar();
+        if (isPause)
+        {
+            Debug.Log("SkillManager暂停中");
+            return;
+        }
 
         // 判断是否触发技能
         if (existedSkillList.Count > 0)
@@ -210,35 +214,7 @@ public class SkillManager : SingletonWithMono<SkillManager>
         }
     }
 
-    public void VarySkillBar()
-    {
-        if (curSp < maxSp)
-        {
-            recoveryDuration -= Time.deltaTime;
-            if (recoveryDuration <= 0)
-            {
-                recoveryDuration = 15;
-                curSp++;
-            }
-        }
-        else
-        {
-            recoveryDuration = 15;
-        }
-        // 进行UI方面的调整
-        for (int i = 0;i < spBar.childCount;i++)
-        {
-            Transform child = spBar.GetChild(i);
-            if (curSp > i)
-            {
-                child.gameObject.SetActive(true);
-            }
-            else
-            {
-                child.gameObject.SetActive(false);
-            }
-        }
-    }
+
 }
 
 

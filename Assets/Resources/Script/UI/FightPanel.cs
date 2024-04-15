@@ -17,8 +17,12 @@ public class FightPanel : BasePanel
     public Slider BottomHpBar;
     public Slider TopHpBar;
     public TextMeshProUGUI ComboText;
+    public Transform BottomSpBar;
+    public Transform BottomShieldBar;
     // 其它信息数据
     public PlayerController playerData;
+    public int ShieldCount;
+    public int SpCount;
 
     private void Awake()
     {
@@ -33,6 +37,8 @@ public class FightPanel : BasePanel
         ShieldBar = transform.Find("Bottom/ShieldBar");
         SkillFields = SkillBar.Find("Fields");
         ComboText = ComboArea.Find("ComboNum").GetComponent<TextMeshProUGUI>();
+        BottomSpBar = transform.Find("Bottom/SpBar");
+        BottomShieldBar = transform.Find("Bottom/ShieldBar");
     }
 
     private void Start()
@@ -46,6 +52,9 @@ public class FightPanel : BasePanel
         BottomHpBar.maxValue = playerData.maxHp;
         BottomHpBar.minValue = 0;
         BottomHpBar.value = BottomHpBar.maxValue;
+
+        ShieldCount = playerData.shield;
+        SpCount = SkillManager.Instance.curSp;
 
         // 注册点击事件
         SettingBin.GetComponent<Button>().onClick.AddListener(OnSettingBin);
@@ -70,6 +79,57 @@ public class FightPanel : BasePanel
         {
             TopHpBar.value = Mathf.Lerp(TopHpBar.value, curHp, Time.deltaTime);
             BottomHpBar.value = Mathf.Lerp(BottomHpBar.value, curHp, Time.deltaTime);
+        }
+    }
+    // 改变护盾UI
+    public void ShieldUIChange()
+    {
+        if (ShieldCount != playerData.shield)
+        {
+            ShieldCount = playerData.shield;
+            for (int i = 0; i < 3; i++)
+            {
+                Transform children = BottomShieldBar.GetChild(i);
+                if (ShieldCount > i)
+                {
+                    children.gameObject.SetActive(true);
+                }
+                else
+                {
+                    children.gameObject.SetActive(false) ;
+                }
+            }
+        }
+
+    }
+    // 改变Sp的UI
+    public void SpUIChange()
+    {
+        if (SpCount != SkillManager.Instance.curSp)
+        {
+            SpCount = SkillManager.Instance.curSp;
+            for (int i = 0;i < SkillManager.Instance.maxSp;i++)
+            {
+                Transform children = SpBar.GetChild(i);
+                if (ShieldCount > i)
+                {
+                    children.gameObject.SetActive(true);
+                }
+                else
+                {
+                    children.gameObject.SetActive(false);
+                }
+                children = BottomShieldBar.GetChild(i);
+                if (ShieldCount > i)
+                {
+                    children.gameObject.SetActive(true);
+                }
+                else
+                {
+                    children.gameObject.SetActive(false);
+                }
+            }
+
         }
     }
 }

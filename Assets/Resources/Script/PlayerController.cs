@@ -42,7 +42,8 @@ public class PlayerController : MonoBehaviour
     public bool isDead;// 判断是否死亡
     public bool isUnattachable;// 判断是否处于无敌帧状态
     public bool isSkipSuccess;// 判断是否闪避成功
-    public bool isTest;// 是否在测试
+    public bool isTest;// 无敌模式
+    public bool isPause;// 是否时停
 
     // 存储可攻击敌人的数据
     public List<Enemy> attackableEnemies;
@@ -69,6 +70,7 @@ public class PlayerController : MonoBehaviour
         isUnattachable = false;
         isSkipSuccess = false;
         isTest = false;
+        isPause = false;
 
         attackableEnemies = new List<Enemy>();
         tar = new List<Enemy>();
@@ -100,6 +102,12 @@ public class PlayerController : MonoBehaviour
             {
                 UIManager.Instance.OpenPanel(UIConst.SettingUI);// 打开设置界面
             }
+        }
+
+        if (isPause)
+        {
+            Debug.Log("PlayerController暂停中");
+            return;
         }
 
         switch (playerState)
@@ -287,7 +295,7 @@ public class PlayerController : MonoBehaviour
 
                                 // 若没有就调用Combo系统，清空连击次数
                                 Debug.Log("按错键了");
-                                ComboManager.ReSetComboNum();
+                                ComboManager.Instance.ReSetComboNum();
 
                                 // 按错就扣血
                                 OnHit(1);
@@ -359,7 +367,7 @@ public class PlayerController : MonoBehaviour
     // 攻击范围检测
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Enemy" && !isAttack)
+        if (collision.tag == "Enemy" && !isAttack && !isPause)
         {
             // 添加进可攻击名单
             if (!attackableEnemies.Contains(collision.GetComponent<Enemy>()))
@@ -373,7 +381,7 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.tag == "Enemy" && !isAttack)
+        if (collision.tag == "Enemy" && !isAttack && !isPause)
         {
             // 添加进可攻击名单
             if (!attackableEnemies.Contains(collision.GetComponent<Enemy>()))
@@ -428,7 +436,7 @@ public class PlayerController : MonoBehaviour
         // 延迟调用攻击效果
         StartCoroutine(AttackEffect(totalTime * 0.75f, tarEnemy, lastKeyCode.ToString()[0]));
         // 增加combo数
-        ComboManager.AddComboNum();
+        ComboManager.Instance.AddComboNum(comboAdd);
 
         tar.Remove(tarEnemy);// 从斩杀名单中移除
     }
@@ -437,7 +445,11 @@ public class PlayerController : MonoBehaviour
     IEnumerator AttackEffect(float DelayTime, Enemy enemy, char key)
     {
         // 延迟
-        yield return new WaitForSeconds(DelayTime);
+        while(curTime <  DelayTime)
+        {
+            yield return null;
+        }
+       
         Debug.Log("进入斩杀阶段3");
         // 启用落地无敌帧
         isUnattachable = true;
@@ -462,13 +474,20 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("进入斩杀阶段4");
 
+
         curTime = 0;// 重置当前计时
 
         // 播放动画
 
         while (curTime < totalTime)
         {
-            curTime += Time.deltaTime;// 更新当前时间  
+            while (isPause)
+            {
+                yield return null;
+            }
+
+            curTime += Time.deltaTime;// 更新当前时间
+                                     
             float t = curTime / totalTime;// 计算时间比
             float v = EaseInOutCubic(t);// 通过时间比算速度比作为插值
 
@@ -515,7 +534,7 @@ public class PlayerController : MonoBehaviour
             {
                 // 清空combo数
                 Debug.Log("受伤了");
-                ComboManager.ReSetComboNum();
+                ComboManager.Instance.ReSetComboNum();
 
                 // 播放受击动画
 

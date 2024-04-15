@@ -17,7 +17,7 @@ public class Skill03 : BaseSkill
         {
             return false;
         }
-        int curCombo = (int)ComboManager.Instance.comboNum;
+        int curCombo = ComboManager.Instance.comboNum;
         if (curCombo > 0 && curCombo % 100 == 0)
         {
             return true;

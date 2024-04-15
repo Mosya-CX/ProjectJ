@@ -11,6 +11,8 @@ public class LevelManager : SingletonWithMono<LevelManager>
         curTurn = 0;
         maxTurn = 0;
 
+        isPause = false;
+
         if (SceneParentNode ==  null)
         {
             GameObject obj = new GameObject();
@@ -38,6 +40,9 @@ public class LevelManager : SingletonWithMono<LevelManager>
     public PlayerController playerData;// 记录玩家信息
 
     //public bool isLastTurn;
+    public bool isPause;
+
+
 
     private void Start()
     {
@@ -140,6 +145,11 @@ public class LevelManager : SingletonWithMono<LevelManager>
         {
             return;
         }
+        if (isPause)
+        {
+            Debug.Log("LevelManager暂停中");
+            return;
+        }
         switch(playerData.playerState)
         {
             case PlayerState.None:
@@ -174,7 +184,7 @@ public class LevelManager : SingletonWithMono<LevelManager>
 
     }
 
- 
+
 
 }
 

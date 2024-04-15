@@ -47,7 +47,7 @@ public class TestEditor
     {
         for (int i = 0; i < 10; i++)
         {
-            ComboManager.AddComboNum();
+            ComboManager.Instance.AddComboNum(1);
         }
     }
 
