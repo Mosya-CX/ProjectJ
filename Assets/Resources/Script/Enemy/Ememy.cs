@@ -34,6 +34,9 @@ public class Enemy : MonoBehaviour
     public bool CanExeCute => enemyCurrentPhase == enemyMaxPhase && isHighLight;
     //是否处于无双状态
     public bool IsMathchlessMode => currentHealthLetters[0] == '~';
+    public bool CanSkip=>skipArea&&!attackArea;
+    public bool skipArea;
+    public bool attackArea;
     public bool dead=false;
     //当前是否有高亮的字母
     public bool isHighLight=false;
@@ -75,11 +78,10 @@ public class Enemy : MonoBehaviour
         highLightLetterDict = new Dictionary<char, Sprite>();
         for (char c = 'A'; c <= 'Z'; c++)
         {
-            string normalPath = "Img/Character/Normal/" + c.ToString()  ;
-            string highlightedPath = "Img/Character/Highlight/" + c.ToString() ;
+            string normalPath = "Img/Character/Normal/blue_" + c.ToString()  ;
+            string highlightedPath = "Img/Character/Highlight/red_" + c.ToString() ;
             Sprite normalSprite = Resources.Load<Sprite>(normalPath);
             Sprite highlightedSprite = Resources.Load<Sprite>(highlightedPath);
-
             if (normalSprite != null && highlightedSprite != null)
             {
                 normalLetterDict[c] = normalSprite;
@@ -127,6 +129,7 @@ public class Enemy : MonoBehaviour
             if (normalLetterDict.ContainsKey(currentLetter))
             {
                 letterImages[i].sprite = normalLetterDict[currentLetter];
+                Debug.Log(gameObject.name);
             }
             else
             {
@@ -179,47 +182,62 @@ public class Enemy : MonoBehaviour
         InitializeLetterImages();
         isHighLight=false;
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    public void AttackEnter2D(Collider2D collider)
     {
-        if(collision.tag=="Player")
+        Debug.Log(1);
+        if (collider.tag == "Player")
         {
             Debug.Log("enter");
-            if(attackCoroutine==null)
+            if (attackCoroutine == null)
             {
                 Debug.Log("attack");
-                attackCoroutine = StartCoroutine(Attack(collision));
+                attackCoroutine = StartCoroutine(Attack(collider));
+                attackArea = true;
             }
         }
     }
     //
-    void OnTriggerExit2D(Collider2D other)
+    public void AttackExit2D(Collider2D collider)
     {
-        if (other.tag == "Player")
+        if (collider.CompareTag("Player"))
         {
-            if(attackCoroutine!=null)
+            if (attackCoroutine != null)
             {
                 Debug.Log("exit attack");
+                attackArea= false;
                 StopCoroutine(attackCoroutine);
-                attackCoroutine=null;
+                attackCoroutine = null;
             }
         }
+    }
+    public void SkipAreaEnter()
+    {
+        skipArea = true;
+    }
+    public void SkipAreaExit()
+    {
+        skipArea= false;
     }
     public IEnumerator Attack(Collider2D collision)
     {
         //如果玩家处于无敌状态也返回
         Debug.Log("enterAttack");
-        var playerController = collision.GetComponent<PlayerController>();
+        var playerController = collision.gameObject.GetComponent<PlayerController>();
         if (playerController != null)
         {
-            playerController.OnHit(damage);
-            Debug.Log(collision.name);
+            while(true)
+            {
+                playerController.OnHit(damage);
+                Debug.Log(collision.name);
+                yield return waitForAttackFrequency;
+            }
         }
         else
         {
             Debug.Log(collision.name);
             Debug.Log("No PlayerController component found on the collided object.");
         }
-        yield return waitForAttackFrequency;
     }
     virtual public void ResetImage()
     {
@@ -236,7 +254,7 @@ public class Enemy : MonoBehaviour
 
     }
 
-    public void OnDeath()
+    virtual public void OnDeath()
     {
         // 斩杀时调用
         if(EnemyManager.Instance.enemyList.Contains(this))

@@ -33,6 +33,10 @@ public class EnemyController : MonoBehaviour
             seeker.StartPath(rb.position, target.position, OnPathComplete);
         }
     }
+    public void StopUpdatePath()
+    {
+        CancelInvoke(nameof(UpdatePath));
+    }
     private void OnPathComplete(Path p)
     {
         path = p;

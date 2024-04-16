@@ -30,4 +30,12 @@ public class Enemy1 : Enemy
         isHighLight = true;
         currentHealthLetters = currentHealthLetters.Replace(keyPressed.ToString(), "");
     }
+    public override void OnDeath()
+    {
+        base.OnDeath();
+        if(IsMathchlessMode)
+        {
+            ChangeToNormalMode();
+        }
+    }
 }

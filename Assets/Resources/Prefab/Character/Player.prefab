@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8643815233306554451}
   - component: {fileID: 687080965109465907}
   - component: {fileID: 4129946920311929654}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -49,8 +49,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9913d377aae63eb478988356824a2d7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 10
+  maxHp: 20
   curHp: 0
+  shield: 0
+  comboAdd: 1
   playerState: 0
   skipSpeed: 0
   attackSpeed: 0
@@ -58,17 +60,18 @@ MonoBehaviour:
   curTime: 0
   totalTime: 0.2
   unattachableTime: 0.5
-  isReadyToSkip: 0
   isSkip: 0
   isAttack: 0
   isDead: 0
   isUnattachable: 0
+  isSkipSuccess: 0
+  isTest: 0
+  isPause: 0
   attackableEnemies: []
-  HpBar: {fileID: 0}
+  tar: []
   AttackArea: {fileID: 0}
   rb: {fileID: 0}
   srFace: {fileID: 0}
-  tar: []
 --- !u!50 &8643815233306554451
 Rigidbody2D:
   serializedVersion: 4
@@ -111,7 +114,7 @@ CapsuleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
