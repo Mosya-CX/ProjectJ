@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 
 public class LevelManager : SingletonWithMono<LevelManager>
@@ -21,6 +22,14 @@ public class LevelManager : SingletonWithMono<LevelManager>
             SceneParentNode = obj.transform;
         }
 
+        if (director == null)
+        {
+            GameObject obj = new GameObject();
+            obj.transform.position = Vector3.zero;
+            director = obj.AddComponent<PlayableDirector>();
+        }
+
+
         loadedScene = new Dictionary<string, GameObject>();
         playerData = GameManager.Instance.Player.GetComponent<PlayerController>();
     }
@@ -36,6 +45,7 @@ public class LevelManager : SingletonWithMono<LevelManager>
     public GameObject curScene;// 记录当前场景
     public Dictionary<string, GameObject> loadedScene;// 记录已经加载过的场景
     //public GameObject enemySpawnPoints;// 记录战斗场景的所有刷怪点的父节点
+    public PlayableDirector director;
 
     public PlayerController playerData;// 记录玩家信息
 

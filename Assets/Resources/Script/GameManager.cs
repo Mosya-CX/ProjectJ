@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class GameManager : SingletonWithMono<GameManager>
 {
@@ -18,7 +19,8 @@ public class GameManager : SingletonWithMono<GameManager>
     // 存储摄像机相关信息
     public float viewHeight;
     public float viewWidth;
-
+    
+    
     private void Start()
     {
         // 初始化变量
@@ -26,6 +28,8 @@ public class GameManager : SingletonWithMono<GameManager>
 
         viewHeight = Camera.main.orthographicSize * 2;
         viewWidth = viewHeight * Camera.main.aspect;
+
+        
 
         // 初始界面和场景
         

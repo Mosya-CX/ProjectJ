@@ -93,6 +93,7 @@ public class UIConst
 {
     public const string LoginUI = "LoginPanel";
     public const string FightUI = "FightPanel";
-    public const string CreditsUI = "CreditsPanel";
+    public const string CreditsUI = "CreditsPanel";// 制作名单
     public const string SettingUI = "SettingPanel";
+    public const string StoryUI = "StoryTellingPanel";
 }

@@ -25,6 +25,11 @@ public class TurnData : ScriptableObject
             LevelManager.Instance.curScene.SetActive(false);
         }
         // 加载场景
+        if (TurnScene == null)
+        {
+            Debug.Log("当前Turn的场景为空");
+            return null;
+        }
         if (!LevelManager.Instance.loadedScene.ContainsKey(TurnScene.name))
         {
             
