@@ -315,7 +315,7 @@ public class PlayerController : MonoBehaviour
                 // ºÏ≤‚ «∑Ò‘⁄…¡±‹◊¥Ã¨
                 if (isSkip)
                 {
-
+                    
                     // ºıÀŸ
                     if (rb.velocity.magnitude >= slowRate)
                     {
@@ -324,6 +324,7 @@ public class PlayerController : MonoBehaviour
                     else
                     {
                         rb.velocity = Vector2.zero;
+                        isSkipSuccess = false;
                         isSkip = false;
                         // Ω· ¯…¡±‹◊À ∆
 

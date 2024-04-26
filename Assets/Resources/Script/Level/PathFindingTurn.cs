@@ -21,8 +21,8 @@ public class PathFindingTurn : TurnData
     {
         GameObject obj = base.OnCreate();
         Timer = 0;
-        GameManager.Instance.Player.GetComponent<PlayerController>().playerState = PlayerState.PathFinding;
-        GameManager.Instance.Player.transform.Find("AttackArea").gameObject.SetActive(false);// ¹Ø±Õ¹¥»÷·¶Î§ÏÔÊ¾
+        playerData.playerState = PlayerState.PathFinding;
+        
 
         // ½â³ıÉãÏñ»ú¸úËæ
 

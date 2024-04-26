@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad2211eb574502747baa1941b5164239, type: 3}
+  m_Name: Lv1_P9
+  m_EditorClassIdentifier: 
+  TurnScene: {fileID: 0}
+  BornPos: {x: 0, y: 0, z: 0}
+  playerData: {fileID: 0}
+  parent: {fileID: 0}
+  isOver: 0
+  Lines:
+  - speaker: "\u4E4C\u9171"
+    words: "\u79BB\u68EE\u6797\u4E2D\u5FC3\u8D8A\u6765\u8D8A\u8FD1\u4E86\u2026\u2026"
+  - speaker: "\u4F60"
+    words: "\u5B88\u62A4\u8005\u3010\u679D\u523B\u3011\u548C\u5C0F\u7F8A\u5E94\u8BE5\u5C31\u5728\u90A3\u91CC\u3002"
+  - speaker: "\u4F60"
+    words: "\u90FD\u662F\u7B2C\u4E00\u6B21\u6253boss\uFF0C\u54B1\u53EF\u4E0D\u80FD\u4FDD\u8BC1100%\u5E2E\u4F60\u6446\u5E73\u5662\u2026\u2026"
+  - speaker: "\u4E4C\u9171"
+    words: "\u505A\u4E0D\u5230\u5C31\uFF08\uFF09"
+  - speaker: "\u4F60"
+    words: "\u4F60\u662F\u60F3\u8BF4\u90A3\u4E2A\u5BF9\u5427\uFF01\u7EDD\u5BF9\u662F\u90A3\u4E2A\u5427\uFF01"
+  - speaker: "\u4E4C\u9171"
+    words: "\u6211\u4E0D\u662F\u6211\u6CA1\u6709\u3002"
+  Effects: []
+  actorsName:
+  - "\u4E4C\u9171"
+  - "\u4F60"
+  storyTellingUI: {fileID: 0}
+  dialogueObj: {fileID: 0}
+  offset: {x: 1, y: 1, z: 0}
+  duationTime_PerTenWords: 4
+  select_Act: 8
+  performConfigObj: {fileID: 0}

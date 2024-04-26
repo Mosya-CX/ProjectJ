@@ -16,7 +16,7 @@ public class GameManager : SingletonWithMono<GameManager>
     public int curProgress;
     // 储存玩家信息
     public GameObject Player;
-    // 存储摄像机相关信息
+    // 存储摄像机初始相关信息
     public float viewHeight;
     public float viewWidth;
     

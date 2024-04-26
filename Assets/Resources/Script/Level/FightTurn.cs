@@ -53,8 +53,8 @@ public class FightTurn : TurnData
         CameraControl.Instance.Player = GameManager.Instance.Player;
         CameraControl.Instance.GetCursceneAndEnable(obj);// ÆôÓÃÉãÏñ»ú¸úËæ 
 
-        GameManager.Instance.Player.GetComponent<PlayerController>().playerState = PlayerState.Fight;
-        GameManager.Instance.Player.transform.Find("AttackArea").gameObject.SetActive(true);
+        playerData.playerState = PlayerState.Fight;
+        playerData.transform.Find("AttackArea").gameObject.SetActive(true);// ¿ªÆô¹¥»÷·¶Î§¼ì²â
         // ²¥·ÅÏàÓ¦bgm
 
         return obj;
@@ -118,6 +118,7 @@ public class FightTurn : TurnData
         CameraControl.Instance.DeleteCursceneAndStop();//  ½ûÓÃÉãÏñ»ú¸úËæ
         ComboManager.Instance.ReSetComboNum();// ÖØÖÃcomboÊı
         UIManager.Instance.ClosePanel(UIConst.FightUI);// ¹Ø±ÕÕ½¶·UI
+        playerData.transform.Find("AttackArea").gameObject.SetActive(false);// ¹Ø±Õ¹¥»÷·¶Î§¼ì²â
 
         base.OnDestory();
     }

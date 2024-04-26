@@ -12,6 +12,8 @@ public class StoryTellingPanel : BasePanel
     public Transform Bg;
     public Transform PlayerAside;// Íæ¼ÒÅÔ°×
     public TextMeshProUGUI PlayerAsideText;
+    public Transform DisplayArea;
+    public Transform DisplayImg;
 
     private void Awake()
     {
@@ -22,5 +24,12 @@ public class StoryTellingPanel : BasePanel
         DialogueDisplayText = BlackBoardText.GetComponent<TextMeshProUGUI>();
         PlayerAside = transform.Find("Bottom/PlayerAside");
         PlayerAsideText = PlayerAside.GetComponent<TextMeshProUGUI>();
+        DisplayArea = transform.Find("DisplayArea");
+        DisplayImg = DisplayArea.Find("Img");
+        DisplayArea.gameObject.SetActive(false);
+        DialogueDisplayText.text = "";
+        PlayerAsideText.text = "";
     }
+
+    
 }

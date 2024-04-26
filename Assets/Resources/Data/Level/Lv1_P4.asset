@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad2211eb574502747baa1941b5164239, type: 3}
+  m_Name: Lv1_P4
+  m_EditorClassIdentifier: 
+  TurnScene: {fileID: 0}
+  BornPos: {x: 0, y: 0, z: 0}
+  playerData: {fileID: 0}
+  parent: {fileID: 0}
+  isOver: 0
+  Lines:
+  - speaker: "\u4E4C\u9171"
+    words: "\u662F\u2026\u2026\u521A\u521A\u90A3\u4E9B\u602A\u7269\uFF01\u6211\u53EA\u662F\u4E00\u4E2A\u597D\u4E0D\u5BB9\u6613\u627E\u5230\u5B9E\u4E60\u7684\u7A0B\u5E8F\u5458\uFF0C\u8FD8\u4E0D\u60F3\u6B7B\u5728\u8FD9\u91CC\u554A(\uFF34\u25BD\uFF34)"
+  - speaker: "\u4F60"
+    words: "\u522B\u614C\uFF0C\u54B1\u4EEC\u624B\u4E0A\u8FD9\u4E0D\u662F\u8FD8\u6709\u952E\u76D8\u5417\u3002"
+  - speaker: "\u4E4C\u9171"
+    words: "\u4ECE\u521A\u521A\u5C31\u5F88\u60F3\u5410\u69FD\u4E86\uFF0C\u4E3A\u4EC0\u4E48\u975E\u8981\u5728\u6211\u7684\u624B\u4E0A\u7C98\u4E00\u4E2A\u952E\u76D8\u554A\u5582\uFF01"
+  - speaker: "\u4F60"
+    words: "\u54FC\u54FC\uFF01\u4F60\u6CA1\u53D1\u73B0\u90A3\u4E9B\u602A\u7269\u5934\u4E0A\u6D6E\u73B0\u4E86\u5B57\u6BCD\u5417\uFF0C\u8FD9\u90FD\u662F\u6211\u7684\u624B\u7B14:)"
+  - speaker: "\u4F60"
+    words: "\u4F60\u53EA\u9700\u8981\u5411\u7740\u952E\u76D8\u6307\u5F15\u7684\u65B9\u5411\u884C\u52A8\u5C31\u53EF\u4EE5\u4E86\uFF01"
+  - speaker: "\u4F60"
+    words: "\u5C31\u662F\u73B0\u5728\uFF01\u4E4C\u9171\uFF0C\u5BF9\u5B83\u4F7F\u7528\u708E\u62F3\u5427\uFF01"
+  - speaker: "\u4F60"
+    words: "\u8FD9\u4E48\u5FEB\u5C31\u4E0A\u624B\u4E86\uFF0C\u5E72\u5F97\u4E0D\u9519\u3002"
+  - speaker: "\u4F60"
+    words: "\u8FD9\u7B80\u76F4\u592A\u9177\u4E86\u4E0D\u662F\u5417\u3002"
+  Effects: []
+  actorsName:
+  - "\u4E4C\u9171"
+  - "\u4F60"
+  storyTellingUI: {fileID: 0}
+  dialogueObj: {fileID: 0}
+  offset: {x: 1, y: 1, z: 0}
+  duationTime_PerTenWords: 4
+  select_Act: 3
+  performConfigObj: {fileID: 0}
