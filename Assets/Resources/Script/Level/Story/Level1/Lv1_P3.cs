@@ -15,6 +15,8 @@ public class Lv1_P3 : PerformConfig
     public float enemyOffset = 2;
     public float viewScaleRate = 0.05f;
     public float viewMoveSpeed = 1f;
+    public bool isWalking = false;
+    public Transform player;
     public override void Init()
     {
         base.Init();
@@ -24,21 +26,28 @@ public class Lv1_P3 : PerformConfig
         GameObject obj = Instantiate(Resources.Load("Prefab/Character/Guider") as GameObject);
         guider = obj.transform;
         guider.position = GameManager.Instance.Player.transform.position;
+        guider.transform.Find("CharacterImage").GetComponent<SpriteRenderer>().flipX = true;// 面向右侧
+        player = GameManager.Instance.Player.transform;
+        player.transform.Find("PlayerImage").GetComponent<SpriteRenderer>().flipX = true;// 面向右侧
         // 加载并生成两只团子到指定位置上并失活
         GameObject enemyObj1 = Instantiate(Resources.Load("Prefab/Character/Enemy/Enemy01") as GameObject) ;
         GameObject enemyObj2 = Instantiate(Resources.Load("Prefab/Character/Enemy/Enemy01") as GameObject) ;
+        GameObject enemyObj3 = Instantiate(Resources.Load("Prefab/Character/Enemy/Enemy01") as GameObject);
         enemyObj1.name = "Enemy01_StoryMode";
         enemyObj2.name = "Enemy01_StoryMode";
-        enemys = new Transform[] { enemyObj1.transform, enemyObj2.transform };
-        enemys[0].position = GameManager.Instance.Player.transform.position + new Vector3(enemyOffset, 0, 0);
+        enemys = new Transform[] { enemyObj1.transform, enemyObj2.transform, enemyObj3.transform };
+        enemys[0].position = player.position + new Vector3(enemyOffset, 0, 0);
         enemys[1].position = guider.position + new Vector3(enemyOffset, 0, 0);
+        enemys[2].position = player.position - new Vector3(GameManager.Instance.viewWidth/2+1, 0, 0);
         enemyObj1.SetActive(false);
         enemyObj2.SetActive(false);
+        enemyObj3.SetActive(false);
     }
 
     public override void Play()
     {
         base.Play();
+        isWalking = true;
         // 播放玩家和引导者的走路动画
 
         StartCoroutine(Act());
@@ -93,17 +102,69 @@ public class Lv1_P3 : PerformConfig
                     yield return null;
                 }
                 index++;
+                isWalking = false;
             }
             // 第二个关键点
             if (index == 7)
             {
                 //两只团子原地逐渐消失
-                Destroy(enemys[0]);
-                Destroy(enemys[1]);
+                enemys[0].gameObject.SetActive(false);
+                enemys[1].gameObject.SetActive(false);
+                index++;
+                isWalking = true;
+                // 播放玩家和引导者的走路动画
+
+            }
+            // 第三个关键点
+            if (index == 11)
+            {
+                //背景不再移动，香草向右走出画面
+                isWalking = false;
+                while (true)
+                {
+                    Vector3 pos = guider.transform.position;
+                    pos.x += speed * Time.deltaTime;
+                    guider.position = pos;
+                    if (guider.position.x > (GameManager.Instance.viewWidth / 2 + 1))
+                    {
+                        break;
+                    }
+                    yield return null;
+                }
+                index++;
+                //播放怪物声效
+                AudioClip clip = Effects.Dequeue();
+
+                yield return new WaitForSecondsRealtime(clip.length);
+                index++;
+                //乌酱面向左侧
+                player.transform.Find("PlayerImage").GetComponent<SpriteRenderer>().flipX = false;
+                index++;
+            }
+            // 第四个关键点
+            if (index == 17)
+            {
+                //一个怪物（头顶有字母）从左侧走入画面一小段距离后停下，
+                Transform enemy = enemys[2];
+                enemy.gameObject.SetActive(true);
+                while (true)
+                {
+                    Vector3 pos = enemy.position;
+                    pos.x += speed * Time.deltaTime;
+                    enemy.position = pos;
+                    if (enemy.position.x >= (player.position.x - 3))
+                    {
+                        break;
+                    }
+                    yield return null;
+                }
                 index++;
             }
 
-            curDialogueNode.text = "";// 清除之前的文本内容
+            if (curDialogueNode != null)
+            {
+                curDialogueNode.text = "";// 清除之前的文本内容
+            }
 
             Dialogue tmp = dialogueList.Dequeue();
             float duration = duationTime_PerTenWords * tmp.words.Length / 10;
@@ -125,6 +186,7 @@ public class Lv1_P3 : PerformConfig
             Debug.Log("准备下一轮Act");
 
             curDialogueNode.DOText(tmp.words, duration);
+            // 计时
             while (true)
             {
                 if (curTime >= duration)
@@ -136,9 +198,13 @@ public class Lv1_P3 : PerformConfig
                     curTime += Time.deltaTime;
                 }
                 // 移动地图
-                Vector3 pos = mapPos.position;
-                pos.x -= speed * Time.deltaTime;
-                mapPos.position = pos;
+                if (isWalking)
+                {
+                    Vector3 pos = mapPos.position;
+                    pos.x -= speed * Time.deltaTime;
+                    mapPos.position = pos;
+                }
+                
                 yield return null;
             }
             //yield return new WaitForSecondsRealtime(duration);
@@ -148,20 +214,8 @@ public class Lv1_P3 : PerformConfig
             }
         }
 
-        //背景不再移动，香草向右走出画面
-        //乌酱也走出画面-进入 1-1
-        while(true)
-        {
-            Vector3 pos = guider.transform.position;
-            pos.x += speed * Time.deltaTime;
-            guider.position = pos;
-            if (guider.position.x > (GameManager.Instance.viewWidth/2 + 1))
-            {
-                break;
-            }
-            yield return null;
-        }
-        Transform player = GameManager.Instance.Player.transform;
+        //乌酱转向右侧走出画面
+        player.transform.Find("PlayerImage").GetComponent<SpriteRenderer>().flipX = true;
         while (true)
         {
             Vector3 pos = player.transform.position;
@@ -174,7 +228,9 @@ public class Lv1_P3 : PerformConfig
             yield return null;
         }
 
+        player.transform.Find("PlayerImage").GetComponent<SpriteRenderer>().flipX = false;
         isOver = true;
+        
         yield break;
     }
 }
