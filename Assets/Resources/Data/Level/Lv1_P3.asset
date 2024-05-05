@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad2211eb574502747baa1941b5164239, type: 3}
   m_Name: Lv1_P3
   m_EditorClassIdentifier: 
-  TurnScene: {fileID: 0}
+  TurnScene: {fileID: 6744758079332316583, guid: 70595a8013432754ca2b4eb7a15179fa, type: 3}
   BornPos: {x: 0, y: 0, z: 0}
   playerData: {fileID: 0}
   parent: {fileID: 0}
@@ -40,8 +40,8 @@ MonoBehaviour:
   - "\u9999\u8349"
   - "\u56E2\u5B50"
   storyTellingUI: {fileID: 0}
-  dialogueObj: {fileID: 0}
-  offset: {x: 1, y: 1, z: 0}
-  duationTime_PerTenWords: 4
+  dialogueObj: {fileID: 8614874656516936241, guid: ee97fef24b5999a4f8ce517e672a07e2, type: 3}
+  offset: {x: 2, y: 2, z: 0}
+  duationTime_PerTenWords: 2.5
   select_Act: 2
   performConfigObj: {fileID: 0}

@@ -31,9 +31,6 @@ public class ComboManager: SingletonWithMono<ComboManager>
     protected override void Awake()
     {
         base.Awake();
-    }
-    void Start()
-    {
         if (Instance.IsComboEnable)
         {
             Instance.StartAddSizeCD = Instance.AddSizeCD;
@@ -49,6 +46,11 @@ public class ComboManager: SingletonWithMono<ComboManager>
             Instance.ComboText.enableAutoSizing = false;
             //ComboText.rectTransform=FindPanel.coombo.rectTransform;
         }
+        ComboText.text = "";
+    }
+    void Start()
+    {
+        
     }
 
     // Update is called once per frame

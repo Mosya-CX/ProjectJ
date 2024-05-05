@@ -14,6 +14,8 @@ public class TurnData : ScriptableObject
 
     public virtual GameObject OnCreate()
     {
+        isOver = false;
+
         // 重置玩家位置
         playerData.transform.position = BornPos;
 
@@ -45,7 +47,7 @@ public class TurnData : ScriptableObject
             //LevelManager.Instance.curScene = scene;
             
         }
-        isOver = false;
+        
         return scene;
     }
     public virtual void OnUpdate()
@@ -56,7 +58,9 @@ public class TurnData : ScriptableObject
     {
         LevelManager.Instance.curTurn++;
         playerData.playerState = PlayerState.None;
-        
+
+
+        isOver = false;
         LevelManager.Instance.LoadTurn();// 加载下一个Turn
     }
 

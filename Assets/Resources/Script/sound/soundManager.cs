@@ -12,6 +12,8 @@ public class soundManager : SingletonWithMono<soundManager>
     protected override void Awake()
     {
         base.Awake();
+        musicSource = this.AddComponent<AudioSource>();
+        sfxSource = this.AddComponent<AudioSource>();
     }
     //²¥·Åmusic
     public void PlayMusic(string name)
@@ -45,6 +47,14 @@ public class soundManager : SingletonWithMono<soundManager>
             }
         }
     }
+
+    public void PlayEffect(AudioClip effect)
+    {
+        sfxSource.Stop();
+        sfxSource.clip = null;
+        sfxSource.PlayOneShot(effect);
+    }
+
     public void stopMusic()
     {
         Instance.musicSource.Stop();

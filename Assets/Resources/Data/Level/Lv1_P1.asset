@@ -16,7 +16,7 @@ MonoBehaviour:
   BornPos: {x: 0, y: 0, z: 0}
   playerData: {fileID: 0}
   parent: {fileID: 0}
-  isOver: 1
+  isOver: 0
   Lines:
   - speaker: "\u9ED1\u5C4F\u5B57\u5E55"
     words: "\u7CDF\u7CD5\uFF0C\u6628\u5929\u6253\u6E38\u620F\u6253\u7684\u592A\u665A\u4E86\u3002"
@@ -36,12 +36,13 @@ MonoBehaviour:
     words: "\u4F60\u4E0D\u4F1A\u4EE5\u4E3A\u5979\u4F1A\u50CF\u5F02\u4E16\u754C\u756A\u5267\u91CC\u90A3\u6837\u7A7F\u8D8A\u5427\uFF1F"
   - speaker: "\u9ED1\u5C4F\u5B57\u5E55"
     words: "\u55EF\u2026\u2026\u597D\u5427\u6211\u8BA4\u8F93\uFF0C\u5C31\u662F\u4F60\u60F3\u7684\u90A3\u4E2A\u5F02\u4E16\u754C\u5927\u5361\u8F66O.o"
-  Effects: []
+  Effects:
+  - {fileID: 8300000, guid: 069626b117589e749a2d8ff4739b5e9c, type: 3}
   actorsName:
   - "\u9ED1\u5C4F\u5B57\u5E55"
   storyTellingUI: {fileID: 0}
   dialogueObj: {fileID: 8614874656516936241, guid: ee97fef24b5999a4f8ce517e672a07e2, type: 3}
-  offset: {x: 1, y: 1, z: 0}
-  duationTime_PerTenWords: 4
+  offset: {x: 2, y: 2, z: 0}
+  duationTime_PerTenWords: 2.5
   select_Act: 0
   performConfigObj: {fileID: 0}

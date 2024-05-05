@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad2211eb574502747baa1941b5164239, type: 3}
   m_Name: Lv1_P2
   m_EditorClassIdentifier: 
-  TurnScene: {fileID: 0}
+  TurnScene: {fileID: 2835299641056527194, guid: 16dfbbfa80299e942bbab76de8cb476d, type: 3}
   BornPos: {x: 0, y: 0, z: 0}
   playerData: {fileID: 0}
   parent: {fileID: 0}
@@ -152,14 +152,15 @@ MonoBehaviour:
     words: "\u4E00\u8EAB\u767D\u8272\u7684\u4E4C\u9171\uFF1F\u5657\u54C8\u54C8\u54C8\u3002"
   - speaker: "\u4E4C\u9171"
     words: "\u2026\u2026"
-  Effects: []
+  Effects:
+  - {fileID: 8300000, guid: 3f2eeaf1890024d4cb7c7f27a9e4e42f, type: 3}
   actorsName:
   - "\u4E4C\u9171"
   - "\u9999\u8349"
   - "\u4F60"
   storyTellingUI: {fileID: 0}
-  dialogueObj: {fileID: 0}
-  offset: {x: 1, y: 1, z: 0}
-  duationTime_PerTenWords: 4
+  dialogueObj: {fileID: 8614874656516936241, guid: ee97fef24b5999a4f8ce517e672a07e2, type: 3}
+  offset: {x: 2, y: 2, z: 0}
+  duationTime_PerTenWords: 2.5
   select_Act: 1
   performConfigObj: {fileID: 0}

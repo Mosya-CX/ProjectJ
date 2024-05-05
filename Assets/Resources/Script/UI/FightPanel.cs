@@ -55,6 +55,7 @@ public class FightPanel : BasePanel
 
         ShieldCount = playerData.shield;
         SpCount = SkillManager.Instance.curSp;
+        ComboText.text = "";
 
         // ×¢²áµã»÷ÊÂ¼þ
         SettingBin.GetComponent<Button>().onClick.AddListener(OnSettingBin);

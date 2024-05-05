@@ -58,6 +58,8 @@ public class PlayerController : MonoBehaviour
     // 判断朝向
     public SpriteRenderer srFace;
 
+    public Animator animator;
+
     private void Awake()
     {
         // 初始化
@@ -74,6 +76,10 @@ public class PlayerController : MonoBehaviour
 
         attackableEnemies = new List<Enemy>();
         tar = new List<Enemy>();
+
+        AttackArea = transform.Find("AttackArea").gameObject;
+
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void Start()
@@ -85,7 +91,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         srFace = GetComponentInChildren<SpriteRenderer>();
 
-        AttackArea = transform.Find("AttackArea").gameObject;
+        
     }
 
     private void Update()
@@ -182,7 +188,7 @@ public class PlayerController : MonoBehaviour
                                 // 先判断是否使用了道具磐石
 
                                 // 若没有就调用Combo系统，清空连击次数
-
+                                ComboManager.Instance.ReSetComboNum();
                                 // 按错就扣血
                                 OnHit(1);
 
@@ -461,13 +467,10 @@ public class PlayerController : MonoBehaviour
         // 屏幕抖动效果
         AttackMoment.Instance.CamShake();
 
-        // 增加Combo数
-        ComboManager.Instance.AddComboNum(1);
-
         Debug.Log("进入斩杀阶段5");
         // 调用敌人的受击函数
         enemy.OnHit(key);
-        enemy.OnDeath();// 使敌人死亡
+        enemy.OnDeath();// 使敌人销毁
     }
 
     // 玩家攻击位移

@@ -8,7 +8,8 @@ public class GameManager : SingletonWithMono<GameManager>
     protected override void Awake()
     {
         base.Awake();
-        
+        viewHeight = Camera.main.orthographicSize * 2;
+        viewWidth = viewHeight * Camera.main.aspect;
         CreatePlayer();
     }
 
@@ -26,8 +27,7 @@ public class GameManager : SingletonWithMono<GameManager>
         // 初始化变量
         curProgress = 0;
 
-        viewHeight = Camera.main.orthographicSize * 2;
-        viewWidth = viewHeight * Camera.main.aspect;
+        
 
         
 

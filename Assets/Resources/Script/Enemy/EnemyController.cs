@@ -15,11 +15,13 @@ public class EnemyController : MonoBehaviour
     public bool isReached = false;// 记录是否到达正在执行的路径的终点
     Seeker seeker;// 用于计算路径
     Rigidbody2D rb;// 实现移动逻辑用的组件(可用不用是Rigidbody)
+    Transform model;// 存储敌人模型数据
 
     private void Start()
     {
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
+        model = transform.Find("Model");
     }
 
     public void StartUpdatePath()
@@ -67,11 +69,11 @@ public class EnemyController : MonoBehaviour
         rb.velocity = direction * speed;
         if(rb.velocity.x>0.01)
         {
-            transform.localScale = Vector3.one;
+            model.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         }
         else if (rb.velocity.x<-0.01)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            model.localScale = new Vector3(-0.5f, 0.5f, 0.5f);
         }
         float distance = Vector2.Distance(rb.position , (Vector2)path.vectorPath[currentNode]);
         if(distance < nextNodeDistance )

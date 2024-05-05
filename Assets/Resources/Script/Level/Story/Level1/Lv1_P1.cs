@@ -7,20 +7,18 @@ using DG.Tweening;
 
 public class Lv1_P1 : PerformConfig
 {
-    
 
     public override void Init()
     {
         base.Init();
+
         storyTellingUI.Bg.GetComponent<Image>().color = new Color(0, 0, 0, 255);
-        
     }
     public override void Play()
     {
 
         base.Play();
-        
-        //Init();
+       
         Debug.Log("准备进入Act");
         StartCoroutine(Act());
         //return false;
@@ -36,6 +34,16 @@ public class Lv1_P1 : PerformConfig
             {
                 break;
             }
+            index++;
+
+            if (index == 5)
+            {
+                AudioClip clip = Effects.Dequeue();
+                soundManager.Instance.PlayEffect(clip);
+                yield return new WaitForSecondsRealtime(clip.length);
+                index++;
+            }
+
             if (curDialogueNode != null)
             {
                 curDialogueNode.text = "";// 清除之前的文本内容
@@ -55,11 +63,11 @@ public class Lv1_P1 : PerformConfig
             else
             {
                 // 初始化聊天框
-                PrepareDialogueObj(dialogueObj);
+                dialogueObj = PrepareDialogueObj();
             }
             
             Debug.Log("准备下一轮Act");
-            // 播放音效
+            // 播放打字音效
 
             curDialogueNode.DOText(tmp.words, duration);
             yield return new WaitForSecondsRealtime(duration);

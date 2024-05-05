@@ -5,7 +5,12 @@ using UnityEditor;
 
 public class TestEditor
 {
-    [MenuItem("测试/读取关卡数据并加载")]
+    [MenuItem("测试/读取并加载测试关卡")]
+    public static void ReadAndLoadFight()
+    {
+        LevelManager.Instance.LoadLevel(LevelPathConst.Test);
+    }
+    [MenuItem("测试/读取关卡1数据并加载")]
     public static void ReadAndLoadLevelData()
     {
         LevelManager.Instance.LoadLevel(LevelPathConst.Level01Path);

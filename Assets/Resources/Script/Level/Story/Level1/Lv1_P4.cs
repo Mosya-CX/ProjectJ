@@ -14,8 +14,8 @@ public class Lv1_P4 : PerformConfig
         storyTellingUI.Bg.GetComponent<Image>().color = new Color(0, 0, 0, 0);
 
         // 加载狂热标记图片
-        //Texture2D texture = Resources.Load<Texture2D>("");
-        //skillImg = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+        
+        skillImg = Resources.Load("Img/Skill/狂热.png") as Sprite;
 
         base.Init();
     }
@@ -41,7 +41,7 @@ public class Lv1_P4 : PerformConfig
             {
                 // 显示狂热标记图片并逐渐放大
                 Transform itemDisplay = storyTellingUI.DisplayArea;
-                itemDisplay.GetComponent<Image>().sprite = skillImg;
+                itemDisplay.GetComponentInChildren<Image>().sprite = skillImg;
                 RectTransform displayTransform = itemDisplay.GetComponent<RectTransform>();
                 displayTransform.sizeDelta = new Vector2(skillImg.rect.width, skillImg.rect.height);
                 displayTransform.localScale = Vector3.zero;
@@ -62,7 +62,7 @@ public class Lv1_P4 : PerformConfig
             {
                 //技能【狂热标记】图片消失
                 Transform itemDisplay = storyTellingUI.DisplayArea;
-                itemDisplay.GetComponent<Image>().sprite = null;
+                itemDisplay.GetComponentInChildren<Image>().sprite = null;
                 itemDisplay.gameObject.SetActive(false);
                 index++;
             }
@@ -86,7 +86,7 @@ public class Lv1_P4 : PerformConfig
             else
             {
                 // 初始化聊天框
-                PrepareDialogueObj(dialogueObj);
+                dialogueObj = PrepareDialogueObj();
             }
 
             Debug.Log("准备下一轮对话");
@@ -98,7 +98,7 @@ public class Lv1_P4 : PerformConfig
                 Destroy(dialogueObj);
             }
         }
-
+        // 黑幕
         storyTellingUI.Bg.GetComponent<Image>().color = new Color(0, 0, 0, 255);
         yield return new WaitForSecondsRealtime(1);
 

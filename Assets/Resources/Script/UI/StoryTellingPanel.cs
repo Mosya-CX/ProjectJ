@@ -25,7 +25,7 @@ public class StoryTellingPanel : BasePanel
         PlayerAside = transform.Find("Bottom/PlayerAside");
         PlayerAsideText = PlayerAside.GetComponent<TextMeshProUGUI>();
         DisplayArea = transform.Find("DisplayArea");
-        DisplayImg = DisplayArea.Find("Img");
+        DisplayImg = DisplayArea.Find("Image");
         DisplayArea.gameObject.SetActive(false);
         DialogueDisplayText.text = "";
         PlayerAsideText.text = "";

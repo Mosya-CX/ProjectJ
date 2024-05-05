@@ -16,22 +16,31 @@ public class StoryTurn : TurnData
     public List<string> actorsName;
     public StoryTellingPanel storyTellingUI;
     public GameObject dialogueObj;// 绑定对话框预制体
-    public Vector3 offset = new Vector3(1, 1, 0);// 设置对话框偏移位置
+    public Vector3 offset;// 设置对话框偏移位置
 
-    public float duationTime_PerTenWords = 2.5f;// 设置每10个字的停留时间 
+    public float duationTime_PerTenWords;// 设置每10个字的停留时间 
 
     public StoryAct select_Act;
     public GameObject performConfigObj;// 演出配置
 
     public override GameObject OnCreate()
     {
+        Debug.Log("准备初始化StoryTurn");
+
+        offset = new Vector3(2, 2, 0);
+        duationTime_PerTenWords = 2.5f;
+
         GameObject obj = base.OnCreate();
 
- 
+        dialogueObj = Resources.Load("Prefab/Other/Dialogue") as GameObject;
         storyTellingUI = UIManager.Instance.OpenPanel(UIConst.StoryUI) as StoryTellingPanel;
 
         GameManager.Instance.Player.GetComponent<PlayerController>().playerState = PlayerState.StoryReading;
+        playerData.AttackArea.SetActive(false);
         // 播放相应bgm
+
+        // 放大摄像机视野
+        Camera.main.orthographicSize = 4.5f;
 
         ProfilePerformConfig();
 
@@ -62,10 +71,17 @@ public class StoryTurn : TurnData
 
     public override void OnDestory()
     {
-        base.OnDestory();
-        
+        // 回复摄像机视野
+        Camera.main.orthographicSize = 6;
+
         UIManager.Instance.ClosePanel(UIConst.StoryUI);
         Destroy(performConfigObj);
+
+        Debug.Log("准备销毁StoryTurn");
+        base.OnDestory();
+        
+        
+
     }
 
 
@@ -170,7 +186,7 @@ public class StoryTurn : TurnData
             GameObject guider = GameObject.Find("Guider");
             if (guider == null)
             {
-                guider = Instantiate(Resources.Load("Prefab/Charater/Guider") as GameObject);
+                guider = Instantiate(Resources.Load("Prefab/Character/Guider") as GameObject);
             }
             return guider;
         }

@@ -46,13 +46,13 @@ public class PerformConfig : MonoBehaviour
         curPlayEffect = null;
         curPlayBGM = null;
 
-        Init();
+        
     }
 
     public virtual void Play()
     {
         //curTime += Time.deltaTime;
-        
+        Init();
     }
 
     public virtual void Init()
@@ -60,18 +60,24 @@ public class PerformConfig : MonoBehaviour
 
     }
 
-    public void PrepareDialogueObj(GameObject dialogueObj)
+    public GameObject PrepareDialogueObj()
     {
         // ³õÊ¼»¯ÁÄÌì¿ò
-        dialogueObj = Instantiate(dialogue);
+        GameObject dialogueObj = Instantiate(dialogue);
         curDialogueNode = dialogueObj.transform.Find("DialogueText").GetComponent<TextMeshProUGUI>();
+        curDialogueNode.text = "";
+        dialogueObj.transform.SetParent(speaker.transform, false);
         Vector3 realOffset = offset;
         if (speaker.transform.position.x <= 0)
         {
             realOffset.x = -realOffset.x;
         }
-        dialogueObj.transform.position = speaker.transform.position + realOffset;
-        dialogueObj.transform.SetParent(speaker.transform, true);
+        else
+        {
+            dialogueObj.transform.Find("Bg").localScale = new Vector3 (-1, 1, 1);
+        }
+        dialogueObj.transform.position = realOffset;
+        return dialogueObj;
     }
    
 }

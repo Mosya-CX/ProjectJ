@@ -23,12 +23,12 @@ public class Lv1_P3 : PerformConfig
         storyTellingUI.Bg.GetComponent<Image>().color = new Color(0, 0, 0, 0);
         mapPos = LevelManager.Instance.curScene.transform;
         curTime = 0;
-        GameObject obj = Instantiate(Resources.Load("Prefab/Character/Guider") as GameObject);
-        guider = obj.transform;
-        guider.position = GameManager.Instance.Player.transform.position;
-        guider.transform.Find("CharacterImage").GetComponent<SpriteRenderer>().flipX = true;// 面向右侧
-        player = GameManager.Instance.Player.transform;
-        player.transform.Find("PlayerImage").GetComponent<SpriteRenderer>().flipX = true;// 面向右侧
+        player = actors["乌酱"].transform;
+        player.transform.Find("Image").position = new Vector3(-player.position.x, player.position.y, player.position.z);// 面向右侧
+        guider = actors["香草"].transform;
+        guider.position = player.position + new Vector3(0, 3, 0);
+        guider.transform.Find("Image").position = new Vector3(-guider.position.x, guider.position.y, guider.position.z);// 面向右侧
+        
         // 加载并生成两只团子到指定位置上并失活
         GameObject enemyObj1 = Instantiate(Resources.Load("Prefab/Character/Enemy/Enemy01") as GameObject) ;
         GameObject enemyObj2 = Instantiate(Resources.Load("Prefab/Character/Enemy/Enemy01") as GameObject) ;
@@ -46,15 +46,28 @@ public class Lv1_P3 : PerformConfig
 
     public override void Play()
     {
+        
+
         base.Play();
         isWalking = true;
-        // 播放玩家和引导者的走路动画
+        
 
         StartCoroutine(Act());
     }
 
     IEnumerator Act()
     {
+        index++;
+        Animator playerAni = player.GetComponentInChildren<Animator>();
+        Animator guiderAni = guider.GetComponentInChildren<Animator>();
+        // 播放玩家和引导者的走路动画
+        playerAni.SetBool("Idel", true);
+        playerAni.SetBool("Walk", false);
+        playerAni.SetBool("Attack", false);
+        guiderAni.SetBool("Idle", true);
+        guiderAni.SetBool("Walk", false);
+        guiderAni.SetBool("Run", false);
+
         while (true)
         {
             if (!(dialogueList.Count > 0))
@@ -132,13 +145,14 @@ public class Lv1_P3 : PerformConfig
                     yield return null;
                 }
                 index++;
-                //播放怪物声效
-                AudioClip clip = Effects.Dequeue();
-
-                yield return new WaitForSecondsRealtime(clip.length);
+                //播放怪物声效(目前没有)
+                //AudioClip clip = Effects.Dequeue();
+                //soundManager.Instance.PlayEffect(clip);
+                //yield return new WaitForSecondsRealtime(clip.length);
                 index++;
                 //乌酱面向左侧
                 player.transform.Find("PlayerImage").GetComponent<SpriteRenderer>().flipX = false;
+                Destroy(guider.gameObject);
                 index++;
             }
             // 第四个关键点
@@ -180,7 +194,7 @@ public class Lv1_P3 : PerformConfig
             else
             {
                 // 初始化聊天框
-                PrepareDialogueObj(dialogueObj);
+                dialogueObj = PrepareDialogueObj();
             }
 
             Debug.Log("准备下一轮Act");
@@ -227,7 +241,6 @@ public class Lv1_P3 : PerformConfig
             }
             yield return null;
         }
-
         player.transform.Find("PlayerImage").GetComponent<SpriteRenderer>().flipX = false;
         isOver = true;
         

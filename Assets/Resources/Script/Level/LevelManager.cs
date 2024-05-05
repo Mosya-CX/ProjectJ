@@ -198,4 +198,5 @@ public class LevelPathConst
     // 此处写关卡路径
     const string LevelDataPath = "Data/Level/";
     public const string Level01Path = LevelDataPath + "Level01";
+    public const string Test = LevelDataPath + "Test";
 }
