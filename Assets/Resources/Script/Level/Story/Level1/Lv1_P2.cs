@@ -194,7 +194,10 @@ public class Lv1_P2 : PerformConfig
             }
 
 
-            curDialogueNode.text = "";// 清除之前的文本内容
+            if (curDialogueNode != null)
+            {
+                curDialogueNode.text = "";// 清除之前的文本内容
+            }
 
             Dialogue tmp = dialogueList.Dequeue();
             float duration = duationTime_PerTenWords * tmp.words.Length / 10;
