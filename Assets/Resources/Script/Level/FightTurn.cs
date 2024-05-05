@@ -49,7 +49,7 @@ public class FightTurn : TurnData
             createEnemy02Probability = 0.3f;
         }
 
-        RefreshAStarGraph(obj);// 跟新网格信息
+        //RefreshAStarGraph(obj);// 跟新网格信息
         CameraControl.Instance.Player = GameManager.Instance.Player;
         CameraControl.Instance.GetCursceneAndEnable(obj);// 启用摄像机跟随 
 
@@ -133,7 +133,7 @@ public class FightTurn : TurnData
             for (int i = 0; i < spareEnemyNum - 1; i++)
             {
                 Transform point = RandomCreatePoint();
-                index = UnityEngine.Random.Range(0, 3);
+                index = UnityEngine.Random.Range(0, 2);
                 switch (index)
                 {
                     case 0:

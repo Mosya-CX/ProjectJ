@@ -6,9 +6,14 @@ using UnityEditor;
 public class TestEditor
 {
     [MenuItem("测试/读取并加载测试关卡")]
-    public static void ReadAndLoadFight()
+    public static void ReadAndLoadTest()
     {
         LevelManager.Instance.LoadLevel(LevelPathConst.Test);
+    }
+    [MenuItem("测试/读取并加载剧情测试")]
+    public static void ReadAndLoadStory()
+    {
+        LevelManager.Instance.LoadLevel(LevelPathConst.StoryTest);
     }
     [MenuItem("测试/读取关卡1数据并加载")]
     public static void ReadAndLoadLevelData()

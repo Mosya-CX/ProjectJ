@@ -15,7 +15,7 @@ public class Lv1_P4 : PerformConfig
 
         // 加载狂热标记图片
         
-        skillImg = Resources.Load("Img/Skill/狂热.png") as Sprite;
+        skillImg = Resources.Load("Img/Skill/狂热") as Sprite;
 
         base.Init();
     }

@@ -38,13 +38,13 @@ public class TurnData : ScriptableObject
             scene = Instantiate(TurnScene, Vector3.zero, Quaternion.identity);// 生成到场景上
             scene.transform.SetParent(parent, false);
             scene.name = TurnScene.name;
-            //LevelManager.Instance.curScene = scene;
+            LevelManager.Instance.curScene = scene;
         }
         else
         {
             scene = LevelManager.Instance.loadedScene[TurnScene.name];// 从字典中获取
             scene.SetActive(true);// 激活
-            //LevelManager.Instance.curScene = scene;
+            LevelManager.Instance.curScene = scene;
             
         }
         

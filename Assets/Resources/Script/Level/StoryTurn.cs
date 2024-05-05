@@ -151,6 +151,7 @@ public class StoryTurn : TurnData
         }
 
         PerformConfig performConfig = performConfigObj.GetComponent<PerformConfig>();
+
         performConfig.dialogue = Resources.Load("Prefab/Other/Dialogue") as GameObject;
         performConfig.duationTime_PerTenWords = duationTime_PerTenWords;
         performConfig.dialogue = dialogueObj;
@@ -164,7 +165,6 @@ public class StoryTurn : TurnData
         {
             performConfig.Effects.Enqueue(Effects[i]);
         }
-        
         for (int i = 0;i < actorsName.Count;i++)
         {
             performConfig.actors.Add(actorsName[i], FindSpeaker(actorsName[i]));
@@ -195,11 +195,16 @@ public class StoryTurn : TurnData
             Transform text = (UIManager.Instance.FindPanel(UIConst.StoryUI) as StoryTellingPanel).PlayerAside;
             return text.gameObject;
         }
-        else if (name == "团子")
+        else if(name == "团子")
         {
-            GameObject.Find("Enemy01_StoryMode");
+            GameObject tmp = GameObject.Find("Enemy01_StoryMode");
+            if (tmp == null)
+            {
+                Debug.Log("未找到团子");
+            }
+            return tmp;
         }
-
+        
         Debug.LogWarning("无效名字:" + name);
         return null;
     }

@@ -27,6 +27,7 @@ public class Lv1_P2 : PerformConfig
         storyTellingUI.Bg.GetComponent<Image>().color = new Color(0, 0, 0, 255);
         player = actors["乌酱"].transform;
         player.position = bornPos;
+        player.transform.Find("Image").localScale = new Vector3(-0.5f, 0.5f, 0.5f);// 面向右侧
         guider = actors["香草"].transform;
         guider.transform.position = new Vector3(GameManager.Instance.viewWidth / 2, 0, 0);// 设置引导者初始位置
         // 加载地图图片
@@ -253,7 +254,9 @@ public class Lv1_P2 : PerformConfig
 
         storyTellingUI.Bg.GetComponent<Image>().color = new Color(0, 0, 0, 255);
         Destroy(guider.gameObject);
-        yield return new WaitForSecondsRealtime(2);
+        AudioClip clip = Effects.Dequeue();
+        soundManager.Instance.PlayEffect(clip);
+        yield return new WaitForSecondsRealtime(clip.length);
 
         isOver = true;
         yield break;

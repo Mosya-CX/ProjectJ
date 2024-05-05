@@ -119,7 +119,7 @@ public class LevelManager : SingletonWithMono<LevelManager>
         {
 
         }
-        curScene = curTurnData.OnCreate();
+        curTurnData.OnCreate();
         if (curScene != null )
         {
             if (!loadedScene.ContainsKey(curScene.name))
@@ -199,4 +199,5 @@ public class LevelPathConst
     const string LevelDataPath = "Data/Level/";
     public const string Level01Path = LevelDataPath + "Level01";
     public const string Test = LevelDataPath + "Test";
+    public const string StoryTest = LevelDataPath + "StoryTest";
 }

@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cefaf10765492fb4580b5eb209c69d20, type: 3}
-  m_Name: Lv1_F1
+  m_Name: Lv1_F2
   m_EditorClassIdentifier: 
-  TurnScene: {fileID: 2835299641056527194, guid: 16dfbbfa80299e942bbab76de8cb476d, type: 3}
+  TurnScene: {fileID: 755196103606621430, guid: 79d724f5f5d8e9449802acde677b9f2e, type: 3}
   BornPos: {x: 0, y: 0, z: 0}
   playerData: {fileID: 0}
   parent: {fileID: 0}
   isOver: 0
-  enemySpwanPoints: {fileID: 7433004147033412168, guid: 16dfbbfa80299e942bbab76de8cb476d, type: 3}
-  totalEnemyNum: 60
-  createDuration: 4
+  enemySpwanPoints: {fileID: 4759921247157555555, guid: 79d724f5f5d8e9449802acde677b9f2e, type: 3}
+  totalEnemyNum: 70
+  createDuration: 5
   startDuration: 5
   endDuration: 5
-  OnceCreateNum: 4
+  OnceCreateNum: 5
   createEnemy01Probability: 0.7
   createEnemy02Probability: 0.3
-  curEnemyNum: 0
-  spareEnemyNum: 0
-  Timer: 11.327749
+  curEnemyNum: 5
+  spareEnemyNum: 65
+  Timer: 3.1469862
   isStart: 1

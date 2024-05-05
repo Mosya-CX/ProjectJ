@@ -10,8 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 07c5c428ca279dc4e954a44a9d60002f, type: 3}
-  m_Name: Test
+  m_Name: StoryTest
   m_EditorClassIdentifier: 
   id: 0
   turnDataList:
-  - {fileID: 11400000, guid: 1ccd214c64d50d1419bc7a9b33b95244, type: 2}
+  - {fileID: 11400000, guid: 40a2378029f7c484aa38f69e3049ab5f, type: 2}
+  - {fileID: 11400000, guid: 11815167295a35b42be47f1cdccff741, type: 2}
+  - {fileID: 11400000, guid: 9d13dece6f3147e4889b000487b246a0, type: 2}
+  - {fileID: 11400000, guid: a33241b7e297ec04aa4d0f6b5ceced84, type: 2}
+  - {fileID: 11400000, guid: c671e9148dc8423459e1c7da5efdd3f0, type: 2}
