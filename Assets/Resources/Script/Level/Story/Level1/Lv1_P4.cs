@@ -100,6 +100,8 @@ public class Lv1_P4 : PerformConfig
         }
         // 黑幕
         storyTellingUI.Bg.GetComponent<Image>().color = new Color(0, 0, 0, 255);
+
+        SkillManager.Instance.AddSkill(SkillType.狂热标记);// 添加技能
         yield return new WaitForSecondsRealtime(1);
 
         yield break;

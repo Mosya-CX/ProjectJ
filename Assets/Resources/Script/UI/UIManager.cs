@@ -96,4 +96,5 @@ public class UIConst
     public const string CreditsUI = "CreditsPanel";// 制作名单
     public const string SettingUI = "SettingPanel";
     public const string StoryUI = "StoryTellingPanel";
+    public const string DeadUI = "DeadPanel";
 }

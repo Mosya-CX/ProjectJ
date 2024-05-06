@@ -59,6 +59,8 @@ public class FightPanel : BasePanel
 
         // 注册点击事件
         SettingBin.GetComponent<Button>().onClick.AddListener(OnSettingBin);
+
+        SkillManager.Instance.fightPanel = this;
     }
 
     private void Update()
@@ -78,8 +80,15 @@ public class FightPanel : BasePanel
         float curHp = playerData.curHp;
         if (curHp != TopHpBar.value || curHp != BottomHpBar.value)
         {
-            TopHpBar.value = Mathf.Lerp(TopHpBar.value, curHp, Time.deltaTime);
-            BottomHpBar.value = Mathf.Lerp(BottomHpBar.value, curHp, Time.deltaTime);
+            float tmp = Mathf.Abs(curHp - TopHpBar.value);
+            if (tmp <= 1)
+            {
+                TopHpBar.value = curHp;
+                BottomHpBar.value = curHp;
+                return;
+            }
+            TopHpBar.value = Mathf.Lerp(TopHpBar.value, curHp, Time.deltaTime*2);
+            BottomHpBar.value = Mathf.Lerp(BottomHpBar.value, curHp, Time.deltaTime*2);
         }
     }
     // 改变护盾UI

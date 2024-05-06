@@ -13,6 +13,7 @@ public class LevelManager : SingletonWithMono<LevelManager>
         maxTurn = 0;
 
         isPause = false;
+        isRuningDeadCoroutine = false;
 
         if (SceneParentNode ==  null)
         {
@@ -43,7 +44,7 @@ public class LevelManager : SingletonWithMono<LevelManager>
     //public bool isLastTurn;
     public bool isPause;
 
-
+    public bool isRuningDeadCoroutine;
 
     private void Start()
     {
@@ -184,13 +185,40 @@ public class LevelManager : SingletonWithMono<LevelManager>
                 }
                 curTurnData.OnUpdate();
                 break;
+            case PlayerState.Dead:
+                if (!isRuningDeadCoroutine)
+                {
+                    ResetCurrentTurn();
+                }
+                break;
         }
-
 
     }
 
+    public void ResetCurrentTurn()
+    {
+        isRuningDeadCoroutine = true;
+        UIManager.Instance.OpenPanel(UIConst.DeadUI);
+        UIManager.Instance.ClosePanel(UIConst.FightUI);
 
+        StartCoroutine(DeadCoroutine());
+    }
+    IEnumerator DeadCoroutine()
+    {
+        List<Enemy> enemyList = EnemyManager.Instance.enemyList;
+        foreach (Enemy enemy in enemyList)
+        {
+            enemy.OnDeath();// 销毁每个敌人
+        }
+        enemyList.Clear();
 
+        ComboManager.Instance.ReSetComboNum();// 重置Combo数
+
+        yield return new WaitForSecondsRealtime(3);
+        LoadTurn();// 重新加载本关卡
+        
+        yield break;
+    }
 }
 
 public class LevelPathConst

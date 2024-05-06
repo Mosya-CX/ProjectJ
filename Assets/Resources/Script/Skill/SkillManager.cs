@@ -25,6 +25,7 @@ public class SkillManager : SingletonWithMono<SkillManager>
     public Transform skillFields;// 绑定技能栏
     public Transform spBar;// 绑定sp槽
     public PlayerController playerData;// 绑定玩家信息
+    public FightPanel fightPanel;
 
     public bool isPause;
     protected override void Awake()
@@ -54,21 +55,27 @@ public class SkillManager : SingletonWithMono<SkillManager>
         {
             case SkillType.狂热标记:
                 skill = Resources.Load(skillsSOPath + "Skill01") as BaseSkill;
+                fightPanel.SkillFields.GetChild(0).gameObject.SetActive(true);
                 break;
             case SkillType.无双:
                 skill = Resources.Load(skillsSOPath + "Skill02") as BaseSkill;
+                fightPanel.SkillFields.GetChild(1).gameObject.SetActive(true);
                 break;
             case SkillType.此身为捷:
                 skill = Resources.Load(skillsSOPath + "Skill03") as BaseSkill;
+                fightPanel.SkillFields.GetChild(2).gameObject.SetActive(true);
                 break;
             case SkillType.唯快不破:
                 skill = Resources.Load(skillsSOPath + "Skill04") as BaseSkill;
+                fightPanel.SkillFields.GetChild(3).gameObject.SetActive(true);
                 break;
             case SkillType.安如磐石:
                 skill = Resources.Load(skillsSOPath + "Skill05") as BaseSkill;
+                fightPanel.SkillFields.GetChild(4).gameObject.SetActive(true);
                 break;
             case SkillType.圆形环游:
                 skill = Resources.Load(skillsSOPath + "Skill06") as BaseSkill;
+                fightPanel.SkillFields.GetChild(5).gameObject.SetActive(true);
                 break;
             default:
                 Debug.LogWarning("找不到该技能:"+skillType.ToString());
@@ -94,8 +101,6 @@ public class SkillManager : SingletonWithMono<SkillManager>
                 Debug.LogWarning("传入的玩家数据为空");
             }
             skill.playData = playerData;// 在技能里存储玩家对象信息
-
-            // 并在技能栏上显示UI
 
 
             Debug.Log("技能添加成功:"+skill.name);
