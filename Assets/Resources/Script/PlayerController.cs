@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
 
     public Animator animator;
 
+    public AudioClip attackEffect;
     private void Awake()
     {
         Init();
@@ -69,6 +70,8 @@ public class PlayerController : MonoBehaviour
         AttackArea = transform.Find("AttackArea").gameObject;
 
         animator = GetComponentInChildren<Animator>();
+
+        attackEffect = Resources.Load<AudioClip>("Audio/挥剑音效");
     }
 
     public void Init()
@@ -97,7 +100,9 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         srFace = GetComponentInChildren<SpriteRenderer>();
 
-        
+        animator.SetBool("Idle", false);
+        animator.SetBool("Walk", false);
+        animator.SetBool("Attack", false);
     }
 
     private void Update()
@@ -126,6 +131,12 @@ public class PlayerController : MonoBehaviour
         {
             case PlayerState.None: break;
             case PlayerState.Fight:
+                if (!isAttack && rb.velocity.magnitude <= 0.1f)
+                {
+                    animator.SetBool("Idle", true);
+                    animator.SetBool("Walk", false);
+                    animator.SetBool("Attack", false);
+                }
                 // 玩家输入检测
                 foreach (KeyCode Key in System.Enum.GetValues(typeof(KeyCode)))
                 {
@@ -312,7 +323,6 @@ public class PlayerController : MonoBehaviour
                                 // 按错就扣血
                                 OnHit(1);
 
-
                                 isPushMistake = false;
                             }
 
@@ -425,6 +435,7 @@ public class PlayerController : MonoBehaviour
     // 攻击函数
     public void Attack()
     {
+        soundManager.Instance.PlayEffect(attackEffect);
         Debug.Log("进入斩杀阶段2");
         Enemy tarEnemy = tar[0];
         // 判断朝向
@@ -488,6 +499,9 @@ public class PlayerController : MonoBehaviour
         curTime = 0;// 重置当前计时
 
         // 播放动画
+        animator.SetBool("Idle", false);
+        animator.SetBool("Walk", true);
+        animator.SetBool("Attack", false);
 
         while (curTime < totalTime)
         {
@@ -508,7 +522,9 @@ public class PlayerController : MonoBehaviour
         }
 
         // 结束动画
-
+        animator.SetBool("Idle", false);
+        animator.SetBool("Walk", false);
+        animator.SetBool("Attack", false);
         // 位移完成检测是否已斩杀完所有目标
         if (tar.Count == 0)
         {
