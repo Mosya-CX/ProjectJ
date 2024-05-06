@@ -205,18 +205,33 @@ public class LevelManager : SingletonWithMono<LevelManager>
     }
     IEnumerator DeadCoroutine()
     {
+        Debug.Log("准备销毁敌人");
         List<Enemy> enemyList = EnemyManager.Instance.enemyList;
-        foreach (Enemy enemy in enemyList)
+        for (int i = 0; enemyList.Count > 0; i++)
         {
-            enemy.OnDeath();// 销毁每个敌人
+            enemyList[0].OnDeath();
         }
         enemyList.Clear();
+        Debug.Log("销毁完毕");
 
         ComboManager.Instance.ReSetComboNum();// 重置Combo数
+        Debug.Log("等待中");
+        // 初始化玩家数据
+        playerData.Init();
+        playerData.attackableEnemies.Clear();
+        playerData.tar.Clear();
 
         yield return new WaitForSecondsRealtime(3);
+        Debug.Log("准备重新加载关卡");
         LoadTurn();// 重新加载本关卡
-        
+        Debug.Log("加载完成");
+
+        UIManager.Instance.ClosePanel(UIConst.DeadUI);
+        FightPanel panel = UIManager.Instance.OpenPanel(UIConst.FightUI) as FightPanel;
+        panel.Init();
+
+        isRuningDeadCoroutine = false;
+
         yield break;
     }
 }

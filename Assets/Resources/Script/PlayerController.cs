@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.UI;
-using static UnityEngine.EventSystems.EventTrigger;
+
 
 public enum PlayerState
 {
@@ -62,6 +61,18 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        Init();
+
+        attackableEnemies = new List<Enemy>();
+        tar = new List<Enemy>();
+
+        AttackArea = transform.Find("AttackArea").gameObject;
+
+        animator = GetComponentInChildren<Animator>();
+    }
+
+    public void Init()
+    {
         // ≥ı ºªØ
         curHp = maxHp;
 
@@ -74,17 +85,12 @@ public class PlayerController : MonoBehaviour
         isTest = false;
         isPause = false;
 
-        attackableEnemies = new List<Enemy>();
-        tar = new List<Enemy>();
-
-        AttackArea = transform.Find("AttackArea").gameObject;
-
-        animator = GetComponentInChildren<Animator>();
+        curTime = 0;
     }
 
     private void Start()
     {
-        curTime = 0;
+        
 
         // playerState = PlayerState.None;
 

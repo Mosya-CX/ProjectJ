@@ -45,6 +45,16 @@ public class FightPanel : BasePanel
     {
         playerData = GameManager.Instance.Player.GetComponent<PlayerController>();
 
+        Init();
+
+        // 注册点击事件
+        SettingBin.GetComponent<Button>().onClick.AddListener(OnSettingBin);
+
+        SkillManager.Instance.fightPanel = this;
+    }
+
+    public void Init()
+    {
         // 初始化血条
         TopHpBar.maxValue = playerData.maxHp;
         TopHpBar.minValue = 0;
@@ -56,11 +66,6 @@ public class FightPanel : BasePanel
         ShieldCount = playerData.shield;
         SpCount = SkillManager.Instance.curSp;
         ComboText.text = "";
-
-        // 注册点击事件
-        SettingBin.GetComponent<Button>().onClick.AddListener(OnSettingBin);
-
-        SkillManager.Instance.fightPanel = this;
     }
 
     private void Update()

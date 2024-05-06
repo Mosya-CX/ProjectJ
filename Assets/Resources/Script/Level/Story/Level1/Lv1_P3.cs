@@ -272,7 +272,12 @@ public class Lv1_P3 : PerformConfig
         }
         player.transform.Find("Image").localScale = new Vector3(0.5f, 0.5f, 0.5f);
         isOver = true;
-        
+
+        for (int i = 0; i < enemys.Length; i++)
+        {
+            Destroy(enemys[i].gameObject);
+        }
+
         yield break;
     }
 }
