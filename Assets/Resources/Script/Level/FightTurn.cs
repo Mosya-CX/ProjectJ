@@ -16,11 +16,14 @@ public class FightTurn : TurnData
     public int OnceCreateNum;// 一次生成多少敌人
     public float createEnemy01Probability;// 生成一级敌人的概率
     public float createEnemy02Probability;// 生成二级敌人的概率
+    public float offset;
     [Header("别修改")]
     public int curEnemyNum;
     public int spareEnemyNum;
     public float Timer;// 计时器
     public bool isStart;// 判断是否开始刷怪
+    public Vector3 lastEnemyCreatePoint;
+
     public override GameObject OnCreate()
     {
         GameObject obj = base.OnCreate();
@@ -163,8 +166,8 @@ public class FightTurn : TurnData
             {
                 // 生成敌人
                 Transform point = RandomCreatePoint();
-
-                EnemyManager.Instance.RandomlyGenerateEnemy(point.position, createEnemy01Probability, createEnemy02Probability);
+                lastEnemyCreatePoint = point.position;
+                EnemyManager.Instance.RandomlyGenerateEnemy(lastEnemyCreatePoint, createEnemy01Probability, createEnemy02Probability);
             }
             //curEnemyNum += OnceCreateNum;
             spareEnemyNum -= OnceCreateNum;
@@ -185,7 +188,7 @@ public class FightTurn : TurnData
             point = enemySpwanPoints.transform.GetChild(index);
 
             // 判断该点是否在玩家视野内
-            if (Mathf.Abs(point.position.x - Camera.main.transform.position.x) <= (halfView.x + 1) && Mathf.Abs(point.position.y - Camera.main.transform.position.y) <= (halfView.y + 1f))
+            if (Mathf.Abs(point.position.x - Camera.main.transform.position.x) <= (halfView.x + offset) ||  Mathf.Abs(point.position.y - Camera.main.transform.position.y) <= (halfView.y + offset))
             {
                 Debug.Log("无效刷怪点【" + point.name + ":" + point.position + "】");
                 Debug.Log("X的差距:" + Mathf.Abs(point.position.x - Camera.main.transform.position.x));
@@ -195,6 +198,10 @@ public class FightTurn : TurnData
                     Debug.Log("测试失败");
                     break;
                 }
+                continue;
+            }
+            else if (point.position == lastEnemyCreatePoint)
+            {
                 continue;
             }
             else

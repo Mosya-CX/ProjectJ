@@ -18,7 +18,7 @@ public class Enemy1 : Enemy
     public override void HighLightLetter(char keyPressed)
     {
         Debug.Log("enter3");
-        if(!IsMathchlessMode)
+        if (!IsMathchlessMode)
         {
             int index = originalHealthLetters.IndexOf(keyPressed);
             letterImages[index].sprite = highLightLetterDict[keyPressed];
@@ -33,7 +33,7 @@ public class Enemy1 : Enemy
     public override void OnDeath()
     {
         base.OnDeath();
-        if(IsMathchlessMode)
+        if (IsMathchlessMode)
         {
             ChangeToNormalMode();
         }

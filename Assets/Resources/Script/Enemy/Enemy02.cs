@@ -49,7 +49,7 @@ public class Enemy2 : Enemy
     public override void OnDeath()
     {
         base.OnDeath();
-        if(IsMathchlessMode)
+        if (IsMathchlessMode)
         {
             ChangeToNormalMode();
         }

@@ -25,7 +25,9 @@ MonoBehaviour:
   OnceCreateNum: 4
   createEnemy01Probability: 0.7
   createEnemy02Probability: 0.3
-  curEnemyNum: 0
-  spareEnemyNum: 0
-  Timer: 11.327749
+  offset: 3
+  curEnemyNum: 5
+  spareEnemyNum: 52
+  Timer: 1.0560421
   isStart: 1
+  lastEnemyCreatePoint: {x: 13.710001, y: 0.0100002885, z: 0}

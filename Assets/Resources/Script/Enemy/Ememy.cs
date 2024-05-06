@@ -34,6 +34,7 @@ public class Enemy : MonoBehaviour
     public bool CanExeCute => enemyCurrentPhase == enemyMaxPhase && isHighLight;
     //是否处于无双状态
     public bool IsMathchlessMode => currentHealthLetters[0] == '~';
+    //public bool IsMathchlessMode = false;
     public bool CanSkip=>skipArea&&!attackArea;
     public bool skipArea;
     public bool attackArea;
@@ -49,10 +50,12 @@ public class Enemy : MonoBehaviour
     virtual public void Awake()
     {
         InitDict();
+        //IsMathchlessMode = false;
     }
     public void OnEnable()
     {
         enemyCurrentPhase = 1;
+        //IsMathchlessMode = false;
     }
     public void Start()
     {
@@ -70,6 +73,14 @@ public class Enemy : MonoBehaviour
     {
         isHighLight = false;
         dead = false;
+    }
+    private void Update()
+    {
+        if (currentHealthLetters.Length <= 0)
+        {
+            Debug.LogError("位置在" + transform.position + "的敌人的字母数为0");
+        }
+        
     }
     //初始化字典
     public void InitDict()
