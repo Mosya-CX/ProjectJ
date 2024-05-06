@@ -60,10 +60,9 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
 
     public AudioClip attackEffect;
-
-    //public bool isOnEnemyDeathing;
     private void Awake()
     {
+        Init();
 
         attackableEnemies = new List<Enemy>();
         tar = new List<Enemy>();
@@ -73,8 +72,6 @@ public class PlayerController : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
 
         attackEffect = Resources.Load<AudioClip>("Audio/挥剑音效");
-
-        Init();
     }
 
     public void Init()
@@ -90,13 +87,8 @@ public class PlayerController : MonoBehaviour
         isSkipSuccess = false;
         isTest = false;
         isPause = false;
-        //isOnEnemyDeathing = false;
 
         curTime = 0;
-
-        animator.SetBool("Idel", true);
-        animator.SetBool("Walk", false);
-        animator.SetBool("Attack", false);
     }
 
     private void Start()
@@ -108,7 +100,9 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         srFace = GetComponentInChildren<SpriteRenderer>();
 
-        
+        animator.SetBool("Idle", false);
+        animator.SetBool("Walk", false);
+        animator.SetBool("Attack", false);
     }
 
     private void Update()
@@ -137,14 +131,12 @@ public class PlayerController : MonoBehaviour
         {
             case PlayerState.None: break;
             case PlayerState.Fight:
-                // 判断是否播放待机动画
                 if (!isAttack && rb.velocity.magnitude <= 0.1f)
                 {
-                    animator.SetBool("Idel", true);
+                    animator.SetBool("Idle", true);
                     animator.SetBool("Walk", false);
                     animator.SetBool("Attack", false);
                 }
-
                 // 玩家输入检测
                 foreach (KeyCode Key in System.Enum.GetValues(typeof(KeyCode)))
                 {
@@ -224,15 +216,13 @@ public class PlayerController : MonoBehaviour
 
                             Debug.Log("进入可攻击对象名单排序阶段");
 
+                            
+
                             foreach (Enemy enemy in attackableEnemies)
                             {
                                 Debug.Log("进入敌人判断阶段");
                                 // 差别处理不同类型的敌人
-                                if (enemy.currentHealthLetters.Length <= 0)
-                                {
-                                    Debug.LogError("位置在" + enemy.transform.position + "的敌人的字母数为0");
-                                }
-                                if (enemy.currentHealthLetters.Contains(key))
+                                if (enemy.currentHealthLetters[0] == key)
                                 {
                                     if (enemy.enemyType == 1)
                                     {
@@ -333,12 +323,13 @@ public class PlayerController : MonoBehaviour
                                 // 按错就扣血
                                 OnHit(1);
 
-
                                 isPushMistake = false;
                             }
 
                         }
                     
+
+
                         break;
                     }
                 }
@@ -399,7 +390,7 @@ public class PlayerController : MonoBehaviour
     // 攻击范围检测
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Enemy" && !isPause && !isAttack)
+        if (collision.tag == "Enemy" && !isAttack && !isPause)
         {
             // 添加进可攻击名单
             if (!attackableEnemies.Contains(collision.GetComponent<Enemy>()))
@@ -422,12 +413,11 @@ public class PlayerController : MonoBehaviour
                 // 先给可攻击对象名单排序(有高亮字体的在前，然后常态字体少的在前，接着是字母少的在前，最后在根据Acill码排升序)
                 AttackableSort();
             }
-
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == "Enemy" && !isPause && !isAttack)
+        if (collision.tag == "Enemy")
         {
             // 重置敌人字母
             Enemy enemy = collision.GetComponent<Enemy>();
@@ -445,19 +435,9 @@ public class PlayerController : MonoBehaviour
     // 攻击函数
     public void Attack()
     {
-        isAttack = true;
-
-        // 将敌人从可攻击名单中移除
-        Enemy tarEnemy = tar[0];
-        attackableEnemies.Remove(tarEnemy);
-
-        // 播放攻击动画和音效
-        animator.SetBool("Idel", false);
-        animator.SetBool("Walk", false);
-        animator.SetBool("Attack", true);
         soundManager.Instance.PlayEffect(attackEffect);
-
-        
+        Debug.Log("进入斩杀阶段2");
+        Enemy tarEnemy = tar[0];
         // 判断朝向
         if (tarEnemy.transform.position.x - gameObject.transform.position.x >= 0)
         {
@@ -467,12 +447,18 @@ public class PlayerController : MonoBehaviour
         {
             srFace.flipX = false;
         }
-        tarEnemy.OnHit(lastKeyCode.ToString()[0]);
+
+        //tarEnemy.OnHit(lastKeyCode.ToString()[0]);
+        //tarEnemy.OnDeath();// 使敌人死亡
+
+        // 将敌人从可攻击名单中移除
+        attackableEnemies.Remove(tarEnemy);
+
         // 进行位移
         Vector2 tarPos = tarEnemy.transform.position;
         StartCoroutine(Rush(tarPos, gameObject.transform.position));
         // 延迟调用攻击效果
-        StartCoroutine(AttackEffect(totalTime * 0.75f, tarEnemy));
+        StartCoroutine(AttackEffect(totalTime * 0.75f, tarEnemy, lastKeyCode.ToString()[0]));
         // 增加combo数
         ComboManager.Instance.AddComboNum(comboAdd);
 
@@ -480,7 +466,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // 玩家攻击效果
-    IEnumerator AttackEffect(float DelayTime, Enemy tarEnemy)
+    IEnumerator AttackEffect(float DelayTime, Enemy enemy, char key)
     {
         // 延迟
         while(curTime <  DelayTime)
@@ -498,11 +484,10 @@ public class PlayerController : MonoBehaviour
         // 屏幕抖动效果
         AttackMoment.Instance.CamShake();
 
-        
-        //isOnEnemyDeathing = true;
-        tarEnemy.OnDeath();// 使敌人死亡
-        
-
+        Debug.Log("进入斩杀阶段5");
+        // 调用敌人的受击函数
+        enemy.OnHit(key);
+        enemy.OnDeath();// 使敌人销毁
     }
 
     // 玩家攻击位移
@@ -512,6 +497,11 @@ public class PlayerController : MonoBehaviour
 
 
         curTime = 0;// 重置当前计时
+
+        // 播放动画
+        animator.SetBool("Idle", false);
+        animator.SetBool("Walk", true);
+        animator.SetBool("Attack", false);
 
         while (curTime < totalTime)
         {
@@ -532,11 +522,9 @@ public class PlayerController : MonoBehaviour
         }
 
         // 结束动画
-        animator.SetBool("Idel", true);
+        animator.SetBool("Idle", false);
         animator.SetBool("Walk", false);
         animator.SetBool("Attack", false);
-
-        //isOnEnemyDeathing = false;
         // 位移完成检测是否已斩杀完所有目标
         if (tar.Count == 0)
         {
@@ -547,7 +535,6 @@ public class PlayerController : MonoBehaviour
             // 没斩杀完就继续调用
             Attack();
         }
-
     }
 
     // 缓入缓出曲线函数(达到先快后慢效果)  

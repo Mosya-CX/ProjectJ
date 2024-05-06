@@ -61,7 +61,7 @@ public class EnemyManager : Singleton<EnemyManager>
     }
     public Enemy CreateEnemy02(Vector3 pos)
     {
-        Enemy enemy = enemy01Pool.Request().GetComponent<Enemy>();
+        Enemy enemy = enemy02Pool.Request().GetComponent<Enemy>();
         EnemyController enemyController = enemy.GetComponent<EnemyController>();
         enemyController.target = GameManager.Instance.Player.transform;
         if (!enemyList.Contains(enemy))
@@ -78,7 +78,7 @@ public class EnemyManager : Singleton<EnemyManager>
     }
     public Enemy CreateEnemy03(Vector3 pos)
     {
-        Enemy enemy = enemy01Pool.Request().GetComponent<Enemy>();
+        Enemy enemy = enemy03Pool.Request().GetComponent<Enemy>();
         EnemyController enemyController = enemy.GetComponent<EnemyController>();
         enemyController.target = GameManager.Instance.Player.transform;
         if (!enemyList.Contains(enemy))

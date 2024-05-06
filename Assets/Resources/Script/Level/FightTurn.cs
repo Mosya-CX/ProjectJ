@@ -22,8 +22,6 @@ public class FightTurn : TurnData
     public int spareEnemyNum;
     public float Timer;// 计时器
     public bool isStart;// 判断是否开始刷怪
-    public Vector3 lastEnemyCreatePoint;
-
     public override GameObject OnCreate()
     {
         GameObject obj = base.OnCreate();
@@ -43,14 +41,9 @@ public class FightTurn : TurnData
         Timer = 0;
         isStart = false;
 
-        if (createEnemy01Probability == 0)
-        {
-            createEnemy01Probability = 0.7f;
-        }
-        if (createEnemy02Probability == 0)
-        {
-            createEnemy02Probability = 0.3f;
-        }
+        createEnemy01Probability = 1f;
+        createEnemy02Probability = 0f;
+        offset = 2.5f;
 
         //RefreshAStarGraph(obj);// 跟新网格信息
         CameraControl.Instance.Player = GameManager.Instance.Player;
@@ -166,8 +159,8 @@ public class FightTurn : TurnData
             {
                 // 生成敌人
                 Transform point = RandomCreatePoint();
-                lastEnemyCreatePoint = point.position;
-                EnemyManager.Instance.RandomlyGenerateEnemy(lastEnemyCreatePoint, createEnemy01Probability, createEnemy02Probability);
+
+                EnemyManager.Instance.RandomlyGenerateEnemy(point.position, createEnemy01Probability, createEnemy02Probability);
             }
             //curEnemyNum += OnceCreateNum;
             spareEnemyNum -= OnceCreateNum;
@@ -188,7 +181,7 @@ public class FightTurn : TurnData
             point = enemySpwanPoints.transform.GetChild(index);
 
             // 判断该点是否在玩家视野内
-            if (Mathf.Abs(point.position.x - Camera.main.transform.position.x) <= (halfView.x + offset) ||  Mathf.Abs(point.position.y - Camera.main.transform.position.y) <= (halfView.y + offset))
+            if (Mathf.Abs(point.position.x - Camera.main.transform.position.x) <= (halfView.x + offset) || Mathf.Abs(point.position.y - Camera.main.transform.position.y) <= (halfView.y + offset))
             {
                 Debug.Log("无效刷怪点【" + point.name + ":" + point.position + "】");
                 Debug.Log("X的差距:" + Mathf.Abs(point.position.x - Camera.main.transform.position.x));
@@ -198,10 +191,6 @@ public class FightTurn : TurnData
                     Debug.Log("测试失败");
                     break;
                 }
-                continue;
-            }
-            else if (point.position == lastEnemyCreatePoint)
-            {
                 continue;
             }
             else
