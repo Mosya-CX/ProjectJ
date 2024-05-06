@@ -25,7 +25,7 @@ public class TestEditor
     {
         EnemyManager.Instance.CreateEnemy01(new Vector3(0,0, 0));
         EnemyManager.Instance.CreateEnemy02(new Vector3(0, 2, 2));
-        EnemyManager.Instance.CreateEnemy03(new Vector3(0, 4, 4));
+        EnemyManager.Instance.CreateEnemy02(new Vector3(0, 4, 4));
 
     }
     [MenuItem("²âÊÔ/´ò¿ªÕ½¶·UI")]

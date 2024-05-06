@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  speed: 5
+  speed: 3
   nextNodeDistance: 3
   isReached: 0
 --- !u!95 &3189751235016735190
