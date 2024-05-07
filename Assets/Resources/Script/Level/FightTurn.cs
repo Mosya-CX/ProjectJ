@@ -63,6 +63,7 @@ public class FightTurn : TurnData
         
         if (!isOver)
         {
+            curEnemyNum = EnemyManager.Instance.enemyList.Count;
             //Debug.Log("进入判断是否结束");
             if (curEnemyNum == 0 && spareEnemyNum == 0)
             {
@@ -82,7 +83,7 @@ public class FightTurn : TurnData
             else
             {
                 //Debug.Log("进入生成敌人");
-                curEnemyNum = EnemyManager.Instance.enemyList.Count;
+                
                 if (Timer >= createDuration)
                 {
                     Debug.Log("生成敌人");

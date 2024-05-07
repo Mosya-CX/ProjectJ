@@ -8,14 +8,34 @@ using UnityEngine.UI;
 public class Lv1_P4 : PerformConfig
 {
     public Sprite skillImg;
-    public float scaleVarySpeedRate = 0.1f;
+    public float scaleVarySpeedRate = 0.5f;
+    public Animator playerAni;
     public override void Init()
     {
+
         storyTellingUI.Bg.GetComponent<Image>().color = new Color(0, 0, 0, 0);
 
         // 加载狂热标记图片
+
+        // 加载钥匙图片
+        //Texture2D texture = Resources.Load<Texture2D>("Img/Skill/狂热");
+        //skillImg = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+
+        skillImg = Resources.Load<Sprite>("Img/Skill/Skill1");
+
         
-        skillImg = Resources.Load("Img/Skill/狂热") as Sprite;
+
+        if (skillImg == null )
+        {
+            Debug.LogError("技能图片读取失败");
+        }
+
+        playerAni = actors["乌酱"].GetComponentInChildren<Animator>();
+        playerAni.SetBool("Idle", true);
+        playerAni.SetBool("Walk", false);
+        playerAni.SetBool("Attack", false);
+
+        actors["乌酱"].transform.position = LevelManager.Instance.curScene.transform.position - new Vector3(0, 2, 0);
 
         base.Init();
     }
@@ -39,6 +59,7 @@ public class Lv1_P4 : PerformConfig
             // 第一个关键点
             if (index == 3)
             {
+
                 // 显示狂热标记图片并逐渐放大
                 Transform itemDisplay = storyTellingUI.DisplayArea;
                 itemDisplay.GetComponentInChildren<Image>().sprite = skillImg;
@@ -49,7 +70,7 @@ public class Lv1_P4 : PerformConfig
                 while (true)
                 {
                     displayTransform.localScale += (Time.deltaTime * new Vector3(scaleVarySpeedRate, scaleVarySpeedRate, scaleVarySpeedRate));
-                    if (displayTransform.localScale.x >= 1)
+                    if (displayTransform.localScale.x >= 0.8f)
                     {
                         break;
                     }
@@ -102,6 +123,10 @@ public class Lv1_P4 : PerformConfig
         storyTellingUI.Bg.GetComponent<Image>().color = new Color(0, 0, 0, 255);
 
         SkillManager.Instance.AddSkill(SkillType.狂热标记);// 添加技能
+
+        playerAni.SetBool("Idle", false);
+        playerAni.SetBool("Walk", false);
+        playerAni.SetBool("Attack", false);
         yield return new WaitForSecondsRealtime(1);
 
         yield break;

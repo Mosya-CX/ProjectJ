@@ -49,6 +49,11 @@ public class SkillManager : SingletonWithMono<SkillManager>
     // 添加技能
     public void AddSkill(SkillType skillType)
     {
+        if (fightPanel == null)
+        {
+            fightPanel = UIManager.Instance.OpenPanel(UIConst.FightUI) as FightPanel;
+            UIManager.Instance.ClosePanel(UIConst.FightUI);
+        }
         Debug.Log("正在添加技能:"+ skillType);
         BaseSkill skill;
         switch(skillType)

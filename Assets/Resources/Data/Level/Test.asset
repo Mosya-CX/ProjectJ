@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   turnDataList:
-  - {fileID: 11400000, guid: 9d13dece6f3147e4889b000487b246a0, type: 2}
+  - {fileID: 11400000, guid: 04ddec0e18703b5449a27859bede58a4, type: 2}
