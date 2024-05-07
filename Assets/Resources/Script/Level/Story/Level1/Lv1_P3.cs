@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class Lv1_P3 : PerformConfig
 {
-    public float speed = 1f;
+    public float speed = 2f;
     public Transform mapPos;
     public float curTime;
     public Transform guider;
@@ -22,8 +22,9 @@ public class Lv1_P3 : PerformConfig
     {
         base.Init();
         storyTellingUI.Bg.GetComponent<Image>().color = new Color(0, 0, 0, 0);
+
         mapPos = LevelManager.Instance.curScene.transform;
-        Camera.main.transform.position = mapPos.position + new Vector3(0, 0 , -10);
+        Camera.main.transform.position = mapPos.position + new Vector3(0, 0, -10);
         curTime = 0;
         player = actors["乌酱"].transform;
         player.position = mapPos.position + new Vector3(0, -1, 0);
@@ -31,18 +32,19 @@ public class Lv1_P3 : PerformConfig
         guider = actors["香草"].transform;
         guider.position = player.position + new Vector3(0, 2, 0);
         guider.transform.Find("Image").localScale = new Vector3(-0.5f, 0.5f, 0.5f);// 面向右侧
-        
+
 
         // 加载并生成两只团子到指定位置上并失活
-        GameObject enemyObj1 = Instantiate(Resources.Load("Prefab/Character/Enemy/Enemy01") as GameObject) ;
-        GameObject enemyObj2 = Instantiate(Resources.Load("Prefab/Character/Enemy/Enemy01") as GameObject) ;
+        GameObject enemyObj1 = Instantiate(Resources.Load("Prefab/Character/Enemy/Enemy01") as GameObject);
+        GameObject enemyObj2 = Instantiate(Resources.Load("Prefab/Character/Enemy/Enemy01") as GameObject);
         GameObject enemyObj3 = Instantiate(Resources.Load("Prefab/Character/Enemy/Enemy01") as GameObject);
         enemyObj1.name = "Enemy01_StoryMode";
         enemyObj2.name = "Enemy01_StoryMode";
+        enemyObj3.name = "Enemy01_StoryMode";
         enemys = new Transform[] { enemyObj1.transform, enemyObj2.transform, enemyObj3.transform };
         enemys[0].position = player.position + new Vector3(enemyOffset, 0, 0);
         enemys[1].position = guider.position + new Vector3(enemyOffset, 0, 0);
-        enemys[2].position = player.position - new Vector3(GameManager.Instance.viewWidth/2+1, 0, 0);
+        enemys[2].position = player.position - new Vector3((Camera.main.orthographicSize * Camera.main.aspect) + 2, 0, 0);
         enemyObj1.SetActive(false);
         enemyObj2.SetActive(false);
         enemyObj3.SetActive(false);
@@ -51,6 +53,7 @@ public class Lv1_P3 : PerformConfig
             e.GetComponent<EnemyController>().enabled = false;
         }
         actors["团子"] = enemyObj2;
+
     }
 
     public override void Play()
@@ -163,7 +166,7 @@ public class Lv1_P3 : PerformConfig
                     Vector3 pos = guider.transform.position;
                     pos.x += speed * Time.deltaTime;
                     guider.position = pos;
-                    if (guider.position.x > (GameManager.Instance.viewWidth / 2 + 1))
+                    if (guider.position.x > ((Camera.main.orthographicSize * Camera.main.aspect) + 2))
                     {
                         break;
                     }

@@ -40,7 +40,7 @@ public class StoryTurn : TurnData
         // 播放相应bgm
 
         // 放大摄像机视野
-        Camera.main.orthographicSize = 4.5f;
+        Camera.main.orthographicSize = 4f;
 
         ProfilePerformConfig();
 

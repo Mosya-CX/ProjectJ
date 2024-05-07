@@ -7,7 +7,8 @@ using System.IO;
 public class LoadStoryTextToSO : EditorWindow
 {
 
-    public static string FileName = "/Resources/Data/StoryText";
+    public static string FolderName = "/Resources/Data/StoryText";
+    public static string FileName = "";
     [MenuItem("测试/加载故事文本到指定的StoryTurn")]
     public static void OpenWindow()
     {
@@ -24,7 +25,7 @@ public class LoadStoryTextToSO : EditorWindow
         {
             if (GUILayout.Button("加载"))
             {
-                LoadAllLines(FileName);
+                LoadDialogues(FileName, FileName);
             }
         }
         

@@ -23,8 +23,9 @@ MonoBehaviour:
   startDuration: 5
   endDuration: 5
   OnceCreateNum: 5
-  createEnemy01Probability: 0.7
-  createEnemy02Probability: 0.3
+  createEnemy01Probability: 1
+  createEnemy02Probability: 0
+  offset: 0
   curEnemyNum: 5
   spareEnemyNum: 65
   Timer: 3.1469862
