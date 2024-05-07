@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+using System.Linq;
 
 [CreateAssetMenu(fileName = "FightTurn", menuName = "LevelSO/TurnInfo/FightTurn")]
 public class FightTurn : TurnData
@@ -22,6 +23,7 @@ public class FightTurn : TurnData
     public int spareEnemyNum;
     public float Timer;// ¼ÆÊ±Æ÷
     public bool isStart;// ÅÐ¶ÏÊÇ·ñ¿ªÊ¼Ë¢¹Ö
+    public Sound BGM;
     public override GameObject OnCreate()
     {
         GameObject obj = base.OnCreate();
@@ -52,6 +54,13 @@ public class FightTurn : TurnData
         playerData.playerState = PlayerState.Fight;
         playerData.transform.Find("AttackArea").gameObject.SetActive(true);// ¿ªÆô¹¥»÷·¶Î§¼ì²â
         // ²¥·ÅÏàÓ¦bgm
+        if (!soundManager.Instance.musicSound.Contains(BGM))
+        {
+            BGM.names = "FightBgm";
+            BGM.Clip = Resources.Load<AudioClip>("Audio/Õ½¶·±³¾°ÒôÀÖ£¨Ñ­»·£©");
+            soundManager.Instance.musicSound.Add(BGM);
+        }
+        soundManager.Instance.PlayMusic("FightBgm");
 
         return obj;
     }

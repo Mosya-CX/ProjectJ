@@ -17,7 +17,7 @@ public class Lv1_P3 : PerformConfig
     public float viewMoveSpeed = 1f;
     public bool isWalking = false;
     public Transform player;
-
+ 
     public override void Init()
     {
         base.Init();
@@ -54,6 +54,10 @@ public class Lv1_P3 : PerformConfig
         }
         actors["мевс"] = enemyObj2;
 
+        Camera.main.orthographicSize = 4.3f;
+
+        soundManager.Instance.PlayMusic("LoginBgm");
+        soundManager.Instance.musicSource.loop = true;
     }
 
     public override void Play()
@@ -274,13 +278,14 @@ public class Lv1_P3 : PerformConfig
             yield return null;
         }
         player.transform.Find("Image").localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        isOver = true;
-
+        
+        soundManager.Instance.musicSource.loop = false;
+        soundManager.Instance.stopMusic();
         for (int i = 0; i < enemys.Length; i++)
         {
             Destroy(enemys[i].gameObject);
         }
-
+        isOver = true;
         yield break;
     }
 }
