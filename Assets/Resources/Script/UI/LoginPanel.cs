@@ -51,10 +51,7 @@ public class LoginPanel : BasePanel
             UIManager.Instance.ClosePanel(UIConst.LoginUI);
         }   
     }
-    private void OnDisable()
-    {
-        Destroy(this.gameObject);
-    }
+    
     IEnumerator ChangeColor()
     {
         while (true)
