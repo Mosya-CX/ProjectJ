@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class GameLanuner 
+public class GameLanuner : MonoBehaviour
 {
 
     void Awake()
     {
         
-        // 先加载资源
         
-        // 初始化寻路网格
+        UIManager.Instance.OpenPanel(UIConst.LoginUI);
 
-        // 然后加载开始界面
-        //UIManager.Instance.OpenPanel(UIConst.LoginUI);
+        UIManager.Instance.OpenPanel(UIConst.FightUI);
+        UIManager.Instance.ClosePanel(UIConst.FightUI);
 
-        // 异步加载战斗UI并隐藏
+        GameManager.Instance.CreatePlayer();
     }
 }

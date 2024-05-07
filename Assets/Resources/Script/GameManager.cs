@@ -10,7 +10,7 @@ public class GameManager : SingletonWithMono<GameManager>
         base.Awake();
         viewHeight = Camera.main.orthographicSize * 2;
         viewWidth = viewHeight * Camera.main.aspect;
-        CreatePlayer();
+        
     }
 
     // 游戏进程记录

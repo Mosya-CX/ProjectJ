@@ -12,6 +12,8 @@ public class soundManager : SingletonWithMono<soundManager>
     protected override void Awake()
     {
         base.Awake();
+        musicSound = new List<Sound>();
+        sfxSound = new List<Sound>();
         musicSource = this.AddComponent<AudioSource>();
         sfxSource = this.AddComponent<AudioSource>();
     }
