@@ -23,8 +23,6 @@ public class Lv1_P4 : PerformConfig
 
         skillImg = Resources.Load<Sprite>("Img/Skill/Skill1");
 
-        
-
         if (skillImg == null )
         {
             Debug.LogError("技能图片读取失败");
@@ -108,6 +106,7 @@ public class Lv1_P4 : PerformConfig
             {
                 // 初始化聊天框
                 dialogueObj = PrepareDialogueObj();
+                dialogueObj.transform.localPosition = new Vector3(-3, 4, 0);
             }
 
             Debug.Log("准备下一轮对话");
@@ -129,6 +128,7 @@ public class Lv1_P4 : PerformConfig
         playerAni.SetBool("Attack", false);
         yield return new WaitForSecondsRealtime(1);
 
+        isOver = true;
         yield break;
     }
 }
